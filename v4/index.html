@@ -1,0 +1,1219 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Quantum's Last Exam</title>
+<meta name="description" content="An agent picks its own quantum research question and builds the experimental environment to answer it. No human writes a task; no human grades one. Reusable environments for evaluating, training and optimizing AI scientists at scale.">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🔬</text></svg>">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css" integrity="sha384-nB0miv6/jRmo5UMMR1wu3Gz6NLsoTkbqJghGIsx//Rlm+ZU03BU6SQNC66uf4l5+" crossorigin="anonymous">
+
+<style>
+  :root{
+    /* Warm light palette, after agents-last-exam.org; accent after agi.safe.ai */
+    --bg:#f7f5f2; --bg2:#ffffff; --bg3:#EEEDE6;
+    --line:#E4E4E0; --line-2:#d6d4cc;
+    --ink:#14161a; --muted:#5e6570; --faint:#8d94a0;
+    --accent:#008B8B; --accent-deep:#00706f; --campus:#1d3f6d; --accent-soft:#e3f0ef; --accent-ink:#ffffff;
+    --rose:#b23b2e; --amber:#a3701a;
+    --shadow:0 1px 2px rgba(20,22,26,.04), 0 12px 32px -22px rgba(20,22,26,.35);
+    --maxw:1120px;
+    --font:"Inter",ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    --mono:ui-monospace,"SF Mono","JetBrains Mono",Menlo,Consolas,monospace;
+  }
+  /* Previous dark theme retained for reference:
+     --bg:#0a0d13; --bg2:#10141d; --bg3:#161c27; --line:#232b39;
+     --ink:#e9edf4; --muted:#8a94a7; --accent:#35d6c1;                */
+
+  *{box-sizing:border-box}
+  html,body{margin:0;padding:0}
+  img,svg{display:block;max-width:100%}
+  body{background:var(--bg);color:var(--ink);font-family:var(--font);
+    font-size:16.5px;line-height:1.6;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+  ::selection{background:var(--accent);color:var(--accent-ink)}
+  a{color:inherit;text-decoration:none}
+  h1,h2,h3,h4{font-weight:600;line-height:1.15;letter-spacing:-.018em;margin:0;text-wrap:balance}
+  p{margin:0}
+  .wrap{max-width:var(--maxw);margin:0 auto;padding:0 clamp(20px,5vw,40px)}
+  .mono{font-family:var(--mono)}
+  .muted{color:var(--muted)}
+  .eyebrow{font-family:var(--mono);font-size:.7rem;letter-spacing:.16em;
+    text-transform:uppercase;color:var(--accent);font-weight:500}
+
+  /* ---------- nav ---------- */
+  .nav{position:sticky;top:0;z-index:40;backdrop-filter:blur(12px);
+    background:color-mix(in srgb,var(--bg) 86%,transparent);border-bottom:1px solid var(--line)}
+  .nav .wrap{display:flex;align-items:center;gap:24px;height:62px}
+  .brand{font-weight:600;letter-spacing:-.02em;font-size:.98rem;display:flex;align-items:center;gap:9px}
+  .brand .dot{width:8px;height:8px;border-radius:50%;background:var(--accent);flex:none}
+  .nav nav{margin-left:auto;display:flex;gap:22px}
+  .nav nav a{font-size:.875rem;color:var(--muted);transition:color .15s}
+  .nav nav a:hover{color:var(--ink)}
+  .navcta{font-size:.83rem;font-weight:500;color:var(--accent-ink);background:var(--accent);
+    padding:8px 15px;border-radius:6px;transition:.15s}
+  .navcta:hover{background:var(--accent-deep)}
+  @media(max-width:900px){.nav nav{display:none}.nav .wrap{gap:14px}}
+
+  /* ---------- hero ---------- */
+  .hero{padding:clamp(52px,8vw,92px) 0 clamp(40px,5vw,58px);border-bottom:1px solid var(--line)}
+  .hero h1{font-size:clamp(2.4rem,6vw,4.2rem);letter-spacing:-.035em;margin:.22em 0 .32em}
+  .lede{font-size:clamp(1.02rem,1.5vw,1.16rem);max-width:66ch;color:var(--muted);line-height:1.62}
+  .lede b{color:var(--ink);font-weight:600}
+  .lede + .lede{margin-top:15px}
+  .lede .open{color:var(--ink);font-weight:600}
+  .kicker{margin-top:20px;font-size:clamp(1.06rem,1.8vw,1.28rem);font-weight:600;
+    letter-spacing:-.02em;max-width:44ch;line-height:1.35}
+  .kicker .hit{color:var(--accent)}
+
+  /* resource strip, after agi.safe.ai */
+  .res{display:flex;flex-wrap:wrap;gap:9px;margin-top:26px;align-items:center}
+  .res a,.res span.soon{display:inline-flex;align-items:center;gap:7px;font-size:.83rem;
+    font-family:var(--mono);padding:8px 13px;border-radius:6px;border:1px solid var(--line-2);
+    background:var(--bg2);transition:.15s}
+  .res a:hover{border-color:var(--accent);color:var(--accent)}
+  .res span.soon{color:var(--faint);background:transparent;border-style:dashed;cursor:default}
+  .res span.soon::after{content:"soon";font-size:.63rem;letter-spacing:.1em;text-transform:uppercase;
+    color:var(--faint);border:1px solid var(--line-2);border-radius:3px;padding:1px 4px}
+  .res a .lock{font-size:.63rem;letter-spacing:.1em;text-transform:uppercase;color:var(--faint);
+    border:1px solid var(--line-2);border-radius:3px;padding:1px 4px}
+  .resnote{margin-top:10px;font-size:.79rem;color:var(--faint);max-width:60ch}
+  .resnote a{color:var(--accent);border-bottom:1px solid color-mix(in srgb,var(--accent) 35%,transparent)}
+
+  .cta-row{display:flex;flex-wrap:wrap;gap:11px;margin-top:22px}
+  .btn{font-size:.9rem;font-weight:500;padding:12px 19px;border-radius:7px;
+    border:1px solid var(--line-2);background:var(--bg2);transition:.15s;cursor:pointer;
+    display:inline-flex;align-items:center;gap:8px}
+  .btn:hover{border-color:var(--ink)}
+  .btn.primary{background:var(--accent);color:var(--accent-ink);border-color:var(--accent)}
+  .btn.primary:hover{background:var(--accent-deep);border-color:var(--accent-deep)}
+  .arw{transition:transform .16s}.btn:hover .arw{transform:translateX(3px)}
+
+  .readout{margin-top:clamp(34px,5vw,52px);display:grid;grid-template-columns:repeat(4,1fr);
+    gap:1px;background:var(--line);border:1px solid var(--line);border-radius:10px;overflow:hidden}
+  .stat{background:var(--bg2);padding:18px 17px}
+  .stat .k{font-size:clamp(1.5rem,3vw,2.1rem);font-weight:600;letter-spacing:-.03em;
+    font-variant-numeric:tabular-nums;line-height:1}
+  .stat .k .u{color:var(--accent);font-size:.55em;font-weight:500}
+  .stat .l{margin-top:7px;font-size:.72rem;color:var(--muted);line-height:1.4}
+  @media(max-width:760px){.readout{grid-template-columns:repeat(2,1fr)}}
+
+  .budget{margin-top:16px;font-size:.83rem;color:var(--muted);font-family:var(--mono)}
+  .budget b{color:var(--ink);font-weight:500}
+
+  /* ---------- generic section ---------- */
+  section{padding:clamp(52px,7vw,88px) 0;border-bottom:1px solid var(--line)}
+  .sec-head{display:flex;align-items:baseline;gap:15px;margin-bottom:30px}
+  .sec-head .num{font-family:var(--mono);font-size:.73rem;color:var(--faint);letter-spacing:.1em;padding-top:5px}
+  .sec-head h2{font-size:clamp(1.55rem,3.2vw,2.25rem)}
+  .sec-head .tail{margin-left:auto;max-width:38ch;color:var(--muted);font-size:.88rem;text-align:right}
+  .sec-head .tail a{color:var(--accent);border-bottom:1px solid color-mix(in srgb,var(--accent) 35%,transparent)}
+  .sec-head .tail a:hover{border-bottom-color:var(--accent)}
+  @media(max-width:720px){.sec-head{flex-wrap:wrap}.sec-head .tail{text-align:left;margin-left:0}}
+  .sec-head.tight{margin-bottom:13px}
+  .sec-head.stmt h2{font-size:clamp(1.45rem,2.8vw,1.95rem)}
+  .sec-lead{font-size:clamp(1.08rem,2vw,1.38rem);line-height:1.38;letter-spacing:-.018em;
+    font-weight:500;max-width:46ch;margin-bottom:30px;text-wrap:balance}
+  .sec-lead.wide{max-width:none;font-size:clamp(1rem,1.9vw,1.22rem)}
+  .sec-lead a{color:var(--accent);border-bottom:1px solid color-mix(in srgb,var(--accent) 40%,transparent)}
+  .sec-lead a:hover{border-bottom-color:var(--accent)}
+  .subhead{font-family:var(--mono);font-size:.71rem;letter-spacing:.15em;text-transform:uppercase;
+    color:var(--faint);margin:34px 0 14px}
+
+  /* ---------- co-led by band, after agents-last-exam.org ---------- */
+  .coledband{padding:clamp(30px,4vw,48px) 0 0}
+  .coled{position:relative;overflow:hidden;background:var(--bg2);border:1px solid var(--line);
+    border-radius:14px;padding:24px clamp(18px,4vw,40px) 28px;text-align:center;box-shadow:var(--shadow)}
+  /* faint Storke Tower line drawing, bleeding off the left edge as agents-last-exam.org does */
+  .campus{position:absolute;left:0;bottom:0;height:100%;width:auto;pointer-events:none;
+    color:var(--campus);opacity:.5;
+    -webkit-mask-image:linear-gradient(90deg,#000 0%,#000 46%,transparent 94%);
+            mask-image:linear-gradient(90deg,#000 0%,#000 46%,transparent 94%)}
+  @media(max-width:700px){.campus{opacity:.28}}
+  .coled .cl,.coledrow{position:relative;z-index:1}
+  .coled .cl{font-size:.8rem;font-weight:500;letter-spacing:.26em;
+    text-transform:uppercase;color:var(--faint)}
+  .coledrow{margin-top:20px;display:flex;flex-wrap:wrap;align-items:center;
+    justify-content:center;gap:clamp(18px,5vw,52px)}
+  .lockup{display:flex;align-items:center;gap:14px;transition:opacity .15s}
+  a.lockup:hover{opacity:.7}
+  .lockup img{height:clamp(44px,7vw,60px);width:auto}
+  .lockup .name{font-size:clamp(.92rem,1.5vw,1.04rem);font-weight:600;letter-spacing:-.02em;
+    text-align:left;line-height:1.22;max-width:11ch}
+  .coledx{color:var(--line-2);font-size:1.25rem;line-height:1}
+  @media(max-width:560px){.coledx{display:none}}
+
+  /* ---------- news, after agi.safe.ai ---------- */
+  .news{display:flex;flex-direction:column;gap:0;border-top:1px solid var(--line)}
+  .nrow{display:flex;gap:14px;padding:15px 0;border-bottom:1px solid var(--line);align-items:baseline}
+  .nrow::before{content:"";width:6px;height:6px;border-radius:50%;background:var(--accent);
+    flex:none;transform:translateY(-2px)}
+  .nrow .t{font-size:.94rem}
+  .nrow .t b{font-weight:600}
+
+  /* ---------- paradigm comparison ---------- */
+  .cmp{width:100%;border-collapse:collapse;min-width:620px;font-size:.92rem}
+  .cmp th,.cmp td{text-align:left;padding:14px 17px;border-bottom:1px solid var(--line);vertical-align:top}
+  .cmp thead th{font-family:var(--mono);font-size:.69rem;letter-spacing:.1em;text-transform:uppercase;
+    color:var(--faint);font-weight:500;background:var(--bg3)}
+  .cmp tbody tr:last-child td{border-bottom:none}
+  .cmp .dim{color:var(--muted);width:23%}
+  .cmp .them{width:38%;color:var(--muted)}
+  .cmp .us{width:39%;background:var(--accent-soft);font-weight:500;
+    border-left:1px solid color-mix(in srgb,var(--accent) 28%,var(--line))}
+  .cmp thead th.us{background:color-mix(in srgb,var(--accent) 13%,var(--bg3));color:var(--accent-deep)}
+  .whyq{margin-top:26px;background:var(--bg2);border:1px solid var(--line);border-radius:10px;padding:19px 21px}
+  .whyq h3{font-size:1.02rem;margin-bottom:8px}
+  .whyq p{font-size:.89rem;color:var(--muted);line-height:1.6;max-width:78ch}
+
+  /* ---------- how it works ---------- */
+  .flow{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:36px}
+  @media(max-width:820px){.flow{grid-template-columns:repeat(2,1fr)}}
+  @media(max-width:480px){.flow{grid-template-columns:1fr}}
+  .fstep{background:var(--bg2);border:1px solid var(--line);border-radius:10px;padding:17px 17px 19px;position:relative}
+  .fstep .fi{font-family:var(--mono);font-size:.68rem;letter-spacing:.14em;text-transform:uppercase;color:var(--accent)}
+  .fstep h3{font-size:1.02rem;margin:9px 0 7px}
+  .fstep p{font-size:.85rem;color:var(--muted);line-height:1.5}
+
+  .diff{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--line);
+    border:1px solid var(--line);border-radius:10px;overflow:hidden}
+  @media(max-width:860px){.diff{grid-template-columns:repeat(2,1fr)}}
+  @media(max-width:560px){.diff{grid-template-columns:1fr}}
+  .dcell{background:var(--bg2);padding:20px 19px 22px}
+  .dcell .di{font-family:var(--mono);font-size:.68rem;letter-spacing:.13em;text-transform:uppercase;color:var(--accent)}
+  .dcell h3{font-size:1.04rem;margin:9px 0 8px}
+  .dcell p{font-size:.87rem;color:var(--muted);line-height:1.5}
+
+  /* ---------- domain marquee, after agents-last-exam.org ---------- */
+  .marquee{overflow:hidden;position:relative;margin:0 calc(50% - 50vw);width:100vw;
+    -webkit-mask-image:linear-gradient(90deg,transparent,#000 5%,#000 95%,transparent);
+            mask-image:linear-gradient(90deg,transparent,#000 5%,#000 95%,transparent)}
+  .mtrack{display:flex;gap:13px;width:max-content;animation:slide 72s linear infinite;padding:2px}
+  .marquee:hover .mtrack{animation-play-state:paused}
+  @keyframes slide{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+  @media(prefers-reduced-motion:reduce){.mtrack{animation:none}}
+  .tile{width:262px;flex:none;background:var(--bg2);border:1px solid var(--line);
+    border-radius:11px;overflow:hidden}
+  .tile .art{height:104px;background:var(--bg3);border-bottom:1px solid var(--line)}
+  .tile .art svg{width:100%;height:100%}
+  .tile .body{padding:13px 15px 15px}
+  .tile .tn{font-size:.94rem;font-weight:600;letter-spacing:-.01em}
+  .tile .td{font-size:.79rem;color:var(--muted);margin-top:5px;line-height:1.45}
+  .tile .tg{display:flex;align-items:center;gap:6px;margin-top:11px;font-family:var(--mono);font-size:.68rem;
+    letter-spacing:.06em;text-transform:uppercase}
+  .tile .tg .cd{width:6px;height:6px;border-radius:50%;flex:none}
+  .tg.live{color:var(--accent)} .tg.live .cd{background:var(--accent)}
+  .tg.soon{color:var(--faint)} .tg.soon .cd{background:var(--line-2)}
+
+  /* ---------- example tasks, after agi.safe.ai ---------- */
+  .qwrap{border:1px solid var(--line);border-radius:12px;background:var(--bg2);overflow:hidden;box-shadow:var(--shadow)}
+  .qcard{display:none;padding:clamp(20px,3vw,30px)}
+  .qcard.on{display:block}
+  .qtop{display:flex;flex-wrap:wrap;align-items:center;gap:9px;margin-bottom:14px}
+  .qdomain{font-family:var(--mono);font-size:.69rem;letter-spacing:.11em;text-transform:uppercase;
+    color:var(--accent);background:var(--accent-soft);padding:4px 9px;border-radius:4px}
+  .qid{font-family:var(--mono);font-size:.72rem;color:var(--faint)}
+  .qconstraints{margin-left:auto;display:flex;flex-wrap:wrap;gap:6px}
+  .qconstraints span{font-family:var(--mono);font-size:.68rem;color:var(--muted);
+    border:1px solid var(--line);border-radius:4px;padding:3px 7px}
+  .qcard h3{font-size:clamp(1.1rem,2vw,1.4rem);line-height:1.3;margin-bottom:8px}
+  .qseed{font-size:.83rem;color:var(--faint);margin-bottom:16px}
+  .qseed b{color:var(--muted);font-weight:500}
+  .qbody{font-size:.92rem;color:var(--muted);line-height:1.62}
+  .qbody .lbl{display:block;font-family:var(--mono);font-size:.68rem;letter-spacing:.13em;
+    text-transform:uppercase;color:var(--faint);margin:18px 0 7px}
+  .qbody .fom{background:var(--bg3);border:1px solid var(--line);border-radius:8px;
+    padding:13px 15px;color:var(--ink);font-size:.9rem;overflow-x:auto}
+  .qchips{display:flex;flex-wrap:wrap;gap:7px;margin-top:18px}
+  .chip{font-family:var(--mono);font-size:.7rem;letter-spacing:.06em;border:1px solid var(--line-2);
+    border-radius:5px;padding:5px 9px;color:var(--muted)}
+  .chip b{color:var(--ink);font-weight:600}
+  .chip.hot{border-color:var(--accent);color:var(--accent)}
+  .chip.hot b{color:var(--accent)}
+
+  .scale{margin-top:20px;border-top:1px solid var(--line);padding-top:18px}
+  .slegend{font-family:var(--mono);font-size:.68rem;letter-spacing:.11em;text-transform:uppercase;
+    color:var(--faint);margin-bottom:12px;display:flex;gap:8px}
+  .slegend .sv{margin-left:auto;text-align:right;width:72px;letter-spacing:.04em}
+  .srow{display:flex;align-items:center;gap:12px;font-size:.83rem;margin-bottom:9px}
+  .srow .sl{width:98px;flex:none;color:var(--muted);font-size:.79rem}
+  .srow .sv{font-family:var(--mono);font-variant-numeric:tabular-nums;width:72px;flex:none;text-align:right}
+  .track{flex:1;height:7px;background:var(--bg3);border-radius:4px;position:relative;overflow:hidden;border:1px solid var(--line)}
+  .fill{height:100%;background:var(--accent);border-radius:4px}
+  .fill.trivial{background:var(--line-2)}
+  .fill.ref{background:var(--ink)}
+  .fill.zero{background:var(--rose);min-width:5px}
+  .sprog{margin-top:13px;font-size:.85rem}
+  .sprog b{font-family:var(--mono);font-size:1.05rem;font-weight:600}
+  .sprog .unsolved{color:var(--rose)}
+
+  .qnav{display:flex;align-items:center;gap:14px;border-top:1px solid var(--line);
+    padding:13px clamp(20px,3vw,30px);background:var(--bg3)}
+  .qnav button{width:32px;height:32px;border-radius:6px;border:1px solid var(--line-2);
+    background:var(--bg2);cursor:pointer;font-size:1rem;color:var(--ink);line-height:1;transition:.15s}
+  .qnav button:hover:not(:disabled){border-color:var(--accent);color:var(--accent)}
+  .qnav button:disabled{opacity:.35;cursor:default}
+  .qdots{display:flex;gap:6px;margin-left:auto}
+  .qdots i{width:7px;height:7px;border-radius:50%;background:var(--line-2);cursor:pointer;transition:.15s}
+  .qdots i.on{background:var(--accent);transform:scale(1.25)}
+  .qcount{font-family:var(--mono);font-size:.76rem;color:var(--muted)}
+
+  /* ---------- results table, after agi.safe.ai ---------- */
+  .tablewrap{overflow-x:auto;border:1px solid var(--line);border-radius:10px;background:var(--bg2)}
+  table{border-collapse:collapse;width:100%;min-width:660px;font-size:.88rem}
+  th,td{text-align:left;padding:12px 15px;border-bottom:1px solid var(--line)}
+  th{font-family:var(--mono);font-size:.69rem;letter-spacing:.1em;text-transform:uppercase;
+    color:var(--faint);font-weight:500;background:var(--bg3)}
+  tbody tr:last-child td{border-bottom:none}
+  td.num{font-family:var(--mono);font-variant-numeric:tabular-nums;text-align:right}
+  td.prog{font-family:var(--mono);font-variant-numeric:tabular-nums;text-align:right;font-weight:600}
+  td.prog.zero{color:var(--rose)}
+  .tnote{margin-top:11px;font-family:var(--mono);font-size:.74rem;color:var(--faint)}
+  .callout{background:var(--accent-soft);border:1px solid color-mix(in srgb,var(--accent) 25%,var(--line));
+    border-radius:10px;padding:17px 19px;margin-bottom:24px}
+  .callout .big{font-size:1.05rem;font-weight:600;letter-spacing:-.015em}
+  .callout p{font-size:.87rem;color:var(--muted);margin-top:6px;max-width:64ch}
+
+  /* ---------- leaderboard ---------- */
+  .lb{background:var(--bg2);border:1px solid var(--line);border-radius:14px;
+    padding:clamp(22px,4vw,34px);box-shadow:var(--shadow)}
+  .lb .headline{font-size:clamp(1.3rem,2.8vw,1.85rem);line-height:1.2;letter-spacing:-.02em;
+    max-width:26ch;margin-bottom:9px;font-weight:600}
+  .lb .headline b{color:var(--accent)}
+  .lb .rows{margin-top:26px;display:flex;flex-direction:column;gap:17px}
+  .lbrow{display:flex;flex-direction:column;gap:6px}
+  .lbrow .lbtop{display:flex;justify-content:space-between;align-items:baseline;font-size:.9rem;gap:12px}
+  .lbrow .pc{font-family:var(--mono);color:var(--accent);font-variant-numeric:tabular-nums;font-weight:600}
+  .lb .refmark{position:absolute;right:0;top:-3px;bottom:-3px;width:2px;background:var(--ink);opacity:.4}
+  .lb .track{position:relative;overflow:visible}
+
+  /* ---------- contribute ---------- */
+  .vcards{display:grid;grid-template-columns:repeat(3,1fr);gap:13px;margin-bottom:34px}
+  @media(max-width:820px){.vcards{grid-template-columns:1fr}}
+  .vcard{background:var(--bg2);border:1px solid var(--line);border-radius:11px;padding:20px 19px 22px}
+  .vcard h3{font-size:1.04rem;margin-bottom:8px}
+  .vcard p{font-size:.87rem;color:var(--muted);line-height:1.55}
+  .vcard .vi{font-family:var(--mono);font-size:.68rem;letter-spacing:.13em;text-transform:uppercase;
+    color:var(--accent);margin-bottom:10px}
+
+  .paths{display:grid;grid-template-columns:1fr;gap:13px}
+  .path{background:var(--bg2);border:1px solid var(--line);border-radius:11px;padding:22px 21px 24px;
+    display:flex;flex-direction:column}
+  .path h3{font-size:1.14rem;margin-bottom:6px}
+  .path .sub{font-size:.87rem;color:var(--muted);margin-bottom:15px}
+  .path ul{list-style:none;padding:0;margin:0 0 22px}
+  .path li{display:flex;gap:9px;font-size:.87rem;line-height:1.5;margin-bottom:10px;break-inside:avoid}
+  @media(min-width:820px){.path ul{columns:2;column-gap:46px}}
+  .path li .m{color:var(--accent);flex:none;font-family:var(--mono)}
+  .path .btn{margin-top:auto;align-self:flex-start}
+
+  /* ---------- contributors ---------- */
+  .people{display:flex;flex-wrap:wrap;gap:13px}
+  .person{display:flex;gap:12px;align-items:flex-start;background:var(--bg2);border:1px solid var(--line);
+    border-radius:10px;padding:13px 16px 14px;width:calc(50% - 7px);min-width:270px}
+  @media(max-width:640px){.person{width:100%}}
+  .person .av{width:46px;height:46px;border-radius:50%;object-fit:cover;flex:none;background:var(--bg3)}
+  .person .pn{font-size:.96rem;font-weight:600;letter-spacing:-.01em}
+  .person .pn sup{font-size:.72em;color:var(--accent);font-weight:600;margin-left:1px}
+  .eqnote{margin-top:12px;font-size:.79rem;color:var(--muted)}
+  .eqnote sup{color:var(--accent);font-weight:600;margin-right:2px}
+  .person .pt{font-size:.8rem;color:var(--muted);margin-top:2px}
+  .person .pc{font-size:.76rem;color:var(--faint);margin-top:5px;line-height:1.45}
+
+  /* signature-format list, after agi.safe.ai — scales to hundreds of names */
+  .siglist{font-size:.92rem;line-height:1.9;color:var(--ink)}
+  .siglist sup{font-size:.66em;color:var(--accent);font-family:var(--mono)}
+  .affil{margin-top:14px;font-size:.8rem;color:var(--muted);line-height:1.7}
+  .affil sup{font-size:.7em;color:var(--accent);font-family:var(--mono);margin-right:2px}
+  .sigempty{font-size:.9rem;color:var(--faint);font-style:italic}
+
+  .inst{display:grid;grid-template-columns:repeat(4,1fr);gap:9px}
+  @media(max-width:760px){.inst{grid-template-columns:repeat(2,1fr)}}
+  .icell{background:var(--bg2);border:1px solid var(--line);border-radius:8px;padding:13px 15px;
+    font-size:.87rem;font-weight:500}
+
+  /* ---------- faq ---------- */
+  .faq details{border-bottom:1px solid var(--line)}
+  .faq summary{cursor:pointer;list-style:none;padding:16px 0;display:flex;align-items:baseline;gap:14px;
+    font-size:1rem;font-weight:500}
+  .faq summary::-webkit-details-marker{display:none}
+  .faq summary .pm{margin-left:auto;color:var(--accent);font-family:var(--mono);font-size:1.05rem;flex:none}
+  .faq details[open] summary .pm{transform:rotate(45deg)}
+  .faq .ans{padding:0 0 18px;font-size:.91rem;color:var(--muted);line-height:1.62;max-width:76ch}
+  .faq .ans b{color:var(--ink);font-weight:600}
+
+  /* ---------- join / contact ---------- */
+  .join{text-align:center;max-width:62ch;margin:0 auto}
+  .join h2{font-size:clamp(1.6rem,3.6vw,2.5rem);margin:10px 0 14px}
+  .join p{color:var(--muted);font-size:1rem}
+  .join .cta-row{justify-content:center}
+  .fine{margin-top:22px;font-family:var(--mono);font-size:.76rem;color:var(--faint)}
+  .contact{margin-top:38px;padding-top:26px;border-top:1px solid var(--line);
+    display:flex;flex-wrap:wrap;gap:26px;justify-content:center;font-size:.87rem;color:var(--muted)}
+  .contact a{color:var(--accent);border-bottom:1px solid color-mix(in srgb,var(--accent) 35%,transparent)}
+
+  /* ---------- footer ---------- */
+  footer{padding:34px 0 46px}
+  footer .labs{font-size:.95rem;font-weight:500}
+  footer .labs span{color:var(--accent)}
+  footer .meta{margin-top:12px;display:flex;flex-wrap:wrap;gap:20px;
+    font-family:var(--mono);font-size:.74rem;color:var(--faint)}
+</style>
+</head>
+<body>
+
+<header class="nav">
+  <div class="wrap">
+    <a class="brand" href="#top"><span class="dot"></span>Quantum's Last Exam</a>
+    <nav>
+      <a href="#domains">Domains</a>
+      <a href="#how">Key features</a>
+      <a href="#tasks">Tasks</a>
+      <a href="#results">Results</a>
+      <a href="#leaderboard">Leaderboard</a>
+      <a href="#contributors">Contributors</a>
+      <a href="#faq">FAQ</a>
+    </nav>
+    <a class="navcta" href="#contribute">Contribute</a>
+  </div>
+</header>
+
+<div id="top" class="hero">
+  <div class="wrap">
+    <div class="eyebrow">UCSB AI Lab × UCSB Quantum CoDesign Lab — v0.4</div>
+    <h1>Quantum's Last Exam</h1>
+    <p class="lede"><span class="open">AI agents can pass professional exams. Whether they can conduct
+      research is still unknown.</span> Today's AI-scientist systems still depend on people to pose the
+      meaningful research question, and the benchmarks needed to test them take substantial expert effort to
+      build. In Quantum's Last Exam (QLE), the agent discovers its own research problems and builds the
+      environments that score them — cutting the human time each problem costs, and accelerating autonomous
+      research in both speed and scale. But verifying that the benchmark is sound still requires domain
+      experts.</p>
+
+    <p class="lede">The stakes are large. An agent that can truly conduct research would reshape how science
+      advances. No scientist commands every subfield, yet <b>an AI is bound by no such limit</b>: it can reason
+      across the entire literature at once and surface connections no individual could. Measuring research ability
+      is the first step toward building that collaborator.</p>
+
+    <p class="lede"><b>What we ask.</b> Review a small number of problems in your area and judge whether each is
+      valid, well-posed, open, and worth solving. Each review takes about <b>20 minutes</b>, and problems that
+      make it into the benchmark earn you <b>authorship on the paper</b>.</p>
+
+    <p class="kicker">10+ environments are live.
+      <span class="hit">No frontier model has solved any of them.</span></p>
+
+    <!-- Resource strip. TODO: swap the three `soon` spans for real links once the repo,
+         preprint and dataset are public. -->
+    <div class="res">
+      <span class="soon">GitHub</span>
+      <span class="soon">Paper</span>
+      <span class="soon">Dataset</span>
+      <!-- TODO: replace this ngrok tunnel with the permanent annotation-platform domain -->
+      <a href="https://headwear-wiring-unheated.ngrok-free.dev/static/showcase.html" target="_blank" rel="noopener">Worked examples&nbsp;↗ <span class="lock">reviewer</span></a>
+    </div>
+    <p class="resnote"><a href="https://headwear-wiring-unheated.ngrok-free.dev/static/showcase.html" target="_blank" rel="noopener">Sign up to start annotating today&nbsp;↗</a>. All it takes is a line of email and your subfield, and a completed example is waiting on the platform to show you exactly what a review looks like.</p>
+
+    <div class="cta-row">
+      <a class="btn primary" href="#contribute">Review four tasks <span class="arw">→</span></a>
+      <a class="btn" href="#tasks">See the tasks</a>
+    </div>
+
+    <div class="readout">
+      <div class="stat"><div class="k">673</div><div class="l">Researchers invited to review</div></div>
+      <div class="stat"><div class="k">10<span class="u">+</span></div><div class="l">Environments built end to end by the pipeline</div></div>
+      <div class="stat"><div class="k">0</div><div class="l">Environments solved by a frontier agent</div></div>
+      <div class="stat"><div class="k">42<span class="u">%</span></div><div class="l">Best progress any agent has made on a published environment</div></div>
+    </div>
+
+    <p class="budget">Every environment runs on one workstation — <b>at most 28 qubits</b>, <b>under three hours</b>, <b>no quantum hardware</b>.</p>
+  </div>
+</div>
+
+<section id="domains">
+  <div class="wrap">
+    <div class="sec-head tight">
+      <h2>Domains</h2>
+    </div>
+    <p class="sec-lead wide">Nine seed subfields so far. We publish a sample of the live environments here — <a href="#contribute">your field is welcome next</a>.</p>
+  </div>
+
+  <div class="marquee">
+    <div class="mtrack" id="mtrack">
+      <!-- tiles injected twice by script for a seamless loop -->
+    </div>
+  </div>
+</section>
+<div class="coledband">
+  <div class="wrap">
+    <div class="coled">
+      <svg class="campus" viewBox="0 0 560 200" fill="none" stroke="currentColor"
+           stroke-width="1.15" stroke-linejoin="round" aria-hidden="true" focusable="false">
+        <!-- far-left blocks -->
+        <path d="M0 190v-56h34v-14h28v70"/>
+        <path d="M6 146h50M6 158h50M6 170h50" stroke-opacity=".45"/>
+        <path d="M12 134v-8M28 134v-8M44 134v-8" stroke-opacity=".4"/>
+
+        <path d="M66 190v-74h26v74"/>
+        <path d="M72 126h14M72 140h14M72 154h14M72 168h14" stroke-opacity=".45"/>
+
+        <!-- Storke Tower: flat-capped concrete shaft, tall carillon slots, full-height fins -->
+        <path d="M98 190V18h34v172"/>
+        <path d="M94 18h42v-10H94z"/>
+        <path d="M104 30h6v66h-6zM112 30h6v66h-6zM120 30h6v66h-6z"/>
+        <path d="M98 104h34M98 112h34" stroke-opacity=".6"/>
+        <path d="M106.5 112v78M115 112v78M123.5 112v78" stroke-opacity=".4"/>
+
+        <!-- Davidson Library: stepped modernist block -->
+        <path d="M146 190v-72h28v-22h54v22h24v72"/>
+        <path d="M154 128h94M154 142h94M154 156h94M154 170h94" stroke-opacity=".45"/>
+        <path d="M180 118V96M204 118V96M228 118V96" stroke-opacity=".4"/>
+
+        <!-- engineering blocks -->
+        <path d="M258 190v-60h48v-14h30v74"/>
+        <path d="M264 142h70M264 156h70M264 170h70" stroke-opacity=".45"/>
+
+        <path d="M344 190v-88h40v88"/>
+        <path d="M350 112h28M350 126h28M350 140h28M350 154h28M350 168h28" stroke-opacity=".45"/>
+
+        <path d="M392 190v-44h44v44"/>
+        <path d="M398 158h32M398 172h32" stroke-opacity=".45"/>
+
+        <path d="M444 190v-66h34v-12h30v78"/>
+        <path d="M450 136h52M450 150h52M450 164h52M450 178h52" stroke-opacity=".45"/>
+        <path d="M462 124v-8M486 112v12" stroke-opacity=".4"/>
+
+        <path d="M514 190v-52h46v52"/>
+        <path d="M520 150h34M520 164h34M520 178h34" stroke-opacity=".45"/>
+
+        <!-- ground -->
+        <path d="M0 190h560" stroke-opacity=".65"/>
+      </svg>
+      <div class="cl">Co-led by</div>
+      <div class="coledrow">
+        <a class="lockup" href="http://nlp.cs.ucsb.edu/" target="_blank" rel="noopener">
+          <img src="assets/ucsb-ai.png" alt="" width="420" height="406">
+          <span class="name">UCSB AI</span>
+        </a>
+        <span class="coledx" aria-hidden="true">&times;</span>
+        <a class="lockup" href="https://qcd-lab.cs.ucsb.edu" target="_blank" rel="noopener">
+          <img src="assets/qcd-lab.png" alt="" width="360" height="296">
+          <span class="name">UCSB Quantum CoDesign Lab</span>
+        </a>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- TODO: dates were removed rather than guessed. Once confirmed, put a mono
+     [MM/DD/YYYY] label back at the start of each .nrow and retitle to "Latest news". -->
+<section id="news">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="num">01</span>
+      <h2>Where the project stands</h2>
+    </div>
+    <div class="news">
+      <div class="nrow">
+        <span class="t"><b>Five worked examples released.</b> The full chain — seed, proposal, AI review, and the
+          evaluation environment built from it — is now browsable for all five live tasks.</span>
+      </div>
+      <div class="nrow">
+        <span class="t"><b>Call for reviewers opens.</b> 673 quantum researchers across four continents invited to
+          verify machine-generated tasks in their own subfield.</span>
+      </div>
+      <div class="nrow">
+        <span class="t"><b>Quantum control enters the benchmark.</b> Two tasks now ask agents to
+          reverse-engineer a numerically optimized flux-drive envelope and decide whether the optimizer
+          rediscovered counterdiabatic driving.</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="how">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="num">02</span>
+      <h2>Key features of QLE</h2>
+    </div>
+
+    <div class="diff">
+      <div class="dcell"><div class="di">Auto-generated</div><h3>No hand curation</h3><p>New problems mined from live literature and formalized by machine.</p></div>
+      <div class="dcell"><div class="di">Auto-scored</div><h3>No human grading</h3><p>Each task ships as a runnable environment with a reference and a trivial baseline.</p></div>
+      <div class="dcell"><div class="di">Contamination-resistant</div><h3>Answers unknown</h3><p>Questions are open at creation time. Nothing to memorize from training data.</p></div>
+      <div class="dcell"><div class="di">Self-hardening</div><h3>Difficulty scales</h3><p>The setter diagnoses how the last agent won, then rebuilds the environment to close that shortcut.</p></div>
+      <div class="dcell"><div class="di">Expert-validated</div><h3>Vetted by researchers</h3><p>Working quantum scientists confirm each task is valid, novel, and worth solving.</p></div>
+      <div class="dcell"><div class="di">Discovery-focused</div><h3>Research, not recall</h3><p>Measures the ability to propose and build a solution, not to retrieve a fact.</p></div>
+    </div>
+  </div>
+</section>
+
+
+<section id="tasks">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="num">03</span>
+      <h2>Samples from QLE</h2>
+      <span class="tail">Published in full, exactly as generated. Nothing below has been hand-edited — not the problem, not the physics, not the scorer.</span>
+    </div>
+
+    <div class="qwrap">
+      <!-- ===== task 3 ===== -->
+      <div class="qcard on" data-i="2">
+        <div class="qtop">
+          <span class="qdomain">Quantum metrology</span>
+          <span class="qid mono">bench_metro2 · round 3</span>
+          <span class="qconstraints"><span>qiskit-aer</span><span>cpu</span><span>8 qubits</span><span>40 min</span></span>
+        </div>
+        <h3>Variational design of noise-robust probe states via quantum Fisher information maximization</h3>
+        <p class="qseed"><b>Seed topic:</b> quantum metrology</p>
+        <div class="qbody">
+          <p>Quantum metrology maximizes parameter-estimation precision, and the quantum Fisher information is the
+          fundamental figure of merit. Prior work shows variational circuits can discover metrologically useful
+          states under noise, but no compact, simulator-ready task isolates probe-state design under explicit depth
+          and connectivity constraints. This one does.</p>
+          <p style="margin-top:12px">An 8-qubit sensing model with collective-$Z$ generator $H=\sum_i Z_i$.
+          A 4-layer hardware-efficient ansatz $V(\alpha)$ — RY then RZ on every qubit, then a ring of CZ
+          entanglers — gives 64 trainable parameters. Phase encoding $U(\theta)=e^{-i\theta H}$ at working point
+          $\theta_0=0$, followed by independent local dephasing with Kraus operators
+          $K_0=\sqrt{1-p}\,I$, $K_1=\sqrt{p}\,Z$ at $p=0.10$.</p>
+
+          <span class="lbl">Figure of merit</span>
+          <div class="fom">$$\max_{\alpha}\; F_Q\!\left(\rho_{\theta_0}(\alpha),\,H\right),\qquad
+          |0\rangle^{\otimes 8}\xrightarrow{V(\alpha)}\xrightarrow{U(\theta_0)}\xrightarrow{\Lambda_p^{\otimes 8}}\rho_{\theta_0}(\alpha)$$
+          <p style="font-size:.82rem;margin-top:9px;color:var(--muted)">The harness exposes <em>no</em> black-box QFI oracle. The agent must build the circuit, apply the noise channel, and implement the mixed-state spectral QFI formula itself.</p></div>
+        </div>
+        <div class="qchips">
+          <span class="chip">VALIDITY <b>1/1</b></span>
+          <span class="chip">NOVELTY <b>2/5</b></span>
+          <span class="chip">EXECUTABILITY <b>1/1</b></span>
+        </div>
+        <div class="scale">
+          <div class="slegend"><span>bar = progress from trivial to reference</span><span class="sv">raw score</span></div>
+          <div class="srow"><span class="sl">trivial</span><div class="track"><div class="fill trivial" style="width:0.0%"></div></div><span class="sv">0.0000</span></div>
+          <div class="srow"><span class="sl">solver agent</span><div class="track"><div class="fill" style="width:37.3%"></div></div><span class="sv">11.0022</span></div>
+          <div class="srow"><span class="sl">reference</span><div class="track"><div class="fill ref" style="width:100.0%"></div></div><span class="sv">29.4603</span></div>
+          <p class="sprog">Best of 3 blind attempts reached <b>37%</b> of the way from the trivial baseline to the reference. <span class="muted">Direction: maximize. One evaluation costs 0.8 s against a 2400 s budget.</span></p>
+        </div>
+      </div>
+
+      <!-- ===== task 4 ===== -->
+      <div class="qcard" data-i="3">
+        <div class="qtop">
+          <span class="qdomain">Hamiltonian simulation</span>
+          <span class="qid mono">bench_ham1 · round 3</span>
+          <span class="qconstraints"><span>qiskit-aer</span><span>cpu</span><span>10 qubits</span><span>20 min</span></span>
+        </div>
+        <h3>Low-depth digital Hamiltonian simulation for a fixed 1D spin chain via circuit design</h3>
+        <p class="qseed"><b>Seed topic:</b> Hamiltonian simulation</p>
+        <div class="qbody">
+          <p>Design a shallow quantum circuit that approximates fixed-time evolution under a standard 1D spin
+          Hamiltonian within near-term depth constraints, and optimize it for simulation fidelity on a simulator.
+          Practically relevant, with a clear metric and no hardware access.</p>
+          <p style="margin-top:12px">The hidden instance is a transverse-field Ising chain deliberately skewed so
+          that interaction terms dominate — invalidating the near-symmetric angle schedules that generic
+          QAOA/Trotter ansätze fall back on. Fidelity is averaged over a 24-state XZ-product ensemble to prevent
+          overfitting to a single basis.</p>
+
+          <span class="lbl">Figure of merit</span>
+          <div class="fom">$$H=-J\sum_i Z_iZ_{i+1}-h\sum_i X_i,\qquad J=1.0,\;h=0.35,\;t=2.3$$
+          $$\min\;\mathcal{L}=1-\overline{\left|\langle\psi_k|\,C^{\dagger}e^{-iHt}\,|\psi_k\rangle\right|^{2}}$$
+          <p style="font-size:.82rem;margin-top:9px;color:var(--muted)">A first-order Trotter step with unscaled angles gives $\mathcal{L}\approx0.33$; the tuned depth-4 brickwork reference reaches $\approx0.08$.</p></div>
+        </div>
+        <div class="qchips">
+          <span class="chip">VALIDITY <b>1/1</b></span>
+          <span class="chip">NOVELTY <b>2/5</b></span>
+          <span class="chip">EXECUTABILITY <b>1/1</b></span>
+        </div>
+        <div class="scale">
+          <div class="slegend"><span>bar = progress from trivial to reference</span><span class="sv">raw score</span></div>
+          <div class="srow"><span class="sl">trivial</span><div class="track"><div class="fill trivial" style="width:0.0%"></div></div><span class="sv">0.9989</span></div>
+          <div class="srow"><span class="sl">solver agent</span><div class="track"><div class="fill" style="width:42.1%"></div></div><span class="sv">0.7630</span></div>
+          <div class="srow"><span class="sl">reference</span><div class="track"><div class="fill ref" style="width:100.0%"></div></div><span class="sv">0.4385</span></div>
+          <p class="sprog">Best of 3 blind attempts reached <b>42%</b> of the way from the trivial baseline to the reference — the highest any agent has managed on this benchmark. <span class="muted">Direction: minimize. One evaluation costs 0.6 s against a 1200 s budget.</span></p>
+        </div>
+      </div>
+
+      <!-- ===== task 5 ===== -->
+      <div class="qcard" data-i="4">
+        <div class="qtop">
+          <span class="qdomain">Hamiltonian simulation</span>
+          <span class="qid mono">bench_ham2 · round 3</span>
+          <span class="qconstraints"><span>qiskit-aer</span><span>cpu</span><span>10 qubits</span><span>30 min</span></span>
+        </div>
+        <h3>Learning entanglement-aware Trotter step allocation for 1D spin-chain Hamiltonian simulation</h3>
+        <p class="qseed"><b>Seed topic:</b> Hamiltonian simulation</p>
+        <div class="qbody">
+          <p>Product-formula methods still dominate practical simulation on NISQ and early fault-tolerant devices,
+          yet rigorous step-number bounds are worst-case and vastly overestimate resources. Recent theory shows
+          Trotter error can scale with entanglement and commutator structure rather than system size — but these
+          bounds are hard to exploit instance by instance.</p>
+          <p style="margin-top:12px">The task asks for a classical learning-based policy that, given a fixed 1D
+          spin-chain Hamiltonian and target time, outputs a <em>non-uniform</em> allocation of Trotter steps across
+          local terms and time slices, minimizing the actual simulation error measured on an exact statevector
+          simulator within a strict qubit budget.</p>
+
+          <span class="lbl">Figure of merit</span>
+          <div class="fom">$$\min\;\tfrac{1}{2}\left\|\,\rho_{\text{exact}}-\rho_{\text{Trotter}}\,\right\|_1
+          \quad\text{s.t.}\quad \textstyle\sum_j r_j \le R_{\max}$$
+          <p style="font-size:.82rem;margin-top:9px;color:var(--muted)">Trace distance between the true and simulated states under a fixed total gate budget $R_{\max}$, allocated non-uniformly across terms.</p></div>
+        </div>
+        <div class="qchips">
+          <span class="chip">VALIDITY <b>1/1</b></span>
+          <span class="chip hot">NOVELTY <b>4/5</b></span>
+          <span class="chip">EXECUTABILITY <b>1/1</b></span>
+        </div>
+        <div class="scale">
+          <div class="slegend"><span>bar = progress from trivial to reference</span><span class="sv">raw score</span></div>
+          <div class="srow"><span class="sl">trivial</span><div class="track"><div class="fill trivial" style="width:0.0%"></div></div><span class="sv">0.9962</span></div>
+          <div class="srow"><span class="sl">solver agent</span><div class="track"><div class="fill zero" style="width:0.0%"></div></div><span class="sv">0.9994</span></div>
+          <div class="srow"><span class="sl">reference</span><div class="track"><div class="fill ref" style="width:100.0%"></div></div><span class="sv">0.2713</span></div>
+          <p class="sprog"><span class="unsolved">Unsolved.</span> The best of 3 blind attempts scored <b class="unsolved">worse than the trivial baseline</b> — the most novel task in the set, and no agent has moved it at all. <span class="muted">Direction: minimize. One evaluation costs 6.5 s against a 1800 s budget.</span></p>
+        </div>
+      </div>
+
+      <!-- ===== task 1 ===== -->
+      <div class="qcard" data-i="0">
+        <div class="qtop">
+          <span class="qdomain">Quantum control</span>
+          <span class="qid mono">flux_iswap_1 · round 1</span>
+          <span class="qconstraints"><span>qiskit-aer</span><span>cpu</span><span>3 qubits</span><span>150 min</span></span>
+        </div>
+        <h3>Reverse-engineering the learned control strategy in a numerically-optimized parametric flux-driven iSWAP gate</h3>
+        <p class="qseed"><b>Seed topic:</b> Reverse-engineering learned control strategies in parametric flux-driven iSWAP gates on asymmetric-SQUID tunable couplers</p>
+        <div class="qbody">
+          <p>An expert supplied a numerically optimized flux-drive envelope $e(t)$ — 105 points at 0.5 ns,
+          52 ns total — for a parametric iSWAP gate between two fixed-frequency transmons coupled through an
+          asymmetric-SQUID tunable coupler. The optimizer produced a pulse whose <em>shape</em> carries
+          non-white structure: asymmetric rise/fall (6.0 ns vs 5.5 ns), a drooping plateau
+          ($-0.75\times10^{-3}$ per ns), and a structured residual ripple (lag-1 autocorrelation $+0.587$,
+          spectral flatness $0.147$) peaking near 0.66 GHz — within frequency resolution of
+          $(f_{q1}-f_{q2})-\alpha_2 = 0.668$ GHz.</p>
+          <p style="margin-top:12px">The research question: did the optimizer discover a control practice that is not
+          analytically obvious? The task treats each measured feature as a falsifiable hypothesis and asks whether it
+          corresponds to a known mechanism — counterdiabatic ($\Phi$-DRAG-type) leakage cancellation, AC-Stark phase
+          compensation, or Floquet-engineered sideband cancellation.</p>
+
+          <span class="lbl">Figure of merit</span>
+          <div class="fom">$$\text{score} = 0.30\,s_{\text{stats}} + 0.35\,s_{\text{abl}} + 0.20\,s_{\text{side}} + 0.15\,s_{\text{cd}}$$
+          <p style="font-size:.82rem;margin-top:9px;color:var(--muted)">Decomposition statistics, causal ablation leakage via 27-dimensional Hamiltonian propagation, sideband-resonance argmin, and the counterdiabatic agreement metric.</p></div>
+        </div>
+        <div class="qchips">
+          <span class="chip">VALIDITY <b>1/1</b></span>
+          <span class="chip hot">NOVELTY <b>4/5</b></span>
+          <span class="chip">EXECUTABILITY <b>1/1</b></span>
+        </div>
+        <div class="scale">
+          <div class="slegend"><span>bar = progress from trivial to reference</span><span class="sv">raw score</span></div>
+          <div class="srow"><span class="sl">trivial</span><div class="track"><div class="fill trivial" style="width:0.0%"></div></div><span class="sv">0.4712</span></div>
+          <div class="srow"><span class="sl">solver agent</span><div class="track"><div class="fill" style="width:13.9%"></div></div><span class="sv">0.5324</span></div>
+          <div class="srow"><span class="sl">reference</span><div class="track"><div class="fill ref" style="width:100.0%"></div></div><span class="sv">0.9100</span></div>
+          <p class="sprog">Best of 3 blind attempts reached <b>14%</b> of the way from the trivial baseline to the reference. <span class="muted">Direction: maximize. One evaluation costs 5.3 s against a 9000 s budget.</span></p>
+        </div>
+      </div>
+
+      <!-- ===== task 2 ===== -->
+      <div class="qcard" data-i="1">
+        <div class="qtop">
+          <span class="qdomain">Quantum control</span>
+          <span class="qid mono">flux_iswap_2 · round 1</span>
+          <span class="qconstraints"><span>qiskit-aer</span><span>cpu</span><span>9 qubits</span><span>150 min</span></span>
+        </div>
+        <h3>Is the structured plateau ripple an effective counterdiabatic / flux-DRAG leakage-suppression term?</h3>
+        <p class="qseed"><b>Seed topic:</b> Reverse-engineering learned control strategies in parametric flux-driven iSWAP gates on asymmetric-SQUID tunable couplers</p>
+        <div class="qbody">
+          <p>The same envelope, attacked from the other side. Two literatures suggest the structure is not an
+          artifact: effective counterdiabatic driving can be absorbed as high-frequency modulation of the existing
+          control field at frequencies set by inter-level gaps, and flux-tuned DRAG ($\Phi$-DRAG) supplies an
+          analytic leakage-suppression correction unique to flux rather than microwave control.</p>
+          <p style="margin-top:12px">The agent must build the three-transmon circuit-QED model
+          ($f_{q1}=5.163$ GHz, $f_{q2}=4.678$ GHz, $\alpha_1=-0.200$ GHz, $\alpha_2=-0.183$ GHz), propagate the
+          105-point envelope in a 27-dimensional Hilbert space, reconstruct the effective iSWAP exchange rate
+          $J_{\text{eff}}$ from a Bessel-sideband effective Hamiltonian, and run a pre-registered ablation study
+          that notches out the 0.66 GHz component, symmetrizes the ramps, and removes the droop.</p>
+
+          <span class="lbl">Figure of merit</span>
+          <div class="fom">$$\text{verdict}_X=\frac{\overline{|\,\text{infid}_{\text{ablate}(X)}-\text{infid}_{\text{base}}\,|}}{\overline{|\,\text{infid}_{\text{white}}-\text{infid}_{\text{base}}\,|}}$$
+          <p style="font-size:.82rem;margin-top:9px;color:var(--muted)">Each envelope feature is classified functional or inert against a matched-variance white-noise null model. Six scored components; total error is minimized.</p></div>
+        </div>
+        <div class="qchips">
+          <span class="chip">VALIDITY <b>1/1</b></span>
+          <span class="chip hot">NOVELTY <b>4/5</b></span>
+          <span class="chip">EXECUTABILITY <b>1/1</b></span>
+        </div>
+        <div class="scale">
+          <div class="slegend"><span>bar = progress from trivial to reference</span><span class="sv">raw score</span></div>
+          <div class="srow"><span class="sl">trivial</span><div class="track"><div class="fill trivial" style="width:0.0%"></div></div><span class="sv">6.7524</span></div>
+          <div class="srow"><span class="sl">solver agent</span><div class="track"><div class="fill" style="width:26.8%"></div></div><span class="sv">4.9543</span></div>
+          <div class="srow"><span class="sl">reference</span><div class="track"><div class="fill ref" style="width:100.0%"></div></div><span class="sv">0.0321</span></div>
+          <p class="sprog">Best of 3 blind attempts reached <b>27%</b> of the way from the trivial baseline to the reference. <span class="muted">Direction: minimize. One evaluation costs 55.2 s against a 9000 s budget.</span></p>
+        </div>
+      </div>
+
+      <div class="qnav">
+        <button id="qprev" aria-label="Previous task">←</button>
+        <button id="qnext" aria-label="Next task">→</button>
+        <span class="qcount" id="qcount">1 / 5</span>
+        <span class="qdots" id="qdots"></span>
+      </div>
+    </div>
+
+    <p class="tnote">Full chain for every task — seed, proposal, AI review, scorer source, and the solving agent's
+      attempts — is browsable in the <a href="https://headwear-wiring-unheated.ngrok-free.dev/static/showcase.html" target="_blank" rel="noopener" style="color:var(--accent)">worked examples</a>.</p>
+  </div>
+</section>
+
+<section id="results">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="num">04</span>
+      <h2>Results</h2>
+    </div>
+
+    <div class="tablewrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Task</th><th>Domain</th><th style="text-align:right">Trivial</th>
+            <th style="text-align:right">Solver agent</th><th style="text-align:right">Reference</th>
+            <th style="text-align:right">Progress ↑</th><th style="text-align:right">Novelty</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>bench_ham1</td><td class="muted">Hamiltonian simulation</td><td class="num">0.9989</td><td class="num">0.7630</td><td class="num">0.4385</td><td class="prog">42%</td><td class="num">2/5</td></tr>
+          <tr><td>bench_metro2</td><td class="muted">Quantum metrology</td><td class="num">0.0000</td><td class="num">11.0022</td><td class="num">29.4603</td><td class="prog">37%</td><td class="num">2/5</td></tr>
+          <tr><td>flux_iswap_2</td><td class="muted">Quantum control</td><td class="num">6.7524</td><td class="num">4.9543</td><td class="num">0.0321</td><td class="prog">27%</td><td class="num">4/5</td></tr>
+          <tr><td>flux_iswap_1</td><td class="muted">Quantum control</td><td class="num">0.4712</td><td class="num">0.5324</td><td class="num">0.9100</td><td class="prog">14%</td><td class="num">4/5</td></tr>
+          <tr><td>bench_ham2</td><td class="muted">Hamiltonian simulation</td><td class="num">0.9962</td><td class="num">0.9994</td><td class="num">0.2713</td><td class="prog zero">0%</td><td class="num">4/5</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <!-- TODO: extend this table as the remaining live environments have their traces published -->
+    <p class="tnote">Five of the live environments with published traces · Solver agent: best of 3 blind attempts · Progress normalized so trivial = 0% and reference = 100% · Novelty scored 1–5 by an independent reviewing agent (5 = original)</p>
+
+    <div class="callout" style="margin-top:26px">
+      <div class="big">Are our tasks easy or degenerate?</div>
+      <p><b>No.</b> No agent has matched the reference on any environment (best: 42% of the way from trivial to reference), and on the task rated most novel the solver did worse than the trivial baseline.</p>
+    </div>
+
+  </div>
+</section>
+
+<section id="contribute">
+  <div class="wrap">
+    <div class="sec-head stmt">
+      <span class="num">05</span>
+      <h2>Why contribute</h2>
+    </div>
+
+    <div class="vcards">
+      <div class="vcard">
+        <div class="vi">Set the standard</div>
+        <h3>Decide what counts</h3>
+        <p>You decide which problems are real, open, and worth solving in your area — before the benchmark
+        hardens around them.</p>
+      </div>
+      <div class="vcard">
+        <div class="vi">Named credit</div>
+        <h3>Get credited by authorship</h3>
+        <p>If five or more of your tasks make it into the benchmark, you receive authorship on the paper.
+        Contribute fewer than five, and you are duly acknowledged in the paper.</p>
+      </div>
+      <div class="vcard">
+        <div class="vi">Visibility</div>
+        <h3>Built for frontier labs</h3>
+        <p>This is a benchmark designed for the large AI and quantum labs to evaluate their agents against.
+        Your subfield is represented by the tasks you validate.</p>
+      </div>
+    </div>
+
+    <div class="subhead">What reviewing involves</div>
+    <div class="paths">
+      <div class="path">
+        <h3>For quantum researchers</h3>
+        <p class="sub">No coding required.</p>
+        <ul>
+          <li><span class="m">›</span><span>Enter a topic you care about; the pipeline generates two tasks in your subfield.</span></li>
+          <li><span class="m">›</span><span>Judge those two, plus two from another researcher's topic — four in all.</span></li>
+          <li><span class="m">›</span><span>Decide whether each is valid, well-posed, novel, and worth solving.</span></li>
+          <li><span class="m">›</span><span>Keep giving feedback until it generates tasks you actually find interesting.</span></li>
+          <li><span class="m">›</span><span>A completed worked example is provided before you start.</span></li>
+          <li><span class="m">›</span><span>Open to faculty, postdocs, PhD students, and industry scientists.</span></li>
+        </ul>
+        <!-- TODO: replace this ngrok tunnel with the permanent annotation-platform domain -->
+        <a class="btn primary" href="https://headwear-wiring-unheated.ngrok-free.dev/static/showcase.html" target="_blank" rel="noopener">Open the annotation platform <span class="arw">→</span></a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TODO: the two rows below are the placeholder scores carried over from v1. Replace with
+     measured results (and current model names) before this is shown as real data. -->
+<section id="leaderboard">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="num">06</span>
+      <h2>Leaderboard</h2>
+      <span class="tail">Frontier models, average progress across live environments: trivial baseline (0%) to reference solution (100%).</span>
+    </div>
+    <div class="lb">
+      <p class="headline">No model is near the human best on <b>QLE</b>.</p>
+      <p class="muted" style="max-width:62ch;font-size:.9rem">Average progress across live environments.
+        Preliminary placeholder scores — full evaluation in progress.</p>
+      <div class="rows">
+        <div class="lbrow">
+          <div class="lbtop"><span>Claude Opus 4.8 <span class="mono muted">· Anthropic</span></span><span class="pc">3.4%</span></div>
+          <div class="track"><div class="fill" style="width:3.4%"></div><div class="refmark"></div></div>
+        </div>
+        <div class="lbrow">
+          <div class="lbtop"><span>GPT-5.5 <span class="mono muted">· OpenAI</span></span><span class="pc">2.1%</span></div>
+          <div class="track"><div class="fill" style="width:2.1%"></div><div class="refmark"></div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<section id="contributors">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="num">07</span>
+      <h2>Contributors</h2>
+    </div>
+
+    <div class="subhead">Core contributors</div>
+    <div class="people">
+      <div class="person">
+        <img class="av" src="assets/zhaotian-weng.jpg" alt="Zhaotian Weng" loading="lazy" width="46" height="46">
+        <div><div class="pn">Zhaotian Weng<sup>*</sup></div><div class="pt">UC Santa Barbara</div></div>
+      </div>
+      <div class="person">
+        <img class="av" src="assets/gurusha-juneja.jpg" alt="Gurusha Juneja" loading="lazy" width="46" height="46">
+        <div><div class="pn">Gurusha Juneja<sup>*</sup></div><div class="pt">UC Santa Barbara</div></div>
+      </div>
+      <div class="person">
+        <img class="av" src="assets/jonah-so.jpg" alt="Jonah So" loading="lazy" width="46" height="46">
+        <div><div class="pn">Jonah So<sup>*</sup></div><div class="pt">UC Santa Barbara</div></div>
+      </div>
+    </div>
+    <p class="eqnote"><sup>*</sup>Equal contribution.</p>
+
+    <div class="subhead">Advisory committee</div>
+
+    <div class="people">
+      <!-- TODO: confirm titles and credential lines with each advisor before publishing -->
+      <div class="person">
+        <img class="av" src="assets/xin-eric-wang.jpg" alt="Xin Eric Wang" loading="lazy" width="46" height="46">
+        <div>
+          <div class="pn">Xin Eric Wang</div>
+          <div class="pt">UC Santa Barbara · AI Lab</div>
+          <div class="pc">Multimodal AI and language agents</div>
+        </div>
+      </div>
+      <div class="person">
+        <img class="av" src="assets/murphy-niu.jpg" alt="Murphy Niu" loading="lazy" width="46" height="46">
+        <div>
+          <div class="pn">Murphy Yuezhen Niu</div>
+          <div class="pt">UC Santa Barbara · Quantum CoDesign Lab</div>
+          <div class="pc">Quantum machine learning and quantum control</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="subhead">Reviewing researchers</div>
+    <!-- Signature-format list, after agi.safe.ai — scales to hundreds of names.
+         TODO: append confirmed reviewers here as Name<sup>n</sup>, and add each new
+         institution to the .affil line below. -->
+    <p class="sigempty">673 quantum researchers across four continents have been invited. Confirmed reviewers
+      will be listed here by name, with institutional affiliations, ahead of publication.</p>
+    <div class="affil"><sup>1</sup>UC Santa Barbara</div>
+
+    <div class="subhead">Contributing institutions</div>
+    <div class="inst">
+      <div class="icell">UC Santa Barbara</div>
+      <div class="icell">Google DeepMind</div>
+    </div>
+  </div>
+</section>
+
+<section id="faq">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="num">08</span>
+      <h2>FAQ</h2>
+    </div>
+    <div class="faq">
+      <details open>
+        <summary>What is this benchmark for?<span class="pm">+</span></summary>
+        <div class="ans">Two things. First, it is a benchmark: an agent that scores well here is demonstrably good at
+          <b>scientific discovery</b> — it can take an open quantum problem and build a solution that works, rather
+          than retrieve an answer it has seen. Second, and more importantly, it is a <b>generator</b>. The environments
+          are produced automatically, so they can be produced in quantity, which is what makes it possible to
+          evaluate, train and optimize AI scientists at a scale that hand-built benchmarks cannot reach.</div>
+      </details>
+      <details>
+        <summary>If an AI writes the problems, aren't they easy or meaningless?<span class="pm">+</span></summary>
+        <div class="ans">That is the right question to ask, and it is why the results are published in full. So far
+          <b>no frontier agent has solved any environment in the benchmark</b>; the best result is 42% of the way from
+          the trivial baseline to the reference, and on the environment rated most novel the solving agent scored
+          worse than the trivial baseline. Difficulty, at least, is not the failure mode. <b>Meaningfulness is the
+          part a program cannot certify</b> — which is exactly why we are recruiting working quantum researchers to
+          judge it rather than asserting it ourselves.</div>
+      </details>
+      <details>
+        <summary>Is this only about quantum science?<span class="pm">+</span></summary>
+        <div class="ans">No. The claim — that an agent can select its own research question and build the
+          environment to answer it — is not specific to quantum. Quantum is where we start because it is one of the
+          few fields where an agent-invented environment can actually be run and scored: the physics is simulable and
+          the answer is checkable, with no wet lab in between. The environments this produces are meant to be
+          <b>reused</b> — to evaluate, train and optimize AI scientists at a scale hand-built benchmarks do not reach.</div>
+      </details>
+      <details>
+        <summary>How is it different from other benchmarks?<span class="pm">+</span></summary>
+        <div class="ans">It is an <b>evolving benchmark, created automatically</b>. Problems are mined from the live
+          literature, formalized, and auto-scored with no human effort required to build each environment. Because the
+          pipeline generates and hardens its own tasks, it does not saturate the way a fixed question set does: when an
+          agent finds a shortcut, the setter diagnoses it and rebuilds the environment to close it.</div>
+      </details>
+      <details>
+        <summary>What does reviewing involve?<span class="pm">+</span></summary>
+        <div class="ans">You enter a topic you care about, and the pipeline generates two tasks in your subfield.
+          You judge those two, plus two generated from another researcher's topic — <b>four in total</b> — deciding
+          whether each is valid, well-posed, novel, and worth solving. The outside pair matters: it means every task
+          gets a reader who did not choose its topic, so a task cannot be validated only by the person who asked for
+          it. You can <b>keep giving feedback until it generates tasks you actually find interesting</b>, so the
+          process is a conversation with the setter rather than a grading form. A completed example is provided so
+          the task is clear before you start. No coding is required.</div>
+      </details>
+      <details>
+        <summary>How are contributors compensated?<span class="pm">+</span></summary>
+        <div class="ans">Every reviewer is acknowledged by name in the publication. Contribute <b>five or more
+          accepted tasks</b> and your name is added to the <b>author list</b>.</div>
+      </details>
+      <details>
+        <summary>Who can contribute?<span class="pm">+</span></summary>
+        <div class="ans">Any working quantum researcher — faculty, postdocs, PhD students, and industry scientists.
+          You review problems in your own area of expertise.</div>
+      </details>
+      <details>
+        <summary>Do I need quantum hardware to run these tasks?<span class="pm">+</span></summary>
+        <div class="ans">No. Every task in the benchmark is written to run on a <b>single workstation</b>: at most
+          28 qubits, under three hours of compute, simulator only. This is a deliberate constraint — it keeps the
+          benchmark reproducible by anyone and keeps the difficulty in the physics rather than in the hardware access.</div>
+      </details>
+      <details>
+        <summary>Are the scores on this page verified?<span class="pm">+</span></summary>
+        <div class="ans">The validity, novelty and executability scores are <b>machine judgments awaiting expert
+          verification</b> — that verification is exactly what we are recruiting for. The performance numbers
+          (trivial, solver, reference) are measured directly by the evaluation harness and are not judgments.</div>
+      </details>
+    </div>
+  </div>
+</section>
+
+
+<section id="join" style="border-bottom:none">
+  <div class="wrap">
+    <div class="join">
+      <div class="eyebrow">Call for reviewers</div>
+      <h2>Four tasks. Your field. Your judgment.</h2>
+      <p>Help define the benchmark the field will use to measure AI discovery. Reviewers are acknowledged by name;
+        five or more accepted tasks earns co-authorship.</p>
+      <div class="cta-row">
+        <!-- TODO: replace this ngrok tunnel with the permanent annotation-platform domain -->
+        <a class="btn primary" href="https://headwear-wiring-unheated.ngrok-free.dev/static/showcase.html" target="_blank" rel="noopener">Open the annotation platform <span class="arw">→</span></a>
+        <a class="btn" href="#how">Key features</a>
+      </div>
+      <div class="fine">673 researchers invited · North America · Europe · Asia · Australia</div>
+
+      <!-- TODO: add a mailing-list signup endpoint -->
+      <div class="contact">
+        <span>Questions or feedback: <a href="mailto:zhaotian@ucsb.edu">zhaotian@ucsb.edu</a></span>
+        <span>Report a broken task: <a href="mailto:zhaotian@ucsb.edu">zhaotian@ucsb.edu</a></span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div class="labs">UCSB <span>AI Lab</span> × UCSB <span>Quantum CoDesign Lab</span></div>
+    <div class="meta">
+      <span>Quantum's Last Exam — v0.4</span>
+      <span>Auto-generated · Auto-scored</span>
+      <!-- TODO: confirm the licences the project will actually ship under -->
+      <span>Tasks &amp; data: CC BY 4.0</span>
+      <span>Code: Apache-2.0</span>
+      <span>2026</span>
+    </div>
+  </div>
+</footer>
+
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js" integrity="sha384-7zkQWkzuo3B5mTepMUcHkMB5jZaolc2xDwL6VFqjFALcbeS9Ggm/Yr2r3Dy4lfFg" crossorigin="anonymous"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js" integrity="sha384-43gviWU0YVjaDtb/GhzOouOXtZMP/7XUzwPTstBeZFe/+rCMvRwr4yROQP43s0Xk" crossorigin="anonymous"
+  onload="renderMathInElement(document.body,{delimiters:[{left:'$$',right:'$$',display:true},{left:'$',right:'$',display:false}],throwOnError:false});"></script>
+
+<script>
+(function(){
+  /* ---------- domain tiles ---------- */
+  /* TODO: refresh these per-domain counts against the full set of live environments */
+  var DOMAINS = [
+    {n:'Hamiltonian simulation',  d:'Low-depth circuit design and non-uniform Trotter step allocation.',                  s:'2 published', live:true,  art:'chain'},
+    {n:'Quantum control',         d:'Reverse-engineering learned flux-drive envelopes on tunable couplers.',              s:'2 published', live:true,  art:'pulse'},
+    {n:'Quantum metrology',       d:'Variational probe-state design maximizing Fisher information under noise.',          s:'1 published', live:true,  art:'bloch'},
+    {n:'Classical shadows',       d:'Randomized measurement schemes that predict many observables from few samples.',     s:'in generation', live:false, art:'shadow'},
+    {n:'Quantum error correction',d:'Decoders and code design under realistic circuit-level noise.',                      s:'in generation', live:false, art:'lattice'},
+    {n:'Quantum signal processing',d:'Phase sequences implementing polynomial transforms of a block-encoded operator.',   s:'in generation', live:false, art:'qsp'},
+    {n:'Quantum error mitigation',d:'Zero-noise extrapolation and probabilistic error cancellation.',                     s:'in generation', live:false, art:'extrap'},
+    {n:'NISQ algorithms',         d:'Variational ansatz design, barren plateaus, and measurement strategy.',              s:'in generation', live:false, art:'layers'},
+    {n:'Hamiltonian learning',    d:'Recovering couplings and fields from measurement data, sample-efficiently.',         s:'in generation', live:false, art:'hlearn'}
+  ];
+
+  var A = 'var(--accent)', L = 'var(--line-2)', I = 'var(--faint)';
+  function art(kind){
+    var o = '<svg viewBox="0 0 240 104" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">';
+    switch(kind){
+      case 'bloch':
+        o += '<ellipse cx="120" cy="52" rx="34" ry="34" stroke="'+L+'" stroke-width="1.2"/>'
+          +  '<ellipse cx="120" cy="52" rx="34" ry="11" stroke="'+L+'" stroke-width="1.2"/>'
+          +  '<line x1="120" y1="52" x2="120" y2="18" stroke="'+L+'" stroke-width="1.2"/>'
+          +  '<line x1="120" y1="52" x2="145" y2="31" stroke="'+A+'" stroke-width="2"/>'
+          +  '<circle cx="145" cy="31" r="3.2" fill="'+A+'"/>';
+        break;
+      case 'chain':
+        for(var i=0;i<7;i++){ var x=48+i*24;
+          o += '<circle cx="'+x+'" cy="52" r="5.5" stroke="'+(i%2?A:L)+'" stroke-width="1.6"/>';
+          if(i<6) o += '<line x1="'+(x+6)+'" y1="52" x2="'+(x+18)+'" y2="52" stroke="'+L+'" stroke-width="1.2"/>';
+          o += '<line x1="'+x+'" y1="'+(i%2?40:64)+'" x2="'+x+'" y2="'+(i%2?32:72)+'" stroke="'+(i%2?A:L)+'" stroke-width="1.4"/>';
+        }
+        break;
+      case 'pulse':
+        var p='M28,74 ';
+        for(var t=0;t<=184;t++){ var xx=28+t, v;
+          if(t<26) v=74-46*(t/26);
+          else if(t>158) v=28+46*((t-158)/26);
+          else v=28+0.055*(t-26)-2.6*Math.sin(t*0.62);
+          p += 'L'+xx.toFixed(1)+','+v.toFixed(1)+' ';
+        }
+        o += '<path d="'+p+'" stroke="'+A+'" stroke-width="1.7" stroke-linejoin="round"/>'
+          +  '<line x1="20" y1="86" x2="220" y2="86" stroke="'+L+'" stroke-width="1"/>';
+        break;
+      case 'lattice':
+        for(var r=0;r<4;r++) for(var c=0;c<7;c++){
+          var X=60+c*20, Y=22+r*20, on=((r+c)%2===0);
+          o += '<rect x="'+(X-6)+'" y="'+(Y-6)+'" width="12" height="12" stroke="'+(on?A:L)+'" stroke-width="1.2" '+(on?'fill="'+A+'" fill-opacity=".1"':'')+'/>';
+        }
+        break;
+      case 'shadow':
+        /* one state, several randomly-rotated measurement bases, a few snapshots */
+        o += '<circle cx="52" cy="52" r="17" stroke="'+A+'" stroke-width="1.5" fill="'+A+'" fill-opacity=".07"/>';
+        [26,52,78].forEach(function(yv,k){
+          o += '<line x1="70" y1="'+(52+(yv-52)*0.45)+'" x2="150" y2="'+yv+'" stroke="'+L+'" stroke-width="1" stroke-dasharray="3 3"/>';
+          o += '<rect x="152" y="'+(yv-11)+'" width="52" height="22" rx="3" stroke="'+(k===1?A:L)+'" stroke-width="1.3"/>';
+          for(var b=0;b<3;b++)
+            o += '<rect x="'+(158+b*15)+'" y="'+(yv-4+((k+b)%2?0:-3))+'" width="9" height="'+(6+((k+b)%2?0:6))+'" fill="'+(k===1?A:L)+'" fill-opacity=".55"/>';
+        });
+        break;
+      case 'qsp':
+        /* a smooth signal reshaped into a sharp polynomial response by phase blocks */
+        var pa='M24,74 ', pb='M126,74 ';
+        for(var u=0;u<=76;u++){
+          pa += 'L'+(24+u).toFixed(1)+','+(74-30*(u/76)).toFixed(1)+' ';
+          var z=(u/76-0.5)*9;
+          pb += 'L'+(126+u).toFixed(1)+','+(74-30/(1+Math.exp(-z))).toFixed(1)+' ';
+        }
+        o += '<path d="'+pa+'" stroke="'+L+'" stroke-width="1.6"/>'
+          +  '<path d="'+pb+'" stroke="'+A+'" stroke-width="1.9"/>';
+        o += '<line x1="24" y1="80" x2="100" y2="80" stroke="'+L+'" stroke-width="1"/>'
+          +  '<line x1="126" y1="80" x2="202" y2="80" stroke="'+L+'" stroke-width="1"/>'
+          +  '<path d="M104,55 L120,55 M114,50 L120,55 L114,60" stroke="'+A+'" stroke-width="1.5" fill="none"/>';
+        break;
+      case 'hlearn':
+        /* unknown couplings on a chain, inferred from scattered samples */
+        var wts=[1.1,2.6,1.6,3.2,1.3];
+        for(var i2=0;i2<6;i2++){ var xc=52+i2*28;
+          o += '<circle cx="'+xc+'" cy="66" r="5.5" stroke="'+L+'" stroke-width="1.5"/>';
+          if(i2<5) o += '<line x1="'+(xc+6)+'" y1="66" x2="'+(xc+22)+'" y2="66" stroke="'+A+'" stroke-width="'+wts[i2]+'"/>';
+        }
+        [[58,26],[86,34],[114,22],[142,32],[170,25],[198,31]].forEach(function(pt){
+          o += '<circle cx="'+pt[0]+'" cy="'+pt[1]+'" r="2.8" fill="'+L+'"/>';});
+        o += '<path d="M56,30 Q116,18 200,29" stroke="'+A+'" stroke-width="1.4" fill="none" stroke-dasharray="4 3"/>';
+        break;
+      case 'layers':
+        for(var q=0;q<4;q++){ var Y2=24+q*19;
+          o += '<line x1="30" y1="'+Y2+'" x2="210" y2="'+Y2+'" stroke="'+L+'" stroke-width="1"/>'; }
+        for(var g=0;g<5;g++){ var X2=52+g*34;
+          o += '<rect x="'+(X2-8)+'" y="16" width="16" height="16" rx="3" stroke="'+A+'" stroke-width="1.4" fill="'+A+'" fill-opacity=".08"/>';
+          o += '<rect x="'+(X2-8)+'" y="54" width="16" height="16" rx="3" stroke="'+L+'" stroke-width="1.4"/>'; }
+        break;
+      case 'extrap':
+        o += '<line x1="30" y1="84" x2="212" y2="84" stroke="'+L+'" stroke-width="1"/>'
+          +  '<line x1="30" y1="14" x2="30" y2="84" stroke="'+L+'" stroke-width="1"/>'
+          +  '<path d="M56,68 L96,56 L136,44 L176,32" stroke="'+L+'" stroke-width="1.4" stroke-dasharray="3 3"/>'
+          +  '<path d="M56,68 L30,76" stroke="'+A+'" stroke-width="1.8" stroke-dasharray="3 3"/>';
+        ['56,68','96,56','136,44','176,32'].forEach(function(pt){var q=pt.split(',');
+          o += '<circle cx="'+q[0]+'" cy="'+q[1]+'" r="3.4" fill="'+L+'"/>';});
+        o += '<circle cx="30" cy="76" r="4" fill="'+A+'"/>';
+        break;
+      default:
+        /* unmapped art key - render a visible placeholder rather than an empty tile */
+        o += '<rect x="88" y="36" width="64" height="32" rx="4" stroke="'+I+'" stroke-width="1.3" stroke-dasharray="4 3"/>';
+    }
+    return o + '</svg>';
+  }
+
+  function tile(d){
+    return '<div class="tile"><div class="art">'+art(d.art)+'</div><div class="body">'
+      + '<div class="tn">'+d.n+'</div><div class="td">'+d.d+'</div>'
+      + '<div class="tg '+(d.live?'live':'soon')+'"><span class="cd"></span>'+d.s+'</div>'
+      + '</div></div>';
+  }
+  var track = document.getElementById('mtrack');
+  if(track){ var html = DOMAINS.map(tile).join(''); track.innerHTML = html + html; }
+
+  /* ---------- task pager ---------- */
+  var cards = Array.prototype.slice.call(document.querySelectorAll('.qcard'));
+  var prev = document.getElementById('qprev'), next = document.getElementById('qnext');
+  var dots = document.getElementById('qdots'), count = document.getElementById('qcount');
+  var cur = 0;
+
+  if(cards.length && dots){
+    cards.forEach(function(_, i){
+      var b = document.createElement('i');
+      b.addEventListener('click', function(){ show(i); });
+      dots.appendChild(b);
+    });
+    var dotEls = Array.prototype.slice.call(dots.children);
+
+    function show(i){
+      cur = Math.max(0, Math.min(cards.length - 1, i));
+      cards.forEach(function(c, n){ c.classList.toggle('on', n === cur); });
+      dotEls.forEach(function(d, n){ d.classList.toggle('on', n === cur); });
+      count.textContent = (cur + 1) + ' / ' + cards.length;
+      prev.disabled = cur === 0;
+      next.disabled = cur === cards.length - 1;
+    }
+    prev.addEventListener('click', function(){ show(cur - 1); });
+    next.addEventListener('click', function(){ show(cur + 1); });
+    show(0);
+  }
+
+  /* ---------- smooth in-page anchors ---------- */
+  var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  document.addEventListener('click', function(e){
+    var a = e.target.closest && e.target.closest('a[href^="#"]');
+    if(!a) return;
+    var href = a.getAttribute('href');
+    if(href === '#' || href.length < 2) return;
+    var el = document.getElementById(href.slice(1));
+    if(!el) return;
+    e.preventDefault();
+    el.scrollIntoView({behavior: reduce ? 'auto' : 'smooth', block: 'start'});
+  });
+})();
+</script>
+</body>
+</html>
