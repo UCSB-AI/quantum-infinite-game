@@ -559,86 +559,8 @@
     </div>
 
     <div class="qwrap">
-      <!-- ===== task 1 ===== -->
-      <div class="qcard on" data-i="0">
-        <div class="qtop">
-          <span class="qdomain">Quantum control</span>
-          <span class="qid mono">flux_iswap_1 · round 1</span>
-          <span class="qconstraints"><span>qiskit-aer</span><span>cpu</span><span>3 qubits</span><span>150 min</span></span>
-        </div>
-        <h3>Reverse-engineering the learned control strategy in a numerically-optimized parametric flux-driven iSWAP gate</h3>
-        <p class="qseed"><b>Seed topic:</b> Reverse-engineering learned control strategies in parametric flux-driven iSWAP gates on asymmetric-SQUID tunable couplers</p>
-        <div class="qbody">
-          <p>An expert supplied a numerically optimized flux-drive envelope $e(t)$ — 105 points at 0.5 ns,
-          52 ns total — for a parametric iSWAP gate between two fixed-frequency transmons coupled through an
-          asymmetric-SQUID tunable coupler. The optimizer produced a pulse whose <em>shape</em> carries
-          non-white structure: asymmetric rise/fall (6.0 ns vs 5.5 ns), a drooping plateau
-          ($-0.75\times10^{-3}$ per ns), and a structured residual ripple (lag-1 autocorrelation $+0.587$,
-          spectral flatness $0.147$) peaking near 0.66 GHz — within frequency resolution of
-          $(f_{q1}-f_{q2})-\alpha_2 = 0.668$ GHz.</p>
-          <p style="margin-top:12px">The research question: did the optimizer discover a control practice that is not
-          analytically obvious? The task treats each measured feature as a falsifiable hypothesis and asks whether it
-          corresponds to a known mechanism — counterdiabatic ($\Phi$-DRAG-type) leakage cancellation, AC-Stark phase
-          compensation, or Floquet-engineered sideband cancellation.</p>
-
-          <span class="lbl">Figure of merit</span>
-          <div class="fom">$$\text{score} = 0.30\,s_{\text{stats}} + 0.35\,s_{\text{abl}} + 0.20\,s_{\text{side}} + 0.15\,s_{\text{cd}}$$
-          <p style="font-size:.82rem;margin-top:9px;color:var(--muted)">Decomposition statistics, causal ablation leakage via 27-dimensional Hamiltonian propagation, sideband-resonance argmin, and the counterdiabatic agreement metric.</p></div>
-        </div>
-        <div class="qchips">
-          <span class="chip">VALIDITY <b>1/1</b></span>
-          <span class="chip hot">NOVELTY <b>4/5</b></span>
-          <span class="chip">EXECUTABILITY <b>1/1</b></span>
-        </div>
-        <div class="scale">
-          <div class="slegend"><span>bar = progress from trivial to reference</span><span class="sv">raw score</span></div>
-          <div class="srow"><span class="sl">trivial</span><div class="track"><div class="fill trivial" style="width:0.0%"></div></div><span class="sv">0.4712</span></div>
-          <div class="srow"><span class="sl">solver agent</span><div class="track"><div class="fill" style="width:13.9%"></div></div><span class="sv">0.5324</span></div>
-          <div class="srow"><span class="sl">reference</span><div class="track"><div class="fill ref" style="width:100.0%"></div></div><span class="sv">0.9100</span></div>
-          <p class="sprog">Best of 3 blind attempts reached <b>14%</b> of the way from the trivial baseline to the reference. <span class="muted">Direction: maximize. One evaluation costs 5.3 s against a 9000 s budget.</span></p>
-        </div>
-      </div>
-
-      <!-- ===== task 2 ===== -->
-      <div class="qcard" data-i="1">
-        <div class="qtop">
-          <span class="qdomain">Quantum control</span>
-          <span class="qid mono">flux_iswap_2 · round 1</span>
-          <span class="qconstraints"><span>qiskit-aer</span><span>cpu</span><span>9 qubits</span><span>150 min</span></span>
-        </div>
-        <h3>Is the structured plateau ripple an effective counterdiabatic / flux-DRAG leakage-suppression term?</h3>
-        <p class="qseed"><b>Seed topic:</b> Reverse-engineering learned control strategies in parametric flux-driven iSWAP gates on asymmetric-SQUID tunable couplers</p>
-        <div class="qbody">
-          <p>The same envelope, attacked from the other side. Two literatures suggest the structure is not an
-          artifact: effective counterdiabatic driving can be absorbed as high-frequency modulation of the existing
-          control field at frequencies set by inter-level gaps, and flux-tuned DRAG ($\Phi$-DRAG) supplies an
-          analytic leakage-suppression correction unique to flux rather than microwave control.</p>
-          <p style="margin-top:12px">The agent must build the three-transmon circuit-QED model
-          ($f_{q1}=5.163$ GHz, $f_{q2}=4.678$ GHz, $\alpha_1=-0.200$ GHz, $\alpha_2=-0.183$ GHz), propagate the
-          105-point envelope in a 27-dimensional Hilbert space, reconstruct the effective iSWAP exchange rate
-          $J_{\text{eff}}$ from a Bessel-sideband effective Hamiltonian, and run a pre-registered ablation study
-          that notches out the 0.66 GHz component, symmetrizes the ramps, and removes the droop.</p>
-
-          <span class="lbl">Figure of merit</span>
-          <div class="fom">$$\text{verdict}_X=\frac{\overline{|\,\text{infid}_{\text{ablate}(X)}-\text{infid}_{\text{base}}\,|}}{\overline{|\,\text{infid}_{\text{white}}-\text{infid}_{\text{base}}\,|}}$$
-          <p style="font-size:.82rem;margin-top:9px;color:var(--muted)">Each envelope feature is classified functional or inert against a matched-variance white-noise null model. Six scored components; total error is minimized.</p></div>
-        </div>
-        <div class="qchips">
-          <span class="chip">VALIDITY <b>1/1</b></span>
-          <span class="chip hot">NOVELTY <b>4/5</b></span>
-          <span class="chip">EXECUTABILITY <b>1/1</b></span>
-        </div>
-        <div class="scale">
-          <div class="slegend"><span>bar = progress from trivial to reference</span><span class="sv">raw score</span></div>
-          <div class="srow"><span class="sl">trivial</span><div class="track"><div class="fill trivial" style="width:0.0%"></div></div><span class="sv">6.7524</span></div>
-          <div class="srow"><span class="sl">solver agent</span><div class="track"><div class="fill" style="width:26.8%"></div></div><span class="sv">4.9543</span></div>
-          <div class="srow"><span class="sl">reference</span><div class="track"><div class="fill ref" style="width:100.0%"></div></div><span class="sv">0.0321</span></div>
-          <p class="sprog">Best of 3 blind attempts reached <b>27%</b> of the way from the trivial baseline to the reference. <span class="muted">Direction: minimize. One evaluation costs 55.2 s against a 9000 s budget.</span></p>
-        </div>
-      </div>
-
       <!-- ===== task 3 ===== -->
-      <div class="qcard" data-i="2">
+      <div class="qcard on" data-i="2">
         <div class="qtop">
           <span class="qdomain">Quantum metrology</span>
           <span class="qid mono">bench_metro2 · round 3</span>
@@ -748,6 +670,84 @@
           <div class="srow"><span class="sl">solver agent</span><div class="track"><div class="fill zero" style="width:0.0%"></div></div><span class="sv">0.9994</span></div>
           <div class="srow"><span class="sl">reference</span><div class="track"><div class="fill ref" style="width:100.0%"></div></div><span class="sv">0.2713</span></div>
           <p class="sprog"><span class="unsolved">Unsolved.</span> The best of 3 blind attempts scored <b class="unsolved">worse than the trivial baseline</b> — the most novel task in the set, and no agent has moved it at all. <span class="muted">Direction: minimize. One evaluation costs 6.5 s against a 1800 s budget.</span></p>
+        </div>
+      </div>
+
+      <!-- ===== task 1 ===== -->
+      <div class="qcard" data-i="0">
+        <div class="qtop">
+          <span class="qdomain">Quantum control</span>
+          <span class="qid mono">flux_iswap_1 · round 1</span>
+          <span class="qconstraints"><span>qiskit-aer</span><span>cpu</span><span>3 qubits</span><span>150 min</span></span>
+        </div>
+        <h3>Reverse-engineering the learned control strategy in a numerically-optimized parametric flux-driven iSWAP gate</h3>
+        <p class="qseed"><b>Seed topic:</b> Reverse-engineering learned control strategies in parametric flux-driven iSWAP gates on asymmetric-SQUID tunable couplers</p>
+        <div class="qbody">
+          <p>An expert supplied a numerically optimized flux-drive envelope $e(t)$ — 105 points at 0.5 ns,
+          52 ns total — for a parametric iSWAP gate between two fixed-frequency transmons coupled through an
+          asymmetric-SQUID tunable coupler. The optimizer produced a pulse whose <em>shape</em> carries
+          non-white structure: asymmetric rise/fall (6.0 ns vs 5.5 ns), a drooping plateau
+          ($-0.75\times10^{-3}$ per ns), and a structured residual ripple (lag-1 autocorrelation $+0.587$,
+          spectral flatness $0.147$) peaking near 0.66 GHz — within frequency resolution of
+          $(f_{q1}-f_{q2})-\alpha_2 = 0.668$ GHz.</p>
+          <p style="margin-top:12px">The research question: did the optimizer discover a control practice that is not
+          analytically obvious? The task treats each measured feature as a falsifiable hypothesis and asks whether it
+          corresponds to a known mechanism — counterdiabatic ($\Phi$-DRAG-type) leakage cancellation, AC-Stark phase
+          compensation, or Floquet-engineered sideband cancellation.</p>
+
+          <span class="lbl">Figure of merit</span>
+          <div class="fom">$$\text{score} = 0.30\,s_{\text{stats}} + 0.35\,s_{\text{abl}} + 0.20\,s_{\text{side}} + 0.15\,s_{\text{cd}}$$
+          <p style="font-size:.82rem;margin-top:9px;color:var(--muted)">Decomposition statistics, causal ablation leakage via 27-dimensional Hamiltonian propagation, sideband-resonance argmin, and the counterdiabatic agreement metric.</p></div>
+        </div>
+        <div class="qchips">
+          <span class="chip">VALIDITY <b>1/1</b></span>
+          <span class="chip hot">NOVELTY <b>4/5</b></span>
+          <span class="chip">EXECUTABILITY <b>1/1</b></span>
+        </div>
+        <div class="scale">
+          <div class="slegend"><span>bar = progress from trivial to reference</span><span class="sv">raw score</span></div>
+          <div class="srow"><span class="sl">trivial</span><div class="track"><div class="fill trivial" style="width:0.0%"></div></div><span class="sv">0.4712</span></div>
+          <div class="srow"><span class="sl">solver agent</span><div class="track"><div class="fill" style="width:13.9%"></div></div><span class="sv">0.5324</span></div>
+          <div class="srow"><span class="sl">reference</span><div class="track"><div class="fill ref" style="width:100.0%"></div></div><span class="sv">0.9100</span></div>
+          <p class="sprog">Best of 3 blind attempts reached <b>14%</b> of the way from the trivial baseline to the reference. <span class="muted">Direction: maximize. One evaluation costs 5.3 s against a 9000 s budget.</span></p>
+        </div>
+      </div>
+
+      <!-- ===== task 2 ===== -->
+      <div class="qcard" data-i="1">
+        <div class="qtop">
+          <span class="qdomain">Quantum control</span>
+          <span class="qid mono">flux_iswap_2 · round 1</span>
+          <span class="qconstraints"><span>qiskit-aer</span><span>cpu</span><span>9 qubits</span><span>150 min</span></span>
+        </div>
+        <h3>Is the structured plateau ripple an effective counterdiabatic / flux-DRAG leakage-suppression term?</h3>
+        <p class="qseed"><b>Seed topic:</b> Reverse-engineering learned control strategies in parametric flux-driven iSWAP gates on asymmetric-SQUID tunable couplers</p>
+        <div class="qbody">
+          <p>The same envelope, attacked from the other side. Two literatures suggest the structure is not an
+          artifact: effective counterdiabatic driving can be absorbed as high-frequency modulation of the existing
+          control field at frequencies set by inter-level gaps, and flux-tuned DRAG ($\Phi$-DRAG) supplies an
+          analytic leakage-suppression correction unique to flux rather than microwave control.</p>
+          <p style="margin-top:12px">The agent must build the three-transmon circuit-QED model
+          ($f_{q1}=5.163$ GHz, $f_{q2}=4.678$ GHz, $\alpha_1=-0.200$ GHz, $\alpha_2=-0.183$ GHz), propagate the
+          105-point envelope in a 27-dimensional Hilbert space, reconstruct the effective iSWAP exchange rate
+          $J_{\text{eff}}$ from a Bessel-sideband effective Hamiltonian, and run a pre-registered ablation study
+          that notches out the 0.66 GHz component, symmetrizes the ramps, and removes the droop.</p>
+
+          <span class="lbl">Figure of merit</span>
+          <div class="fom">$$\text{verdict}_X=\frac{\overline{|\,\text{infid}_{\text{ablate}(X)}-\text{infid}_{\text{base}}\,|}}{\overline{|\,\text{infid}_{\text{white}}-\text{infid}_{\text{base}}\,|}}$$
+          <p style="font-size:.82rem;margin-top:9px;color:var(--muted)">Each envelope feature is classified functional or inert against a matched-variance white-noise null model. Six scored components; total error is minimized.</p></div>
+        </div>
+        <div class="qchips">
+          <span class="chip">VALIDITY <b>1/1</b></span>
+          <span class="chip hot">NOVELTY <b>4/5</b></span>
+          <span class="chip">EXECUTABILITY <b>1/1</b></span>
+        </div>
+        <div class="scale">
+          <div class="slegend"><span>bar = progress from trivial to reference</span><span class="sv">raw score</span></div>
+          <div class="srow"><span class="sl">trivial</span><div class="track"><div class="fill trivial" style="width:0.0%"></div></div><span class="sv">6.7524</span></div>
+          <div class="srow"><span class="sl">solver agent</span><div class="track"><div class="fill" style="width:26.8%"></div></div><span class="sv">4.9543</span></div>
+          <div class="srow"><span class="sl">reference</span><div class="track"><div class="fill ref" style="width:100.0%"></div></div><span class="sv">0.0321</span></div>
+          <p class="sprog">Best of 3 blind attempts reached <b>27%</b> of the way from the trivial baseline to the reference. <span class="muted">Direction: minimize. One evaluation costs 55.2 s against a 9000 s budget.</span></p>
         </div>
       </div>
 
