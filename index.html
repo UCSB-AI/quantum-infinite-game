@@ -291,24 +291,22 @@
   .lb .track{position:relative;overflow:visible}
 
   /* ---------- contribute ---------- */
-  .vcards{display:grid;grid-template-columns:repeat(3,1fr);gap:13px;margin-bottom:34px}
-  @media(max-width:820px){.vcards{grid-template-columns:1fr}}
-  .vcard{background:var(--bg2);border:1px solid var(--line);border-radius:11px;padding:20px 19px 22px}
-  .vcard h3{font-size:1.04rem;margin-bottom:8px}
-  .vcard p{font-size:.87rem;color:var(--muted);line-height:1.55}
-  .vcard .vi{font-family:var(--mono);font-size:.68rem;letter-spacing:.13em;text-transform:uppercase;
-    color:var(--accent);margin-bottom:10px}
 
   .paths{display:grid;grid-template-columns:1fr;gap:13px}
   .path{background:var(--bg2);border:1px solid var(--line);border-radius:11px;padding:22px 21px 24px;
     display:flex;flex-direction:column}
   .path h3{font-size:1.14rem;margin-bottom:6px}
-  .path .sub{font-size:.87rem;color:var(--muted);margin-bottom:15px}
   .path ul{list-style:none;padding:0;margin:0 0 22px}
   .path li{display:flex;gap:9px;font-size:.87rem;line-height:1.5;margin-bottom:10px;break-inside:avoid}
   @media(min-width:820px){.path ul{columns:2;column-gap:46px}}
   .path li .m{color:var(--accent);flex:none;font-family:var(--mono)}
   .path .btn{margin-top:auto;align-self:flex-start}
+
+  .reasons{display:grid;grid-template-columns:repeat(3,1fr);gap:clamp(18px,3vw,34px);margin-bottom:32px}
+  @media(max-width:760px){.reasons{grid-template-columns:1fr;gap:20px}}
+  .reason{border-top:2px solid var(--accent);padding-top:12px}
+  .reason b{display:block;font-size:1rem;font-weight:600;letter-spacing:-.015em;margin-bottom:5px}
+  .reason span{font-size:.87rem;color:var(--muted);line-height:1.5}
 
   /* ---------- contributors ---------- */
   .people{display:flex;flex-wrap:wrap;gap:13px}
@@ -383,21 +381,23 @@
 
 <div id="top" class="hero">
   <div class="wrap">
-    <div class="eyebrow">UCSB AI Lab × UCSB Quantum CoDesign Lab — v0.3</div>
+    <div class="eyebrow">UCSB AI Lab × UCSB Quantum CoDesign Lab — v0.4</div>
     <h1>Quantum's Last Exam</h1>
-    <p class="lede"><span class="open">AI agents can pass professional exams. Whether they can conduct
-      research is still unknown.</span> The benchmarks needed to test it take substantial expert effort to build,
-      so in Quantum's Last Exam (QLE), we automate their construction, generating open ended, auto-scored research
-      problems. But, verifying that the benchmark is sound still requires domain experts.</p>
+    <p class="lede"><span class="open">AI agents can pass professional exams. Can they discover and carry
+      out research of their own?</span> Today's AI scientists still depend on a person to pose the meaningful
+      question, and the benchmarks that test them take expert effort to build. In Quantum's Last Exam (QLE), the agent discovers its own
+      research problems and builds the environments that score them — removing the setup cost of each new
+      problem, and accelerating autonomous research in both speed and scale. But judging whether a problem is
+      sound, and worth solving, still takes domain experts.</p>
 
-    <p class="lede">The stakes are large. An agent that can truly conduct research would reshape how science
-      advances. No scientist commands every subfield, yet <b>an AI is bound by no such limit</b>: it can reason
-      across the entire literature at once and surface connections no individual could. Measuring research ability
-      is the first step toward building that collaborator.</p>
+    <p class="lede">The stakes are large. An agent that can truly conduct research would reshape how
+      science advances: no scientist commands every subfield, but an AI can hold the whole literature at once
+      and see connections no one person is placed to find. Measuring that ability is the first step toward
+      building it.</p>
 
-    <p class="lede"><b>What we ask.</b> Review a small number of problems in your area and judge whether each is
-      valid, well-posed, open, and worth solving. Each review takes about <b>20 minutes</b>, and problems that
-      make it into the benchmark earn you <b>authorship on the paper</b>.</p>
+    <p class="lede"><b>What we ask.</b> Review a few problems in your area and judge whether each is
+      valid, well-posed, open, and worth solving. Each takes about 20 minutes, and problems that make it into
+      the benchmark earn you authorship on the paper.</p>
 
     <p class="kicker">10+ environments are live.
       <span class="hit">No frontier model has solved any of them.</span></p>
@@ -429,6 +429,38 @@
   </div>
 </div>
 
+<section id="contribute">
+  <div class="wrap">
+    <div class="sec-head stmt">
+      <span class="num">01</span>
+      <h2>Why contribute — set the gold standard for quantum research benchmarks, and for AI scientists
+        that discover their own problems</h2>
+    </div>
+
+    <div class="reasons">
+      <div class="reason"><b>Set the standard</b><span>You decide which problems are real, open, and worth
+        solving in your area — before the benchmark hardens around them.</span></div>
+      <div class="reason"><b>Authorship</b><span>Five or more accepted tasks earns authorship on the paper;
+        fewer earns a named acknowledgment.</span></div>
+      <div class="reason"><b>Built for frontier labs</b><span>Designed for the large AI and quantum labs to evaluate their agents
+        against — your subfield is represented by the tasks you validate.</span></div>
+    </div>
+
+    <div class="paths">
+      <div class="path">
+        <h3>What reviewing involves</h3>
+        <ul>
+          <li><span class="m">›</span><span>Enter a topic you care about; the pipeline generates two tasks in your subfield.</span></li>
+          <li><span class="m">›</span><span>Judge those two, plus two from another researcher's — four in all, about 20 minutes each.</span></li>
+          <li><span class="m">›</span><span>Keep giving feedback until it generates tasks you actually find interesting.</span></li>
+          <li><span class="m">›</span><span>No coding, and a worked example first. Open to faculty, postdocs, PhD students, and industry scientists.</span></li>
+        </ul>
+        <!-- TODO: replace this ngrok tunnel with the permanent annotation-platform domain -->
+        <a class="btn primary" href="https://headwear-wiring-unheated.ngrok-free.dev/static/showcase.html" target="_blank" rel="noopener">Open the annotation platform <span class="arw">→</span></a>
+      </div>
+    </div>
+  </div>
+</section>
 <section id="domains">
   <div class="wrap">
     <div class="sec-head tight">
@@ -510,7 +542,7 @@
 <section id="news">
   <div class="wrap">
     <div class="sec-head">
-      <span class="num">01</span>
+      <span class="num">02</span>
       <h2>Where the project stands</h2>
     </div>
     <div class="news">
@@ -534,7 +566,7 @@
 <section id="how">
   <div class="wrap">
     <div class="sec-head">
-      <span class="num">02</span>
+      <span class="num">03</span>
       <h2>Key features of QLE</h2>
     </div>
 
@@ -553,7 +585,7 @@
 <section id="tasks">
   <div class="wrap">
     <div class="sec-head">
-      <span class="num">03</span>
+      <span class="num">04</span>
       <h2>Samples from QLE</h2>
       <span class="tail">Published in full, exactly as generated. Nothing below has been hand-edited — not the problem, not the physics, not the scorer.</span>
     </div>
@@ -767,7 +799,7 @@
 <section id="results">
   <div class="wrap">
     <div class="sec-head">
-      <span class="num">04</span>
+      <span class="num">05</span>
       <h2>Results</h2>
     </div>
 
@@ -800,53 +832,6 @@
   </div>
 </section>
 
-<section id="contribute">
-  <div class="wrap">
-    <div class="sec-head stmt">
-      <span class="num">05</span>
-      <h2>Why contribute</h2>
-    </div>
-
-    <div class="vcards">
-      <div class="vcard">
-        <div class="vi">Set the standard</div>
-        <h3>Decide what counts</h3>
-        <p>You decide which problems are real, open, and worth solving in your area — before the benchmark
-        hardens around them.</p>
-      </div>
-      <div class="vcard">
-        <div class="vi">Named credit</div>
-        <h3>Get credited by authorship</h3>
-        <p>If five or more of your tasks make it into the benchmark, you receive authorship on the paper.
-        Contribute fewer than five, and you are duly acknowledged in the paper.</p>
-      </div>
-      <div class="vcard">
-        <div class="vi">Visibility</div>
-        <h3>Built for frontier labs</h3>
-        <p>This is a benchmark designed for the large AI and quantum labs to evaluate their agents against.
-        Your subfield is represented by the tasks you validate.</p>
-      </div>
-    </div>
-
-    <div class="subhead">What reviewing involves</div>
-    <div class="paths">
-      <div class="path">
-        <h3>For quantum researchers</h3>
-        <p class="sub">No coding required.</p>
-        <ul>
-          <li><span class="m">›</span><span>Enter a topic you care about; the pipeline generates two tasks in your subfield.</span></li>
-          <li><span class="m">›</span><span>Judge those two, plus two from another researcher's topic — four in all.</span></li>
-          <li><span class="m">›</span><span>Decide whether each is valid, well-posed, novel, and worth solving.</span></li>
-          <li><span class="m">›</span><span>Keep giving feedback until it generates tasks you actually find interesting.</span></li>
-          <li><span class="m">›</span><span>A completed worked example is provided before you start.</span></li>
-          <li><span class="m">›</span><span>Open to faculty, postdocs, PhD students, and industry scientists.</span></li>
-        </ul>
-        <!-- TODO: replace this ngrok tunnel with the permanent annotation-platform domain -->
-        <a class="btn primary" href="https://headwear-wiring-unheated.ngrok-free.dev/static/showcase.html" target="_blank" rel="noopener">Open the annotation platform <span class="arw">→</span></a>
-      </div>
-    </div>
-  </div>
-</section>
 
 <!-- TODO: the two rows below are the placeholder scores carried over from v1. Replace with
      measured results (and current model names) before this is shown as real data. -->
@@ -1039,7 +1024,7 @@
   <div class="wrap">
     <div class="labs">UCSB <span>AI Lab</span> × UCSB <span>Quantum CoDesign Lab</span></div>
     <div class="meta">
-      <span>Quantum's Last Exam — v0.3</span>
+      <span>Quantum's Last Exam — v0.4</span>
       <span>Auto-generated · Auto-scored</span>
       <!-- TODO: confirm the licences the project will actually ship under -->
       <span>Tasks &amp; data: CC BY 4.0</span>
