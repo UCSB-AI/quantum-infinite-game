@@ -425,7 +425,7 @@
     .qle-agent::before{content:"";position:absolute;inset:9px;border-radius:50%;background:var(--accent-soft);border:1px solid var(--accent);z-index:-1}
     .qle-agent::after{content:"";position:absolute;inset:-9px;border-radius:50%;border:1px solid color-mix(in srgb,var(--accent) 28%,transparent);animation:qleAgentPulse 3s ease-in-out infinite}
   
-    .qle-stage{position:absolute;left:24px;right:24px;height:136px;border:1px solid var(--line);border-radius:21px;background:color-mix(in srgb,var(--bg2) 76%,transparent)}
+    .qle-stage{position:absolute;left:24px;right:24px;height:136px;border:2px solid color-mix(in srgb, var(--ink) 40%, var(--line));;border-radius:21px;background:color-mix(in srgb,var(--bg2) 76%,transparent)}
     .qle-stage.one{top:14px;left:68px;right:68px;height:136px}
     .qle-stage.two{bottom:14px;left:42px;right:42px;height:136px}
     .qle-stage-head{position:absolute;left:20px;top:3px}
@@ -2267,7 +2267,7 @@
     transform:translate(-50%,-50%);
     pointer-events:none;
     z-index:0;
-    opacity:.16;
+    opacity:.13;
     color:#8b6845;
     mix-blend-mode:multiply;
   }
@@ -2640,6 +2640,94 @@
   @media(max-width:360px){
     .qle-panel{
       transform:scale(.50);
+      margin-bottom:-250px !important;
+    }
+  }
+
+
+
+  /* ==========================================================
+     Mobile pipeline fix
+     Keep the desktop diagram geometry intact, then scale and
+     center the entire pipeline inside the phone viewport.
+     ========================================================== */
+  @media(max-width:560px){
+    .hero-grid,
+    .hero-copy,
+    .hero-visual{
+      min-width:0 !important;
+      width:100% !important;
+      max-width:100% !important;
+    }
+
+    .hero-grid{
+      grid-template-columns:minmax(0,1fr) !important;
+    }
+
+    .hero-visual{
+      display:flex !important;
+      flex-direction:column !important;
+      align-items:center !important;
+      justify-content:flex-start !important;
+      position:relative !important;
+      min-height:0 !important;
+      margin-top:32px !important;
+      padding:0 0 36px !important;
+      overflow:hidden !important;
+    }
+
+    .qle-panel{
+      width:640px !important;
+      min-width:640px !important;
+      max-width:none !important;
+      height:500px !important;
+      flex:0 0 500px !important;
+
+      position:relative !important;
+      left:50% !important;
+      margin-left:-320px !important;
+      margin-right:0 !important;
+
+      transform:scale(.78) !important;
+      transform-origin:top center !important;
+      margin-bottom:-110px !important;
+    }
+
+    .qle-caption{
+      width:100% !important;
+      max-width:430px !important;
+      align-self:center !important;
+      margin:8px auto 0 !important;
+      padding:0 12px !important;
+      box-sizing:border-box !important;
+      text-align:center !important;
+    }
+  }
+
+  @media(max-width:480px){
+    .qle-panel{
+      transform:scale(.68) !important;
+      margin-bottom:-160px !important;
+    }
+  }
+
+  @media(max-width:430px){
+    .qle-panel{
+      transform:scale(.58) !important;
+      margin-bottom:-210px !important;
+    }
+  }
+
+  @media(max-width:390px){
+    .qle-panel{
+      transform:scale(.54) !important;
+      margin-bottom:-230px !important;
+    }
+  }
+
+  @media(max-width:360px){
+    .qle-panel{
+      transform:scale(.50) !important;
       margin-bottom:-250px !important;
     }
   }
@@ -3661,7 +3749,6 @@
   const panel = document.querySelector('.qle-panel');
   if (!panel) return;
 
-  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
   const flow1 = document.getElementById('qleFlowStage1');
   const flow2 = document.getElementById('qleFlowStage2');
   const grow1 = document.getElementById('qleGrowStage1');
@@ -3672,8 +3759,13 @@
   const flow1End = 'M18 28 C82 4 158 6 278 13';
   const flow2End = 'M10 8 C58 34 102 34 142 21 C192 5 230 8 282 25';
 
+  const isMobile = window.matchMedia('(max-width: 560px)').matches;
+  const prefersReducedMotion =
+    window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
   let timers = [];
   let isVisible = false;
+  let hasPlayedInitially = false;
 
   function clearTimers() {
     timers.forEach(clearTimeout);
@@ -3688,42 +3780,59 @@
       flow1.style.opacity = '0';
       flow1.setAttribute('d', flow1Start);
     }
+
     if (flow2) {
       flow2.style.opacity = '0';
       flow2.setAttribute('d', flow2Start);
     }
 
-    // Force the browser to commit the reset so the CSS animations
-    // restart cleanly the next time .qle-play is added.
+    // Important on iOS/WebKit: commit the reset before replaying CSS animations.
     void panel.offsetWidth;
+  }
+
+  function startSvgFlow(flow, grow, fallbackPath) {
+    if (!flow) return;
+
+    flow.style.opacity = '1';
+
+    try {
+      if (grow && typeof grow.beginElement === 'function') {
+        grow.beginElement();
+      } else {
+        flow.setAttribute('d', fallbackPath);
+      }
+    } catch (e) {
+      // Some in-app iOS browsers are inconsistent with SVG SMIL.
+      // The CSS/node animation still runs; this keeps the arrow visible.
+      flow.setAttribute('d', fallbackPath);
+    }
   }
 
   function playAnimation() {
     resetAnimation();
 
-    timers.push(setTimeout(() => {
-      panel.classList.add('qle-play');
+    // Two RAFs are more reliable than a timeout alone on mobile Safari
+    // when restarting a class-based CSS animation.
+    requestAnimationFrame(() => {
+      requestAnimationFrame(() => {
+        panel.classList.add('qle-play');
 
-      // Stage 01 rail.
-      timers.push(setTimeout(() => {
-        if (flow1 && grow1) {
-          flow1.style.opacity = '1';
-          grow1.beginElement();
-        }
-      }, 200));
+        timers.push(setTimeout(() => {
+          startSvgFlow(flow1, grow1, flow1End);
+        }, 200));
 
-      // Stage 02 rail.
-      timers.push(setTimeout(() => {
-        if (flow2 && grow2) {
-          flow2.style.opacity = '1';
-          grow2.beginElement();
-        }
-      }, 1620));
-    }, 120));
+        timers.push(setTimeout(() => {
+          startSvgFlow(flow2, grow2, flow2End);
+        }, 1620));
+      });
+    });
   }
 
-  if (reduceMotion.matches) {
+  // Keep the accessibility preference on desktop. On mobile we explicitly
+  // allow this hero sequence because it is the requested interactive visual.
+  if (prefersReducedMotion && !isMobile) {
     panel.classList.add('qle-play');
+
     if (flow1) {
       flow1.setAttribute('d', flow1End);
       flow1.style.opacity = '1';
@@ -3735,21 +3844,63 @@
     return;
   }
 
-  const observer = new IntersectionObserver((entries) => {
-    entries.forEach((entry) => {
-      if (entry.isIntersecting && !isVisible) {
-        isVisible = true;
+  // Always trigger once after load. This fixes iOS/WhatsApp in-app browsers
+  // where IntersectionObserver can miss the first transformed element state.
+  function initialPlay() {
+    if (hasPlayedInitially) return;
+    hasPlayedInitially = true;
+    isVisible = true;
+    playAnimation();
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', () => {
+      setTimeout(initialPlay, 220);
+    }, { once:true });
+  } else {
+    setTimeout(initialPlay, 220);
+  }
+
+  // Replay whenever the diagram leaves the viewport and comes back.
+  if ('IntersectionObserver' in window) {
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          if (!isVisible && hasPlayedInitially) {
+            isVisible = true;
+            playAnimation();
+          }
+        } else if (isVisible) {
+          isVisible = false;
+          resetAnimation();
+        }
+      });
+    }, {
+      threshold: 0.05,
+      rootMargin: '40px 0px 40px 0px'
+    });
+
+    // Observe the unscaled wrapper rather than the transformed panel;
+    // this is substantially more reliable on mobile WebKit.
+    observer.observe(panel.closest('.hero-visual') || panel);
+  } else {
+    // Fallback for older embedded/in-app browsers.
+    let wasInView = true;
+
+    window.addEventListener('scroll', () => {
+      const target = panel.closest('.hero-visual') || panel;
+      const rect = target.getBoundingClientRect();
+      const inView = rect.bottom > 0 && rect.top < window.innerHeight;
+
+      if (inView && !wasInView) {
+        wasInView = true;
         playAnimation();
-      } else if (!entry.isIntersecting && isVisible) {
-        isVisible = false;
+      } else if (!inView && wasInView) {
+        wasInView = false;
         resetAnimation();
       }
-    });
-  }, {
-    threshold: 0.22
-  });
-
-  observer.observe(panel);
+    }, { passive:true });
+  }
 })();
 </script>
 
