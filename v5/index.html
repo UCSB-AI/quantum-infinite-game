@@ -594,8 +594,13 @@
     }
     @media(max-width:760px){.readout{grid-template-columns:repeat(2,1fr)}.stat:nth-child(2){border-right:none}.stat:nth-child(-n+2){border-bottom:1px solid var(--line)}}
     @media(max-width:560px){
-      .hero{padding-top:42px}.hero h1{font-size:clamp(3rem,17vw,4.35rem)}
-      .hero-visual{display:none}
+      .hero{padding-top:42px}
+      .hero h1{font-size:clamp(3rem,17vw,4.35rem)}
+      .hero-visual{
+        display:flex;
+        margin-top:32px;
+        padding-bottom:36px;
+      }
       .hero-links{gap:11px 14px}
       .readout{grid-template-columns:1fr 1fr}
       .stat{padding:18px 15px}
@@ -1259,7 +1264,6 @@
     overflow:hidden;
   }
   .coled::after{
-    content:"CODICE / QLE";
     position:absolute;
     right:18px;
     bottom:10px;
@@ -2597,7 +2601,7 @@
       <div class="hero-copy">
         <div class="eyebrow">UCSB AI Lab × UCSB Quantum CoDesign Lab — v0.5</div>
         <h1>Quantum's Last Exam</h1>
-        <div class="hero-question">From answering questions to asking questions — <span class="accent">automatically.</span></div>
+        <div class="hero-question">From answering questions right to asking the right questions — <span class="accent">automatically.</span></div>
         <p class="hero-deck">A two-stage pipeline that <b>proposes research tasks</b> and <b>builds executable quantum environments</b> for scientific agents.</p>
 
         <div class="hero-status">
@@ -3387,8 +3391,7 @@
     <div class="join">
       <div class="eyebrow">Call for reviewers</div>
       <h2>A few keywords. New questions. Your judgment.</h2>
-      <p>Seed a research direction and judge the open questions the agent generates from it. Reviewers are acknowledged by name;
-        five or more accepted tasks earns co-authorship.</p>
+      <p> Shape what AI discovers next.</p>
       <div class="cta-row">
         <!-- TODO: replace this ngrok tunnel with the permanent annotation-platform domain -->
         <a class="btn primary" href="https://headwear-wiring-unheated.ngrok-free.dev/static/showcase.html" target="_blank" rel="noopener">Open the annotation platform <span class="arw">→</span></a>
@@ -3409,7 +3412,7 @@
   <div class="wrap">
     <div class="labs">UCSB <span>AI Lab</span> × UCSB <span>Quantum CoDesign Lab</span></div>
     <div class="meta">
-      <span>Quantum's Last Exam — v0.4</span>
+      <span>Quantum's Last Exam — v0.5</span>
       <span>Auto-generated · Auto-scored</span>
       <!-- TODO: confirm the licences the project will actually ship under -->
       <span>Tasks &amp; data: CC BY 4.0</span>
