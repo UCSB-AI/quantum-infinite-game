@@ -2575,6 +2575,75 @@
     color:var(--ink);
   }
 
+
+  /* ==========================================================
+     Mobile pipeline: preserve desktop geometry and scale it
+     uniformly instead of squeezing fixed-position nodes.
+     ========================================================== */
+  @media(max-width:560px){
+    .hero-visual{
+      display:flex !important;
+      flex-direction:column !important;
+      align-items:center !important;
+      justify-content:flex-start !important;
+      margin-top:32px !important;
+      padding:0 0 34px !important;
+      min-height:0 !important;
+      overflow:visible !important;
+    }
+
+    .qle-panel{
+      width:640px !important;
+      min-width:640px !important;
+      max-width:none !important;
+      height:500px !important;
+      flex:0 0 500px !important;
+      transform:scale(.78);
+      transform-origin:top center;
+      margin-bottom:-110px !important;
+    }
+
+    .qle-caption{
+      width:100% !important;
+      max-width:430px !important;
+      margin-top:8px !important;
+      padding:0 12px !important;
+    }
+
+    .qle-caption strong{
+      font-size:1rem !important;
+      line-height:1.35 !important;
+    }
+  }
+
+  @media(max-width:480px){
+    .qle-panel{
+      transform:scale(.68);
+      margin-bottom:-160px !important;
+    }
+  }
+
+  @media(max-width:430px){
+    .qle-panel{
+      transform:scale(.58);
+      margin-bottom:-210px !important;
+    }
+  }
+
+  @media(max-width:390px){
+    .qle-panel{
+      transform:scale(.54);
+      margin-bottom:-230px !important;
+    }
+  }
+
+  @media(max-width:360px){
+    .qle-panel{
+      transform:scale(.50);
+      margin-bottom:-250px !important;
+    }
+  }
+
 </style>
 </head>
 <body>
@@ -2601,7 +2670,7 @@
       <div class="hero-copy">
         <div class="eyebrow">UCSB AI Lab × UCSB Quantum CoDesign Lab — v0.5</div>
         <h1>Quantum's Last Exam</h1>
-        <div class="hero-question">From answering questions right to asking the right questions — <span class="accent">automatically.</span></div>
+        <div class="hero-question">From <span class="accent">answering </span> questions right to <span class="accent">asking </span> the right questions. </div>
         <p class="hero-deck">A two-stage pipeline that <b>proposes research tasks</b> and <b>builds executable quantum environments</b> for scientific agents.</p>
 
         <div class="hero-status">
@@ -2719,7 +2788,7 @@
                 <span class="qle-node-label">Task</span>
               </div>
 
-              <span class="qle-valid" aria-label="Task validated">Annotated</span>
+              <span class="qle-valid" aria-label="Task validated">Validated</span>
 
               <div class="qle-stage-flash" aria-hidden="true"></div>
             </div>
@@ -2787,12 +2856,12 @@
               <div class="qle-stage-flash" aria-hidden="true"></div>
             </div>
 
-            <div class="qle-handoff" aria-hidden="true"><span class="qle-side-label">task</span></div>
+            <div class="qle-handoff" aria-hidden="true"><span class="qle-side-label">proposed task</span></div>
             <div class="qle-feedback" aria-hidden="true"><span class="qle-side-label">feedback</span></div>
           </div>
         </div>
         <div class="qle-caption">
-          <strong>A blueprint for the next da Vinci = A Scientific Generalist AI.</strong>
+          <strong>A blueprint for the next da Vinci — A Scientific Generalist AI.</strong>
           <!-- <span class="qle-caption-sub">A discovery benchmark for AI agents in quantum science.</span> -->
         </div>
       </div>
@@ -3598,40 +3667,89 @@
   const grow1 = document.getElementById('qleGrowStage1');
   const grow2 = document.getElementById('qleGrowStage2');
 
-  if (reduceMotion.matches) {
+  const flow1Start = 'M18 28 C18 28 18 28 18 28';
+  const flow2Start = 'M10 8 C10 8 10 8 10 8 C10 8 10 8 10 8';
+  const flow1End = 'M18 28 C82 4 158 6 278 13';
+  const flow2End = 'M10 8 C58 34 102 34 142 21 C192 5 230 8 282 25';
+
+  let timers = [];
+  let isVisible = false;
+
+  function clearTimers() {
+    timers.forEach(clearTimeout);
+    timers = [];
+  }
+
+  function resetAnimation() {
+    clearTimers();
+    panel.classList.remove('qle-play');
+
     if (flow1) {
-      flow1.setAttribute('d', 'M18 28 C82 4 158 6 278 13');
+      flow1.style.opacity = '0';
+      flow1.setAttribute('d', flow1Start);
+    }
+    if (flow2) {
+      flow2.style.opacity = '0';
+      flow2.setAttribute('d', flow2Start);
+    }
+
+    // Force the browser to commit the reset so the CSS animations
+    // restart cleanly the next time .qle-play is added.
+    void panel.offsetWidth;
+  }
+
+  function playAnimation() {
+    resetAnimation();
+
+    timers.push(setTimeout(() => {
+      panel.classList.add('qle-play');
+
+      // Stage 01 rail.
+      timers.push(setTimeout(() => {
+        if (flow1 && grow1) {
+          flow1.style.opacity = '1';
+          grow1.beginElement();
+        }
+      }, 200));
+
+      // Stage 02 rail.
+      timers.push(setTimeout(() => {
+        if (flow2 && grow2) {
+          flow2.style.opacity = '1';
+          grow2.beginElement();
+        }
+      }, 1620));
+    }, 120));
+  }
+
+  if (reduceMotion.matches) {
+    panel.classList.add('qle-play');
+    if (flow1) {
+      flow1.setAttribute('d', flow1End);
       flow1.style.opacity = '1';
     }
     if (flow2) {
-      flow2.setAttribute('d', 'M10 8 C58 34 102 34 142 21 C192 5 230 8 282 25');
+      flow2.setAttribute('d', flow2End);
       flow2.style.opacity = '1';
     }
     return;
   }
 
-  requestAnimationFrame(() => {
-    setTimeout(() => {
-      panel.classList.add('qle-play');
-
-      // Original pre-style-change flow:
-      // Stage 01 rail begins at .20s and draws for .75s.
-      setTimeout(() => {
-        if (flow1 && grow1) {
-          flow1.style.opacity = '1';
-          grow1.beginElement();
-        }
-      }, 200);
-
-      // Stage 02 rail begins at 1.62s and draws for .82s.
-      setTimeout(() => {
-        if (flow2 && grow2) {
-          flow2.style.opacity = '1';
-          grow2.beginElement();
-        }
-      }, 1620);
-    }, 300);
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry) => {
+      if (entry.isIntersecting && !isVisible) {
+        isVisible = true;
+        playAnimation();
+      } else if (!entry.isIntersecting && isVisible) {
+        isVisible = false;
+        resetAnimation();
+      }
+    });
+  }, {
+    threshold: 0.22
   });
+
+  observer.observe(panel);
 })();
 </script>
 
