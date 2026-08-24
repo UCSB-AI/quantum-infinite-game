@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Quantum's Last Question</title>
+<title>How to contribute — Quantum's Last Question</title>
 <meta name="description" content="Researchers provide only a few keywords. An agent reviews the surrounding literature, proposes open quantum research questions, and builds executable environments around them. No human writes the task itself; reusable environments can then evaluate, train and optimize AI scientists at scale.">
 <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🔬</text></svg>">
 
@@ -3617,718 +3617,1900 @@
   }
 
 </style>
-</head>
+<style>
+  /* ===== how-to-contribute page ===== */
+  .htc-hero{padding:clamp(48px,7vw,84px) 0 clamp(30px,4vw,44px);border-bottom:1px solid var(--line)}
+  .htc-hero h1{font-size:clamp(2.1rem,5vw,3.4rem);letter-spacing:-.035em;margin:.2em 0 .3em}
+  .htc-back{font-family:var(--mono);font-size:.72rem;letter-spacing:.1em;text-transform:uppercase;color:var(--accent)}
+  .htc-back:hover{color:var(--accent-deep)}
+  .htc-sec{padding:clamp(42px,6vw,72px) 0}
+  .htc-sec + .htc-sec{border-top:1px solid var(--line)}
+  #contribute .step b{display:block;font-size:1.02rem;font-weight:600;margin-bottom:6px}
+  #contribute .step p{font-size:.9rem;color:var(--muted);line-height:1.55}
+  #contribute .step .eg{display:block;margin-top:9px;font-family:var(--mono);font-size:.74rem;
+    color:var(--ink);background:var(--bg3);border:1px solid var(--line);border-radius:6px;padding:8px 10px}
+  #contribute .step .eg span{color:var(--accent-deep)}
+
+  /* stage rail */
+  .stage-lead{font-size:.9rem;color:var(--muted);max-width:70ch;margin:-8px 0 24px}
+  .stage-tag{display:inline-flex;align-items:center;gap:8px;font-family:var(--mono);font-size:.68rem;
+    letter-spacing:.14em;text-transform:uppercase;color:var(--accent-deep);
+    background:var(--accent-soft);border:1px solid color-mix(in srgb,var(--accent) 25%,var(--line));
+    border-radius:999px;padding:5px 12px;margin-bottom:14px}
+  .stage-tag .n{font-weight:700}
+
+  /* review card */
+  .rev{background:var(--bg2);border:1px solid var(--line);border-radius:14px;box-shadow:var(--shadow);overflow:hidden}
+  .rev-body{padding:clamp(20px,3vw,32px)}
+  .rev h3.rt{font-size:clamp(1.12rem,2vw,1.42rem);line-height:1.3;margin-bottom:12px}
+  .rev .tags{display:flex;flex-wrap:wrap;gap:7px;margin-bottom:12px}
+  .rev .tags .tag{font-family:var(--mono);font-size:.68rem;color:var(--muted);
+    background:var(--bg3);border:1px solid var(--line);border-radius:5px;padding:3px 9px}
+  .rev .seed-meta{font-size:.82rem;color:var(--faint);margin-bottom:20px}
+  .rev .seed-meta strong{color:var(--muted);font-weight:600}
+  .rev-field{margin-top:20px}
+  .rev-field > h2{font-family:var(--mono);font-size:.7rem;letter-spacing:.13em;text-transform:uppercase;
+    color:var(--accent);font-weight:600;margin-bottom:9px}
+  .rev-field p,.rev-field li{font-size:.9rem;color:var(--muted);line-height:1.6}
+  .rev-field ul{margin:0;padding-left:20px}.rev-field li{margin-bottom:7px}
+
+  /* generic collapsible (secondary prose / code) */
+  .fold{margin-top:10px;border:1px solid var(--line);border-radius:9px;overflow:hidden;background:var(--bg)}
+  .fold > summary{font-family:var(--mono);font-size:.76rem;color:var(--accent);cursor:pointer;
+    padding:10px 14px;background:var(--bg3);list-style:none;display:flex;justify-content:space-between;gap:10px}
+  .fold > summary::-webkit-details-marker{display:none}
+  .fold > summary::after{content:"＋";color:var(--faint)}
+  .fold[open] > summary::after{content:"－"}
+  .fold > summary .c{color:var(--faint);font-weight:400}
+  .fold-in{padding:14px 16px}
+  .fold-in p,.fold-in li{font-size:.87rem;color:var(--muted);line-height:1.6}
+  .fold-in ul{margin:0;padding-left:20px}.fold-in li{margin-bottom:7px}
+
+  /* sources */
+  .source{border:1px solid var(--line);border-radius:9px;background:var(--bg2);padding:13px 15px;margin-top:10px}
+  .source-head{font-size:.9rem;line-height:1.4}
+  .source-head .role{display:inline-block;font-family:var(--mono);font-size:.64rem;letter-spacing:.08em;
+    text-transform:uppercase;color:var(--accent-deep);background:var(--accent-soft);border-radius:5px;padding:2px 7px;margin-right:8px}
+  .source-head strong{font-weight:600;color:var(--ink)}
+  .source-head a{color:var(--accent);border-bottom:1px solid color-mix(in srgb,var(--accent) 35%,transparent)}
+  .source .summary{font-size:.83rem;color:var(--muted);line-height:1.55;margin-top:8px}
+  .source details{margin-top:8px}
+  .source summary{font-family:var(--mono);font-size:.73rem;color:var(--accent);cursor:pointer}
+  .source details p{font-size:.82rem;color:var(--muted);line-height:1.55;margin-top:7px}
+
+  /* review axis */
+  .axis{border:1px solid var(--line);border-radius:11px;overflow:hidden;margin-top:14px;background:var(--bg2)}
+  .axis > .axis-h{display:flex;align-items:baseline;justify-content:space-between;gap:12px;
+    padding:12px 16px;background:var(--bg3);border-bottom:1px solid var(--line)}
+  .axis > .axis-h .an{font-weight:600;font-size:1rem}
+  .axis > .axis-h .rubric{font-family:var(--mono);font-size:.68rem;color:var(--muted);text-align:right}
+  .axis-in{padding:14px 16px}
+  .ai-line{display:flex;align-items:center;gap:9px;flex-wrap:wrap}
+  .ai-tag{font-family:var(--mono);font-size:.62rem;letter-spacing:.09em;text-transform:uppercase;
+    color:var(--muted);background:var(--bg3);border:1px solid var(--line);border-radius:5px;padding:2px 7px}
+  .ai-tag.warn{color:var(--amber);border-color:color-mix(in srgb,var(--amber) 40%,var(--line))}
+  .ai-score{font-size:.82rem;color:var(--muted)}.ai-score strong{color:var(--ink);font-weight:700}
+  .axis .fold{margin-top:10px}
+  .axis .fold .ai-reason,.chk .ai-reason{font-size:.83rem;color:var(--muted);line-height:1.58;margin:0}
+  .axes{list-style:none;display:flex;flex-wrap:wrap;gap:8px;padding:0;margin:10px 0 0}
+  .axes li{font-size:.78rem;color:var(--muted);display:flex;align-items:center;gap:5px}
+  .ax-pass{font-family:var(--mono);font-size:.6rem;letter-spacing:.06em;text-transform:uppercase;color:#0a7d54;
+    background:color-mix(in srgb,#0a7d54 14%,var(--bg2));border:1px solid color-mix(in srgb,#0a7d54 30%,var(--line));
+    border-radius:5px;padding:2px 6px}
+
+  /* the blank the reviewer fills */
+  .your{margin-top:14px;border:1px dashed color-mix(in srgb,var(--accent) 48%,var(--line));
+    border-radius:9px;background:var(--accent-soft);padding:13px 15px}
+  :root:not([data-theme="light"]) .your{background:color-mix(in srgb,var(--accent) 8%,var(--bg2))}
+  .your .yl{display:block;font-family:var(--mono);font-size:.64rem;letter-spacing:.09em;text-transform:uppercase;
+    color:var(--accent-deep);font-weight:600;margin-bottom:9px}
+  .pills{display:flex;flex-wrap:wrap;gap:7px}
+  .pills label{cursor:pointer}
+  .pills input{position:absolute;opacity:0;pointer-events:none}
+  .pills span{display:inline-block;font-family:var(--mono);font-size:.8rem;color:var(--muted);
+    background:var(--bg2);border:1px solid var(--line-2);border-radius:7px;padding:6px 13px;transition:.12s}
+  .pills label:hover span{border-color:var(--accent)}
+  .pills input:checked + span{background:var(--accent);color:var(--accent-ink);border-color:var(--accent);font-weight:600}
+  .your textarea{width:100%;margin-top:10px;min-height:56px;resize:vertical;font:inherit;font-size:.85rem;
+    color:var(--ink);background:var(--bg2);border:1px solid var(--line-2);border-radius:7px;padding:9px 11px}
+  .your textarea::placeholder{color:var(--faint)}
+  .your textarea:focus,.pills input:focus + span{outline:2px solid color-mix(in srgb,var(--accent) 45%,transparent);outline-offset:1px}
+
+  /* automated check row (stage 2) */
+  .chk{border:1px solid var(--line);border-radius:11px;margin-top:14px;background:var(--bg2);overflow:hidden}
+  .chk > .chk-h{padding:12px 16px;background:var(--bg3);border-bottom:1px solid var(--line);font-weight:600;font-size:.97rem}
+  .chk-in{padding:14px 16px}
+
+  /* scoreboard + code folds */
+  .scoreboard table{width:100%;border-collapse:collapse;font-size:.86rem}
+  .scoreboard th,.scoreboard td{padding:8px 10px;border-bottom:1px solid var(--line);text-align:left}
+  .scoreboard thead th{font-family:var(--mono);font-size:.66rem;letter-spacing:.08em;text-transform:uppercase;
+    color:var(--faint);font-weight:500;background:var(--bg3)}
+  .scoreboard td.num{font-family:var(--mono);text-align:right;font-variant-numeric:tabular-nums}
+  .scoreboard tr.ref{background:var(--accent-soft)}
+  .scoreboard tr.solver td:first-child{color:var(--accent-deep);font-weight:600}
+  .scoreboard-note{font-size:.78rem;color:var(--muted);margin-top:9px;font-family:var(--mono)}
+  .scoreboard-note strong{color:var(--ink)}
+  .code-fold{margin-top:10px;border:1px solid var(--line);border-radius:9px;overflow:hidden;background:var(--bg)}
+  .code-fold > summary{font-family:var(--mono);font-size:.77rem;color:var(--accent);cursor:pointer;
+    padding:10px 14px;background:var(--bg3);list-style:none}
+  .code-fold > summary::-webkit-details-marker{display:none}
+  .code-fold > summary .lines{color:var(--faint);margin-left:6px}
+  .code-fold pre{margin:0;padding:14px 16px;overflow-x:auto;font-family:var(--mono);font-size:.75rem;
+    line-height:1.5;color:var(--ink);white-space:pre;background:var(--bg)}
+  .code-fold pre.prose{white-space:pre-wrap}
+  .solver-round{margin-top:10px;border:1px solid var(--line);border-radius:9px;background:var(--bg);overflow:hidden}
+  .solver-round > summary{font-family:var(--mono);font-size:.77rem;color:var(--accent);cursor:pointer;padding:10px 14px;background:var(--bg3)}
+  .solver-round > .summary,.solver-round p.summary{font-size:.83rem;color:var(--muted);line-height:1.55;padding:12px 15px 0}
+  .solver-round .code-fold{margin:12px 15px 14px}
+  .rev-note{font-size:.84rem;color:var(--muted);margin-top:14px;line-height:1.55}
+  .rev-note a{color:var(--accent);border-bottom:1px solid color-mix(in srgb,var(--accent) 35%,transparent)}
+</style>
+
+
 <body>
 
 <header class="nav">
   <div class="wrap">
-    <a class="brand" href="#top"><span class="dot"></span>Quantum's Last Question
-    </a>
+    <a class="brand" href="index.html#top"><span class="dot"></span>Quantum's Last Question</a>
     <nav>
-      <a href="#domains">Domains</a>
-      <a href="#how">Key features</a>
-      <a href="#tasks">Tasks</a>
-      <a href="#results">Results</a>
-      <a href="#leaderboard">Leaderboard</a>
-      <a href="#contributors">Contributors</a>
-      <a href="#faq">FAQ</a>
+      <a href="index.html#domains">Domains</a>
+      <a href="index.html#how">Key features</a>
+      <a href="index.html#tasks">Tasks</a>
+      <a href="index.html#results">Results</a>
+      <a href="index.html#leaderboard">Leaderboard</a>
+      <a href="index.html#contributors">Contributors</a>
+      <a href="index.html#faq">FAQ</a>
     </nav>
     <a class="navcta" href="https://docs.google.com/forms/d/e/1FAIpQLSexRBbH09PI8zHvypUEDg5eFGUJlxLno7UM67O3VfCi96pblA/viewform" target="_blank" rel="noopener">Join us</a>
   </div>
 </header>
 
-<div id="top" class="hero">
+<div id="top" class="htc-hero">
   <div class="wrap">
-    <div class="hero-grid">
-      <div class="hero-copy">
-        <div class="eyebrow">UCSB AI Lab × UCSB Quantum CoDesign Lab — v0.5</div>
-        <h1>Quantum's Last Question</h1>
-        <div class="hero-question">From <span class="accent">answering </span> questions right to <span class="accent">asking </span> the right questions. </div>
-        <p class="hero-deck">A two-stage pipeline that <b>proposes research tasks</b> and <b>builds executable quantum environments</b> for scientific agents.</p>
+    <a class="htc-back" href="index.html#top">&larr; Quantum's Last Question</a>
+    <span class="eyebrow" style="display:block;margin-top:18px">Contribute</span>
+    <h1>How to contribute</h1>
+    <p class="lede">You never write a task. You give us two keywords, we generate open research
+    problems in your area as runnable environments, and you judge which ones are worth keeping.
+    Three steps, about <b>20 minutes</b> per problem.</p>
+  </div>
+</div>
 
-        <!-- Resource strip -->
-        <div class="res">
-          <span class="soon">GitHub</span>
-          <span class="soon">Paper</span>
-          <span class="soon">Dataset</span>
-          <a href="https://headwear-wiring-unheated.ngrok-free.dev/static/showcase.html"
-             target="_blank" rel="noopener">
-            Worked examples&nbsp;↗ <span class="lock">reviewer</span>
-          </a>
-        </div>
-
-        <div class="cta-row">
-          <a class="btn primary" href="#contribute">
-            Contribute <span class="arw">→</span>
-          </a>
-          <a class="btn" href="#tasks">See a task</a>
-        </div>
+<section id="contribute" class="htc-sec">
+  <div class="wrap">
+    <div class="sec-head tight"><h2>Three steps</h2></div>
+    <div class="reasons contribution-flow" style="margin-bottom:0">
+      <div class="reason step">
+        <span class="flow-kicker">01 / Sign up</span>
+        <b>Tell us your area</b>
+        <p>A line of email and two keywords from your subfield. That is the entire input we need from you.</p>
+        <span class="eg">keywords: <span>surface codes</span>, <span>circuit-level noise</span></span>
       </div>
+      <div class="reason step">
+        <span class="flow-kicker">02 / We generate</span>
+        <b>We build and send the tasks</b>
+        <p>Our agent reads the literature around your keywords, proposes open problems, and builds an
+        auto-scored environment for each. We send you the tasks, a link to the annotation platform,
+        and a username and password to sign in.</p>
+      </div>
+      <div class="reason step">
+        <span class="flow-kicker">03 / You review</span>
+        <b>You are the gate</b>
+        <p>For each generated problem you judge validity, novelty, and executability, and whether the
+        environment still tests it. Accepted problems enter the benchmark.</p>
+      </div>
+    </div>
+  </div>
+</section>
 
-      <div class="hero-visual" aria-label="Animated orbital diagram showing a research agent connected to key research activities">
-        <div class="qle-panel qlq-orbit-panel qlq-connected-panel">
-          <div class="qle-canvas">
-            <div class="qlq-connected-stage">
-              <svg class="qlq-connected-svg" viewBox="0 0 640 500" aria-hidden="true">
-                <g class="qlq-connected-guides">
-                  <circle cx="320" cy="250" r="182"/>
-                  <line x1="320" y1="58" x2="320" y2="442"/>
-                  <line x1="116" y1="250" x2="524" y2="250"/>
-                </g>
+<section class="htc-sec">
+  <div class="wrap">
+    <div class="sec-head">
+      <h2>What you'll review</h2>
+      <span class="tail">One real generated task, exactly as on the platform. The proposal is short up
+      top; everything secondary is tucked into <b>expandable panels</b>. The dashed boxes are yours to fill.</span>
+    </div>
 
-                <!-- Background orbit lines add atom-like depth. -->
-                <ellipse class="qlq-bg-orbit bg-a" cx="320" cy="250" rx="216" ry="124" pathLength="1000"/>
-                <ellipse class="qlq-bg-orbit bg-b" cx="320" cy="250" rx="194" ry="112" pathLength="1000"/>
+    <!-- ================= STAGE 1 ================= -->
+    <span class="stage-tag"><span class="n">Stage 1</span> &middot; The proposal you review</span>
+    <p class="stage-lead">An agent seeded with one line reads the literature and writes a full task. A
+    second agent scores it on three axes. You check those scores &mdash; the dashed boxes are the blanks you fill.</p>
 
-                <!-- Fast reconnaissance lap: a short teal sweep circles once before the workflow begins. -->
-                <ellipse class="qlq-orbit-scan-track" cx="320" cy="250" rx="228" ry="132" pathLength="1000"/>
-                <ellipse class="qlq-orbit-scan" cx="320" cy="250" rx="228" ry="132" pathLength="1000"/>
+    <div class="rev">
+      <div class="rev-body">
+        <h3 class="rt">    <h1>Reverse-engineering the learned control strategy in a numerically-optimized parametric flux-driven iSWAP gate: testing for counterdiabatic (Φ-DRAG-type) leakage suppression and sideband-resonant ripple structure</h1></h3>
+        <div class="tags"><span class="tag">qiskit-aer</span><span class="tag">cpu</span><span class="tag">3 qubits</span><span class="tag">150 min</span></div>
+        <p class="seed-meta"><strong>Seed topic:</strong> Reverse-engineering learned control strategies in parametric flux-driven iSWAP gates on asymmetric-SQUID tunable couplers</p>
 
-                <!-- Faint guide makes the two beats read as one connected system. -->
-                <path class="qlq-orbit-guide" pathLength="1000"
-                      d="M548 250
-                         A228 132 0 0 1 320 382
-                         A228 132 0 0 1 92 250
-                         A228 132 0 0 1 320 118
-                         A228 132 0 0 1 379.01 122.50"/>
+        <div class="rev-field"><h2>Motivation</h2>    <p>An expert supplied a numerically optimized flux-drive envelope e(t) (105 points at 0.5 ns, 52 ns total) for a parametric iSWAP gate on two fixed-frequency transmons coupled through an asymmetric-SQUID tunable coupler, plus a hardware parameter set. The optimizer produced a pulse whose *shape* carries non-trivial, non-white structure: an asymmetric rise/fall (6.0 ns rise vs 5.5 ns fall, ratio 1.09), a slowly-drooping plateau (-0.75e-3/ns, 3.0% total), and a STRUCTURED residual ripple (std 0.91% of plateau, lag-1 autocorrelation +0.587, spectral flatness 0.147) with a non-DC spectral peak near 0.66 GHz that lies within frequency resolution of (fq1-fq2)-alpha_2 = 0.668 GHz. The expert&#x27;s research question is whether the optimizer discovered control practices that are not analytically obvious -- counterdiabaticity being the canonical example. This task treats those measured features as falsifiable hypotheses and asks whether each corresponds to a KNOWN mechanism in the control literature (counterdiabatic/derivative-type leakage cancellation a la Φ-DRAG; AC-Stark/frequency-chirp phase compensation; sideband/leakage-resonance cancellation via a Floquet-engineered oscillatory term). Because the raw shape of an optimized pulse is not directly interpretable, we reverse-engineer it by decomposing the envelope into physically-motivated components and testing, in closed- and open-system simulation of the actual device Hamiltonian, which components are actually responsible for fidelity and leakage.</p></div>
 
-                <!-- Semantic discovery orbit: Literature -> Build ENV -> Solve -> Score -> Next Question. -->
-                <path class="qlq-orbit-main" pathLength="1000"
-                      d="M548 250
-                         A228 132 0 0 1 320 382
-                         A228 132 0 0 1 92 250
-                         A228 132 0 0 1 320 118
-                         A228 132 0 0 1 379.01 122.50"/>
-                <path class="qlq-orbit-head" pathLength="1000"
-                      d="M548 250
-                         A228 132 0 0 1 320 382
-                         A228 132 0 0 1 92 250
-                         A228 132 0 0 1 320 118
-                         A228 132 0 0 1 379.01 122.50"/>
-              </svg>
+        <div class="rev-field">
+          <details class="fold"><summary>Deliverables <span class="c">6 items</span></summary><div class="fold-in">    <ul><li>A documented three-level (qubit-qubit-coupler, 3 levels each =&gt; 27-dim; truncatable) Hamiltonian model built from the supplied parameters, with all quantities NOT specified by the expert (coupler frequency fq_c / Ej_c and DC bias, drive frequency w_d, physical scale of e(t) in units of Phi0, T1/T2) entered as explicitly declared assumptions with stated physical justification and swept over a documented range; the report must show which conclusions are robust to these assumptions and which are not.</li><li>A signal-processing decomposition module that reproduces the expert&#x27;s reported measurements (rise/fall asymmetry, plateau droop slope, detrended ripple std, lag-1 autocorrelation, spectral flatness, and the residual spectral peak location) directly from the given 105-point array, as a validated starting point.</li><li>An ablation/reconstruction study: build a parametric surrogate envelope e_hat(t) = [smooth edge model (e.g. Slepian/erf rise+fall with independent rise/fall widths)] + [linear plateau droop] + [single-tone sinusoidal ripple at frequency f_r with amplitude/phase], fit it to the given array, then simulate the gate for (a) the full given pulse, (b) e_hat with each component individually removed (flat edges, no droop, no ripple, symmetric edges), and report iSWAP process fidelity and total leakage out of the computational subspace for each ablation.</li><li>A counterdiabatic-hypothesis test: compute the theoretical Φ-DRAG / derivative-type flux correction and the leading adiabatic-gauge-potential (nested-commutator) term for the modeled avoided crossing traversed during the gate, and quantitatively compare its predicted edge-shaping and any oscillatory &#x27;Floquet-engineered CD&#x27; component against the measured rise/fall asymmetry and ripple; report correlation and whether the measured feature is consistent with, distinguishable from, or unrelated to the CD prediction.</li><li>A sideband/frequency-matching test: sweep the injected ripple frequency f_r across a window bracketing fq1-fq2 (0.485 GHz), alpha_2 (0.183 GHz) and (fq1-fq2)-alpha_2 (0.668 GHz), and determine whether a ripple near ~0.66 GHz measurably suppresses leakage/coherent error relative to detuned ripple, testing the hypothesis that the optimizer parked ripple energy on a specific leakage/sideband resonance.</li><li>A written explanation, for the expert, of each candidate learned technique with its mechanism and a reference list mapping each observed pulse feature to prior-art control concepts (counterdiabatic driving, Φ-DRAG for flux gates, Floquet-engineered CD, AC-Stark/chirp compensation, fast-adiabatic edge design), clearly flagging which identifications are supported by the simulation evidence and which remain hypotheses.</li></ul></div></details>
+          <details class="fold"><summary>Success criteria <span class="c">6 items</span></summary><div class="fold-in">    <ul><li>The decomposition module reproduces the expert-reported statistics to within stated tolerances (rise/fall widths to +/-0.5 ns, plateau slope sign and magnitude within 20%, ripple std within 20%, and the residual spectral peak located within the 0.024 GHz frequency resolution), establishing a trustworthy baseline.</li><li>The simulated full-pulse iSWAP achieves a self-consistent high-fidelity operating point (process fidelity reported; the number itself depends on the declared unknowns, so success is defined as a documented operating point that is stable under the declared-assumption sweep, NOT a fixed fidelity threshold).</li><li>Each ablation yields a quantified change in fidelity AND leakage with uncertainty, so that the causal role of edge-asymmetry, plateau droop, and ripple is individually established (e.g. &#x27;removing edge asymmetry increases leakage by X, removing ripple changes leakage by Y&#x27;).</li><li>A clear, evidence-backed verdict for the counterdiabatic hypothesis: either the measured edge-shaping/ripple is quantitatively consistent with the computed Φ-DRAG / adiabatic-gauge-potential correction (report the agreement metric), or it is shown to be inconsistent, or the data are declared insufficient to decide -- with the reason stated.</li><li>A clear verdict on the sideband-resonance hypothesis: whether leakage is minimized when ripple frequency sits near (fq1-fq2)-alpha_2 versus detuned, quantified across the frequency sweep.</li><li>All conclusions are accompanied by a sensitivity statement identifying which of the undeclared parameters (fq_c, w_d, e(t) scale, T1/T2) they depend on, so the expert can see what would need to be pinned down experimentally to make each identification definitive.</li></ul></div></details>
+          <details class="fold"><summary>Baselines <span class="c">5 items</span></summary><div class="fold-in">    <ul><li>The given optimized 105-point envelope simulated as-is (reference performance).</li><li>A featureless flat-top pulse with the same smooth rise/fall but no plateau droop and no ripple (null model isolating whether structure matters).</li><li>An analytic Φ-DRAG flux-tuned iSWAP pulse constructed per Georgiadis et al. 2026 as the counterdiabatic &#x27;textbook&#x27; comparison.</li><li>A fast-adiabatic / shortcut-to-adiabaticity edge profile (STA CZ/iSWAP style, cf. Wang et al. 2018) as an alternative analytic edge-shaping baseline.</li><li>A symmetric-edge variant of the fitted surrogate (rise width = fall width) to test whether the 1.09 asymmetry is functionally meaningful or incidental.</li></ul></div></details>
+          <details class="fold"><summary>Sources <span class="c">22 papers</span></summary><div class="fold-in">
+                <div class="source">
+      <div class="source-head">
+        <span class="role"><strong>Role:</strong> motivates</span>
+        <strong>Parametrically Driven iSWAP Gate Using a Capacitively Shunted Double-Transmon Coupler at the Zero-Flux Sweet Spot</strong> (2026) <a href="https://www.semanticscholar.org/paper/951163ef841dbba6371f32feec4a3d45351eeff0" target="_blank" rel="noopener">link</a>
+      </div>
+      <p class="summary"><strong>Summary:</strong> Directly matches the physical setting: a parametrically flux-driven iSWAP between fixed-frequency, detuned transmons via a coupler. Establishes that a modeled flux-drive waveform reproduces both spectral and time-domain gate dynamics, validating the simulate-from-parameters approach the task uses.</p>
+      <details><summary>Abstract</summary><p>A double-transmon coupler (DTC) enables a fast, high-fidelity CZ gate between two highly detuned, fixed-frequency transmon qubits... we experimentally demonstrate a parametrically driven iSWAP gate operated at zero flux bias between highly detuned, fixed-frequency transmon qubits coupled through a CSDTC. Using a simple flux-drive waveform without predistortion, we realize an average gate fidelity of 99.92(2)% at a total gate time of 112 ns... Our numerical simulations reproduce the experimentally observed iSWAP interaction rate and effective ZZ interaction, demonstrating the applicability of the theoretical model not only to spectral information but also to time-domain dynamics.</p></details>
+    </div>
+                <div class="source">
+      <div class="source-head">
+        <span class="role"><strong>Role:</strong> provides method</span>
+        <strong>Simple analytical flux-tuned iSWAP pulses for leakage suppression</strong> (2026) <a href="https://www.semanticscholar.org/paper/ecbf2d14851781b29e46d5c3cc66c278f29fa881" target="_blank" rel="noopener">link</a>
+      </div>
+      <p class="summary"><strong>Summary:</strong> This is the central counterdiabatic-type analytic method for exactly this class of gate. Provides the Φ-DRAG flux-correction formula the task computes and compares against the measured edge-asymmetry/ripple; also serves as an analytic baseline pulse.</p>
+      <details><summary>Abstract</summary><p>Tunable coupler architectures provide a flexible approach for implementing entangling gates through flux control... fast flux modulation can induce diabatic transitions and population leakage. Here we present an analytical flux control method enabling derivative removal by adiabatic gate (Φ-DRAG) for suppressing leakage in flux tunable two-qubit gates. We show that Φ-DRAG differs fundamentally from conventional microwave implementations and derive modified flux modulation protocols that suppress leakage below 1e-4 for fast entangling gates.</p></details>
+    </div>
+                <div class="source">
+      <div class="source-head">
+        <span class="role"><strong>Role:</strong> defines gap</span>
+        <strong>Uncovering Latent Structures in Robust Pulse Sequences: A Model-Based Reinforcement Learning Approach for Adaptable Quantum Control</strong> (2026) <a href="https://www.semanticscholar.org/paper/49731d48dfa9cf6c7fb005aebbf4da1cf9febaa7" target="_blank" rel="noopener">link</a>
+      </div>
+      <p class="summary"><strong>Summary:</strong> Directly frames the gap: optimized pulses contain latent, structured, physically-meaningful features that can be uncovered and identified. Motivates the reverse-engineering methodology of decomposing an optimized pulse into interpretable components.</p>
+      <details><summary>Abstract</summary><p>...We present an approach to robust optimal quantum control based on model-based reinforcement learning... Beyond speed, the network reveals structure in the control landscape: it discovers the same structured phase profiles that appear in GRAPE solutions -- made identifiable through fidelity-invariant symmetry transformations -- but more consistently than independent optimization.</p></details>
+    </div>
+            <p class="rev-note">&hellip; and 19 more, each tagged by role (motivates, provides method, defines gap, related baseline).</p>
+          </div></details>
+        </div>
 
-              <div class="qlq-core-hub">
-                <strong>RESEARCH<br>AGENT</strong>
-              </div>
-
-              <div class="qlq-ring-node node-question">
-                <div class="qlq-ring-core highlight">
-                  <svg viewBox="0 0 24 24" aria-hidden="true">
-                    <path d="M9.5 9a2.8 2.8 0 1 1 4.8 2c-.9.8-1.7 1.4-1.7 2.5"/>
-                    <circle cx="12" cy="18" r="1"/>
-                  </svg>
-                </div>
-                <span class="qlq-ring-label emphasis">Next Question</span>
-              </div>
-
-              <div class="qlq-ring-node node-literature">
-                <div class="qlq-ring-core">
-                  <svg viewBox="0 0 24 24" aria-hidden="true">
-                    <path d="M5 6h14M5 12h14M5 18h9"/>
-                  </svg>
-                </div>
-                <span class="qlq-ring-label">Literature<br>Review</span>
-              </div>
-
-              <div class="qlq-ring-node node-build">
-                <div class="qlq-ring-core">
-                  <svg viewBox="0 0 24 24" aria-hidden="true">
-                    <rect x="5" y="5" width="14" height="14" rx="2"/>
-                    <path d="M2 9h3M2 15h3M19 9h3M19 15h3"/>
-                  </svg>
-                </div>
-                <span class="qlq-ring-label">Build ENV</span>
-              </div>
-
-              <div class="qlq-ring-node node-solve">
-                <div class="qlq-ring-core">
-                  <svg viewBox="0 0 24 24" aria-hidden="true">
-                    <circle cx="12" cy="12" r="7"/>
-                    <path d="M12 5v14M5 12h14"/>
-                  </svg>
-                </div>
-                <span class="qlq-ring-label">Solve</span>
-              </div>
-
-              <div class="qlq-ring-node node-score">
-                <div class="qlq-ring-core">
-                  <svg viewBox="0 0 24 24" aria-hidden="true">
-                    <path d="M4 17l5-6 4 3 7-9"/>
-                  </svg>
-                </div>
-                <span class="qlq-ring-label">Score</span>
+        <div class="rev-field" style="margin-top:28px">
+          <h2>Your review &mdash; check the AI's three scores</h2>
+          
+          <div class="axis">
+            <div class="axis-h"><span class="an">Validity</span><span class="rubric">      0 = invalid (contradiction / ill-posed / violates QM) · 1 = valid</span></div>
+            <div class="axis-in">
+              <div class="ai-line"><span class="ai-tag">AI reviewer</span><span class="ai-score">scored <strong>1</strong></span></div>
+              <details class="fold"><summary>AI reviewer's reasoning</summary><div class="fold-in"><p class="ai-reason">        The task is internally consistent and physically well-posed. It proposes to build a standard time-dependent multi-transmon-plus-coupler Hamiltonian (three qutrits, 27-dim), decompose a supplied optimized flux-drive envelope into physically-motivated components (edges, droop, ripple), perform closed/open-system simulations, and test two falsifiable hypotheses (counterdiabatic/Φ-DRAG edge-shaping and sideband-resonance ripple placement). None of these steps contradict quantum mechanics; process fidelity and leakage out of the computational subspace are well-defined, measurable quantities in simulation, and the ablation/sweep methodology is a legitimate way to establish the causal role of each pulse feature. The success criteria are explicitly designed to be measurable: decomposition statistics reproduced to stated tolerances, ablation changes quantified with uncertainty, and clear verdicts (consistent / inconsistent / undecidable) for each hypothesis. Notably, the task correctly handles the expert&#x27;s unspecified parameters (coupler frequency, drive frequency, e(t) scale, T1/T2) by declaring them as swept assumptions and requiring every conclusion to carry a sensitivity statement rather than claiming a fixed fidelity — this avoids the trap of an ill-posed &#x27;achieve fidelity X&#x27; target when the underlying scale is unknown. This is under-specification handled honestly, not a contradiction. No violation of any fundamental principle and no self-contradiction is present, so the task is VALID.</p></div></details>
+              <div class="your">
+                <span class="yl">Your verdict &mdash; do you agree?</span>
+                <div class="pills"><label><input type="radio" name="val"><span>0 &middot; invalid</span></label><label><input type="radio" name="val"><span>1 &middot; valid</span></label></div>
+                <textarea placeholder="Optional: where the AI is wrong, or what it missed."></textarea>
               </div>
             </div>
           </div>
+          
+          <div class="axis">
+            <div class="axis-h"><span class="an">Novelty</span><span class="rubric">      5 = original · 4 = minor similarity · 3 = partial overlap · 2 = combined borrowing · 1 = direct copy</span></div>
+            <div class="axis-in">
+              <div class="ai-line"><span class="ai-tag">AI reviewer</span><span class="ai-score">scored <strong>4</strong> / 5</span></div>
+              <details class="fold"><summary>AI reviewer's reasoning</summary><div class="fold-in"><p class="ai-reason">        The proposal&#x27;s individual mechanistic ingredients are all well-established prior art: Φ-DRAG flux-tuned iSWAP leakage suppression (Georgiadis et al. ecbf2d14, the direct analytic baseline and the exact gate class), nested-commutator/Floquet-engineered adiabatic-gauge-potential CD (Claeys/Pandey/Sels/Polkovnikov e2c9e5c3), Berry transitionless driving (4593ceef), the COLD bridge between optimal control and CD (Cepaite a78e0a28), the demonstration that RL/optimizers rediscover CD structure (Yao/Bukov c505c39f), active leakage cancellation via a tone parked at a leakage transition (Chiaro/Zhang a9092bd5), frequency-domain spectral pulse tuning for leakage (FAST DRAG, Hyyppa 7def57bf), and the parametric-iSWAP error budgets (Han 5aa92c07, Sete 07c5774d, Inoue 951163ef). Most tellingly, Kiermeyer et al. (49731d48) already frames and executes the *same core idea*—uncovering latent, physically-identifiable structure in optimized pulses—albeit on a single-spin system via symmetry transformations rather than device-Hamiltonian ablation. However, no single prior paper performs the specific proposed methodology: taking an actual numerically-optimized flux envelope for this asymmetric-SQUID-coupler iSWAP, decomposing its measured envelope statistics (rise/fall asymmetry, plateau droop, structured ~0.66 GHz ripple matching (fq1-fq2)-alpha2) into physically-motivated components, and running ablation + CD-prediction correlation + sideband frequency-sweep tests in a device-specific 27-dim simulation with declared-unknown sensitivity analysis to falsifiably attribute each feature to a named control mechanism. This reverse-engineering/diagnostic framing—treating optimized-pulse fingerprints as falsifiable hypotheses mapped to a catalog of CD/Φ-DRAG/sideband prior art—is an original experimental design rather than a one-to-one copy of any one or two works, but it leans heavily on the conceptual scaffolding of 49731d48 and the mechanism catalog of the CD/DRAG literature. It is more than mere mix-and-match because the workflow itself is a genuine contribution, so it lands at Minor Similarity (4) rather than Combined Borrowing or full originality.</p></div></details>
+              <div class="your">
+                <span class="yl">Your score &mdash; 1 (copy) to 5 (original)</span>
+                <div class="pills"><label><input type="radio" name="nov"><span>1</span></label><label><input type="radio" name="nov"><span>2</span></label><label><input type="radio" name="nov"><span>3</span></label><label><input type="radio" name="nov"><span>4</span></label><label><input type="radio" name="nov"><span>5</span></label></div>
+                <textarea placeholder="Optional: the closest prior work you know of."></textarea>
+              </div>
+            </div>
+          </div>
+          
+          <div class="axis">
+            <div class="axis-h"><span class="an">Executability</span><span class="rubric">      0 = not executable on target hardware · 1 = executable</span></div>
+            <div class="axis-in">
+              <div class="ai-line"><span class="ai-tag">AI reviewer</span><span class="ai-score">scored <strong>1</strong></span></div>
+              <details class="fold"><summary>AI reviewer's reasoning</summary><div class="fold-in"><p class="ai-reason">        The task is a purely simulation-based study: a 3-qutrit (27-dimensional, but qubit_count=3, well within the 28-qubit ceiling) time-dependent Hamiltonian simulation, signal-processing decomposition of a supplied 105-point array, ablation studies, counterdiabatic-term computation, and a frequency sweep. It targets qiskit-aer on CPU, requires no real quantum hardware, no wet lab, and no human-only steps. The runtime estimate of 150 minutes is within the [1,180]-minute window, and there is no requirement for multi-GPU or distributed statevector simulation. All work is executable by an AI coding agent.</p></div></details>
+              <div class="your">
+                <span class="yl">Your verdict &mdash; runnable within the budget?</span>
+                <div class="pills"><label><input type="radio" name="exe"><span>0 &middot; not executable</span></label><label><input type="radio" name="exe"><span>1 &middot; executable</span></label></div>
+                <textarea placeholder="Optional: any resource or setup concern."></textarea>
+              </div>
+            </div>
+          </div>
+
+          <div class="your" style="margin-top:18px">
+            <span class="yl">Overall &mdash; should this proposal move to an environment?</span>
+            <div class="pills">
+              <label><input type="radio" name="ov1"><span>accept</span></label>
+              <label><input type="radio" name="ov1"><span>revise</span></label>
+              <label><input type="radio" name="ov1"><span>reject</span></label>
+            </div>
+            <textarea placeholder="Optional: one line on why."></textarea>
+          </div>
         </div>
-
-        <div class="qle-caption">
-          <strong>A blueprint for the next da Vinci — A Scientific Generalist AI.</strong>
-        </div>
-      </div>
-      </div>
-    </div>
-  </div>
-
-  <div class="readout">
-    <div class="stat"><div class="k">0</div><div class="l">human-written tasks</div></div>
-    <div class="stat"><div class="k">10<span class="u">+</span></div><div class="l">live environments</div></div>
-    <div class="stat"><div class="k">0</div><div class="l">frontier solves</div></div>
-    <div class="stat"><div class="k">42<span class="u">%</span></div><div class="l">best agent progress</div></div>
-    <p class="budget">≤ <b>28 qubits</b> · &lt; <b>3 hours</b> · <b>one workstation</b> · no quantum hardware</p>
-  </div>
-</div>
-
-<section id="contribute">
-  <div class="wrap">
-    <div class="sec-head tight">
-      <h2>Research Begins With One Word.</h2>
-    </div>
-
-    <div class="reasons contribution-flow">
-      <div class="reason">
-        <span class="flow-kicker">01 / SEED</span>
-        <b>Set the Direction</b>
-        <span>A topic, method, phenomenon, or bottleneck — not a fully written research problem.</span>
-      </div>
-      <div class="reason">
-        <span class="flow-kicker">02 / DISCOVER</span>
-        <b>Agent Finds the Gap</b>
-        <span>QLE searches the surrounding literature for unresolved directions that can become research tasks.</span>
-      </div>
-      <div class="reason">
-        <span class="flow-kicker">03 / VALIDATE</span>
-        <b>Decide What Matters</b>
-        <span>Judge novelty, validity, and whether the question is scientifically worth pursuing.</span>
       </div>
     </div>
 
-    <div class="review-cta">
-      <div class="review-copy">
-        <h3 class="review-role-title">Your judgment is the gate.</h3>
-        <h4>Only accepted questions move forward.</h4>
-        <p>Rejected questions are refined or regenerated before they become executable environments.</p>
-        <span>** Five or more accepted tasks earns authorship on our paper **</span>
-      </div>
-      <!-- TODO: replace this ngrok tunnel with the permanent annotation-platform domain -->
-      <div class="review-actions">
-        <a class="btn primary" href="how-to-contribute.html">How to contribute <span class="arw">→</span></a>
-        <a class="btn" href="https://docs.google.com/forms/d/e/1FAIpQLSexRBbH09PI8zHvypUEDg5eFGUJlxLno7UM67O3VfCi96pblA/viewform" target="_blank" rel="noopener">Sign up</a>
-      </div>
-    </div>
-  </div>
-</section>
-<section id="domains">
-  <div class="wrap">
-    <div class="sec-head tight">
-      <h2>Domains</h2>
-    </div>
-    <p class="sec-lead wide">Nine seed subfields so far. We publish a sample of the live environments here — <a href="#contribute">your field is welcome next</a>.</p>
-  </div>
+    <!-- ================= STAGE 2 ================= -->
+    <span class="stage-tag" style="margin-top:44px"><span class="n">Stage 2</span> &middot; The environment built from it</span>
+    <p class="stage-lead">The same proposal, turned into a runnable, auto-scored environment. The scores
+    are up top; the actual code is in expandable panels. Two checks are automated &mdash; the third is yours.</p>
 
-  <div class="marquee">
-    <div class="mtrack" id="mtrack">
-      <!-- tiles injected twice by script for a seamless loop -->
-    </div>
-  </div>
-</section>
-<div class="coledband">
-  <div class="wrap">
-    <div class="coled">
-      <svg class="campus" viewBox="0 0 560 200" fill="none" stroke="currentColor"
-           stroke-width="1.15" stroke-linejoin="round" aria-hidden="true" focusable="false">
-        <!-- far-left blocks -->
-        <path d="M0 190v-56h34v-14h28v70"/>
-        <path d="M6 146h50M6 158h50M6 170h50" stroke-opacity=".45"/>
-        <path d="M12 134v-8M28 134v-8M44 134v-8" stroke-opacity=".4"/>
-
-        <path d="M66 190v-74h26v74"/>
-        <path d="M72 126h14M72 140h14M72 154h14M72 168h14" stroke-opacity=".45"/>
-
-        <!-- Storke Tower: flat-capped concrete shaft, tall carillon slots, full-height fins -->
-        <path d="M98 190V18h34v172"/>
-        <path d="M94 18h42v-10H94z"/>
-        <path d="M104 30h6v66h-6zM112 30h6v66h-6zM120 30h6v66h-6z"/>
-        <path d="M98 104h34M98 112h34" stroke-opacity=".6"/>
-        <path d="M106.5 112v78M115 112v78M123.5 112v78" stroke-opacity=".4"/>
-
-        <!-- Davidson Library: stepped modernist block -->
-        <path d="M146 190v-72h28v-22h54v22h24v72"/>
-        <path d="M154 128h94M154 142h94M154 156h94M154 170h94" stroke-opacity=".45"/>
-        <path d="M180 118V96M204 118V96M228 118V96" stroke-opacity=".4"/>
-
-        <!-- engineering blocks -->
-        <path d="M258 190v-60h48v-14h30v74"/>
-        <path d="M264 142h70M264 156h70M264 170h70" stroke-opacity=".45"/>
-
-        <path d="M344 190v-88h40v88"/>
-        <path d="M350 112h28M350 126h28M350 140h28M350 154h28M350 168h28" stroke-opacity=".45"/>
-
-        <path d="M392 190v-44h44v44"/>
-        <path d="M398 158h32M398 172h32" stroke-opacity=".45"/>
-
-        <path d="M444 190v-66h34v-12h30v78"/>
-        <path d="M450 136h52M450 150h52M450 164h52M450 178h52" stroke-opacity=".45"/>
-        <path d="M462 124v-8M486 112v12" stroke-opacity=".4"/>
-
-        <path d="M514 190v-52h46v52"/>
-        <path d="M520 150h34M520 164h34M520 178h34" stroke-opacity=".45"/>
-
-        <!-- ground -->
-        <path d="M0 190h560" stroke-opacity=".65"/>
-      </svg>
-      <div class="cl">Co-led by</div>
-      <div class="coledrow">
-        <a class="lockup" href="http://nlp.cs.ucsb.edu/" target="_blank" rel="noopener">
-          <img src="assets/ucsb-ai.png" alt="" width="420" height="406">
-          <span class="name">UCSB AI</span>
-        </a>
-        <span class="coledx" aria-hidden="true">&times;</span>
-        <a class="lockup" href="https://qcd-lab.cs.ucsb.edu" target="_blank" rel="noopener">
-          <img src="assets/qcd-lab.png" alt="" width="360" height="296">
-          <span class="name">UCSB Quantum CoDesign Lab</span>
-        </a>
-      </div>
-    </div>
-  </div>
-</div>
-
-
-<!-- TODO: dates were removed rather than guessed. Once confirmed, put a mono
-     [MM/DD/YYYY] label back at the start of each .nrow and retitle to "Latest news". -->
-<section id="news">
-  <div class="wrap">
-    <div class="sec-head">
-      <h2>Where the project stands</h2>
-    </div>
-    <div class="news">
-      <div class="nrow">
-        <span class="t"><b>Five worked examples released.</b> Complete task records and evaluation environments are now browsable end to end.</span>
-      </div>
-      <div class="nrow">
-        <span class="t"><b>Call for reviewers opens.</b> Quantum researchers across four continents are joining the expert-review stage.</span>
-      </div>
-      <div class="nrow">
-        <span class="t"><b>Quantum control enters the benchmark.</b> Two tasks now ask agents to
-          reverse-engineer a numerically optimized flux-drive envelope and decide whether the optimizer
-          rediscovered counterdiabatic driving.</span>
-      </div>
-    </div>
-  </div>
-</section>
-
-<section id="how">
-  <div class="wrap">
-    <div class="sec-head">
-      <h2>What makes QLE different</h2>
-    </div>
-
-    <div class="diff">
-      <div class="dcell"><div class="di">Reusable</div><h3>More than a benchmark</h3><p>Each environment can be reused to evaluate, train, and optimize scientific agents.</p></div>
-      <div class="dcell"><div class="di">Auto-scored</div><h3>No human grading</h3><p>Each task ships as a runnable environment with a reference and a trivial baseline.</p></div>
-      <div class="dcell"><div class="di">Contamination-resistant</div><h3>Answers unknown</h3><p>Questions are open at creation time. Nothing to memorize from training data.</p></div>
-      <div class="dcell"><div class="di">Self-hardening</div><h3>Difficulty scales</h3><p>The setter diagnoses how the last agent won, then rebuilds the environment to close that shortcut.</p></div>
-      <div class="dcell"><div class="di">Reproducible</div><h3>Bounded by design</h3><p>Tasks run on a single workstation under explicit compute, qubit, and time budgets.</p></div>
-      <div class="dcell"><div class="di">Discovery-focused</div><h3>Research, not recall</h3><p>Measures the ability to propose and build a solution, not to retrieve a fact.</p></div>
-    </div>
-  </div>
-</section>
-
-
-<section id="tasks">
-  <div class="wrap">
-    <div class="sec-head">
-      <h2>Samples from QLE</h2>
-      <span class="tail">Five complete examples, including the task, scorer, baselines, and solver trace.</span>
-    </div>
-
-    <div class="qwrap">
-      <!-- ===== task 3 ===== -->
-      <div class="qcard on" data-i="2">
-        <div class="qtop">
-          <span class="qdomain">Quantum metrology</span>
-          <span class="qid mono">bench_metro2 · round 3</span>
-          <span class="qconstraints"><span>qiskit-aer</span><span>cpu</span><span>8 qubits</span><span>40 min</span></span>
+    <div class="rev">
+      <div class="rev-body">
+        <div class="rev-field" style="margin-top:0"><h2>What the pipeline had to do</h2>
+          <p>The proposal asked for six deliverables. A program can only score one number, so stage&nbsp;2
+          reduces them to a single figure of merit and writes a scorer for it. The question you check is
+          whether what survived is still the proposed problem.</p>
         </div>
-        <h3>Variational design of noise-robust probe states via quantum Fisher information maximization</h3>
-        <p class="qseed"><b>Seed topic:</b> quantum metrology</p>
-        <div class="qbody">
-          <p>Quantum metrology maximizes parameter-estimation precision, and the quantum Fisher information is the
-          fundamental figure of merit. Prior work shows variational circuits can discover metrologically useful
-          states under noise, but no compact, simulator-ready task isolates probe-state design under explicit depth
-          and connectivity constraints. This one does.</p>
-          <p style="margin-top:12px">An 8-qubit sensing model with collective-$Z$ generator $H=\sum_i Z_i$.
-          A 4-layer hardware-efficient ansatz $V(\alpha)$ — RY then RZ on every qubit, then a ring of CZ
-          entanglers — gives 64 trainable parameters. Phase encoding $U(\theta)=e^{-i\theta H}$ at working point
-          $\theta_0=0$, followed by independent local dephasing with Kraus operators
-          $K_0=\sqrt{1-p}\,I$, $K_1=\sqrt{p}\,Z$ at $p=0.10$.</p>
 
-          <span class="lbl">Figure of merit</span>
-          <div class="fom">$$\max_{\alpha}\; F_Q\!\left(\rho_{\theta_0}(\alpha),\,H\right),\qquad
-          |0\rangle^{\otimes 8}\xrightarrow{V(\alpha)}\xrightarrow{U(\theta_0)}\xrightarrow{\Lambda_p^{\otimes 8}}\rho_{\theta_0}(\alpha)$$
-          <p style="font-size:.82rem;margin-top:9px;color:var(--muted)">The harness exposes <em>no</em> black-box QFI oracle. The agent must build the circuit, apply the noise channel, and implement the mixed-state spectral QFI formula itself.</p></div>
-        </div>
-        <div class="qchips">
-          <span class="chip">VALIDITY <b>1/1</b></span>
-          <span class="chip">NOVELTY <b>2/5</b></span>
-          <span class="chip">EXECUTABILITY <b>1/1</b></span>
-        </div>
-        <div class="scale">
-          <div class="slegend"><span>bar = progress from trivial to reference</span><span class="sv">raw score</span></div>
-          <div class="srow"><span class="sl">trivial</span><div class="track"><div class="fill trivial" style="width:0.0%"></div></div><span class="sv">0.0000</span></div>
-          <div class="srow"><span class="sl">solver agent</span><div class="track"><div class="fill" style="width:37.3%"></div></div><span class="sv">11.0022</span></div>
-          <div class="srow"><span class="sl">reference</span><div class="track"><div class="fill ref" style="width:100.0%"></div></div><span class="sv">29.4603</span></div>
-          <p class="sprog">Best of 3 blind attempts reached <b>37%</b> of the way from the trivial baseline to the reference. <span class="muted">Direction: maximize. One evaluation costs 0.8 s against a 2400 s budget.</span></p>
-        </div>
-      </div>
-
-      <!-- ===== task 4 ===== -->
-      <div class="qcard" data-i="3">
-        <div class="qtop">
-          <span class="qdomain">Hamiltonian simulation</span>
-          <span class="qid mono">bench_ham1 · round 3</span>
-          <span class="qconstraints"><span>qiskit-aer</span><span>cpu</span><span>10 qubits</span><span>20 min</span></span>
-        </div>
-        <h3>Low-depth digital Hamiltonian simulation for a fixed 1D spin chain via circuit design</h3>
-        <p class="qseed"><b>Seed topic:</b> Hamiltonian simulation</p>
-        <div class="qbody">
-          <p>Design a shallow quantum circuit that approximates fixed-time evolution under a standard 1D spin
-          Hamiltonian within near-term depth constraints, and optimize it for simulation fidelity on a simulator.
-          Practically relevant, with a clear metric and no hardware access.</p>
-          <p style="margin-top:12px">The hidden instance is a transverse-field Ising chain deliberately skewed so
-          that interaction terms dominate — invalidating the near-symmetric angle schedules that generic
-          QAOA/Trotter ansätze fall back on. Fidelity is averaged over a 24-state XZ-product ensemble to prevent
-          overfitting to a single basis.</p>
-
-          <span class="lbl">Figure of merit</span>
-          <div class="fom">$$H=-J\sum_i Z_iZ_{i+1}-h\sum_i X_i,\qquad J=1.0,\;h=0.35,\;t=2.3$$
-          $$\min\;\mathcal{L}=1-\overline{\left|\langle\psi_k|\,C^{\dagger}e^{-iHt}\,|\psi_k\rangle\right|^{2}}$$
-          <p style="font-size:.82rem;margin-top:9px;color:var(--muted)">A first-order Trotter step with unscaled angles gives $\mathcal{L}\approx0.33$; the tuned depth-4 brickwork reference reaches $\approx0.08$.</p></div>
-        </div>
-        <div class="qchips">
-          <span class="chip">VALIDITY <b>1/1</b></span>
-          <span class="chip">NOVELTY <b>2/5</b></span>
-          <span class="chip">EXECUTABILITY <b>1/1</b></span>
-        </div>
-        <div class="scale">
-          <div class="slegend"><span>bar = progress from trivial to reference</span><span class="sv">raw score</span></div>
-          <div class="srow"><span class="sl">trivial</span><div class="track"><div class="fill trivial" style="width:0.0%"></div></div><span class="sv">0.9989</span></div>
-          <div class="srow"><span class="sl">solver agent</span><div class="track"><div class="fill" style="width:42.1%"></div></div><span class="sv">0.7630</span></div>
-          <div class="srow"><span class="sl">reference</span><div class="track"><div class="fill ref" style="width:100.0%"></div></div><span class="sv">0.4385</span></div>
-          <p class="sprog">Best of 3 blind attempts reached <b>42%</b> of the way from the trivial baseline to the reference — the highest any agent has managed on this benchmark. <span class="muted">Direction: minimize. One evaluation costs 0.6 s against a 1200 s budget.</span></p>
-        </div>
-      </div>
-
-      <!-- ===== task 5 ===== -->
-      <div class="qcard" data-i="4">
-        <div class="qtop">
-          <span class="qdomain">Hamiltonian simulation</span>
-          <span class="qid mono">bench_ham2 · round 3</span>
-          <span class="qconstraints"><span>qiskit-aer</span><span>cpu</span><span>10 qubits</span><span>30 min</span></span>
-        </div>
-        <h3>Learning entanglement-aware Trotter step allocation for 1D spin-chain Hamiltonian simulation</h3>
-        <p class="qseed"><b>Seed topic:</b> Hamiltonian simulation</p>
-        <div class="qbody">
-          <p>Product-formula methods still dominate practical simulation on NISQ and early fault-tolerant devices,
-          yet rigorous step-number bounds are worst-case and vastly overestimate resources. Recent theory shows
-          Trotter error can scale with entanglement and commutator structure rather than system size — but these
-          bounds are hard to exploit instance by instance.</p>
-          <p style="margin-top:12px">The task asks for a classical learning-based policy that, given a fixed 1D
-          spin-chain Hamiltonian and target time, outputs a <em>non-uniform</em> allocation of Trotter steps across
-          local terms and time slices, minimizing the actual simulation error measured on an exact statevector
-          simulator within a strict qubit budget.</p>
-
-          <span class="lbl">Figure of merit</span>
-          <div class="fom">$$\min\;\tfrac{1}{2}\left\|\,\rho_{\text{exact}}-\rho_{\text{Trotter}}\,\right\|_1
-          \quad\text{s.t.}\quad \textstyle\sum_j r_j \le R_{\max}$$
-          <p style="font-size:.82rem;margin-top:9px;color:var(--muted)">Trace distance between the true and simulated states under a fixed total gate budget $R_{\max}$, allocated non-uniformly across terms.</p></div>
-        </div>
-        <div class="qchips">
-          <span class="chip">VALIDITY <b>1/1</b></span>
-          <span class="chip hot">NOVELTY <b>4/5</b></span>
-          <span class="chip">EXECUTABILITY <b>1/1</b></span>
-        </div>
-        <div class="scale">
-          <div class="slegend"><span>bar = progress from trivial to reference</span><span class="sv">raw score</span></div>
-          <div class="srow"><span class="sl">trivial</span><div class="track"><div class="fill trivial" style="width:0.0%"></div></div><span class="sv">0.9962</span></div>
-          <div class="srow"><span class="sl">solver agent</span><div class="track"><div class="fill zero" style="width:0.0%"></div></div><span class="sv">0.9994</span></div>
-          <div class="srow"><span class="sl">reference</span><div class="track"><div class="fill ref" style="width:100.0%"></div></div><span class="sv">0.2713</span></div>
-          <p class="sprog"><span class="unsolved">Unsolved.</span> The best of 3 blind attempts scored <b class="unsolved">worse than the trivial baseline</b> — the most novel task in the set, and no agent has moved it at all. <span class="muted">Direction: minimize. One evaluation costs 6.5 s against a 1800 s budget.</span></p>
-        </div>
-      </div>
-
-      <!-- ===== task 1 ===== -->
-      <div class="qcard" data-i="0">
-        <div class="qtop">
-          <span class="qdomain">Quantum control</span>
-          <span class="qid mono">flux_iswap_1 · round 1</span>
-          <span class="qconstraints"><span>qiskit-aer</span><span>cpu</span><span>3 qubits</span><span>150 min</span></span>
-        </div>
-        <h3>Reverse-engineering the learned control strategy in a numerically-optimized parametric flux-driven iSWAP gate</h3>
-        <p class="qseed"><b>Seed topic:</b> Reverse-engineering learned control strategies in parametric flux-driven iSWAP gates on asymmetric-SQUID tunable couplers</p>
-        <div class="qbody">
-          <p>An expert supplied a numerically optimized flux-drive envelope $e(t)$ — 105 points at 0.5 ns,
-          52 ns total — for a parametric iSWAP gate between two fixed-frequency transmons coupled through an
-          asymmetric-SQUID tunable coupler. The optimizer produced a pulse whose <em>shape</em> carries
-          non-white structure: asymmetric rise/fall (6.0 ns vs 5.5 ns), a drooping plateau
-          ($-0.75\times10^{-3}$ per ns), and a structured residual ripple (lag-1 autocorrelation $+0.587$,
-          spectral flatness $0.147$) peaking near 0.66 GHz — within frequency resolution of
-          $(f_{q1}-f_{q2})-\alpha_2 = 0.668$ GHz.</p>
-          <p style="margin-top:12px">The research question: did the optimizer discover a control practice that is not
-          analytically obvious? The task treats each measured feature as a falsifiable hypothesis and asks whether it
-          corresponds to a known mechanism — counterdiabatic ($\Phi$-DRAG-type) leakage cancellation, AC-Stark phase
-          compensation, or Floquet-engineered sideband cancellation.</p>
-
-          <span class="lbl">Figure of merit</span>
-          <div class="fom">$$\text{score} = 0.30\,s_{\text{stats}} + 0.35\,s_{\text{abl}} + 0.20\,s_{\text{side}} + 0.15\,s_{\text{cd}}$$
-          <p style="font-size:.82rem;margin-top:9px;color:var(--muted)">Decomposition statistics, causal ablation leakage via 27-dimensional Hamiltonian propagation, sideband-resonance argmin, and the counterdiabatic agreement metric.</p></div>
-        </div>
-        <div class="qchips">
-          <span class="chip">VALIDITY <b>1/1</b></span>
-          <span class="chip hot">NOVELTY <b>4/5</b></span>
-          <span class="chip">EXECUTABILITY <b>1/1</b></span>
-        </div>
-        <div class="scale">
-          <div class="slegend"><span>bar = progress from trivial to reference</span><span class="sv">raw score</span></div>
-          <div class="srow"><span class="sl">trivial</span><div class="track"><div class="fill trivial" style="width:0.0%"></div></div><span class="sv">0.4712</span></div>
-          <div class="srow"><span class="sl">solver agent</span><div class="track"><div class="fill" style="width:13.9%"></div></div><span class="sv">0.5324</span></div>
-          <div class="srow"><span class="sl">reference</span><div class="track"><div class="fill ref" style="width:100.0%"></div></div><span class="sv">0.9100</span></div>
-          <p class="sprog">Best of 3 blind attempts reached <b>14%</b> of the way from the trivial baseline to the reference. <span class="muted">Direction: maximize. One evaluation costs 5.3 s against a 9000 s budget.</span></p>
-        </div>
-      </div>
-
-      <!-- ===== task 2 ===== -->
-      <div class="qcard" data-i="1">
-        <div class="qtop">
-          <span class="qdomain">Quantum control</span>
-          <span class="qid mono">flux_iswap_2 · round 1</span>
-          <span class="qconstraints"><span>qiskit-aer</span><span>cpu</span><span>9 qubits</span><span>150 min</span></span>
-        </div>
-        <h3>Is the structured plateau ripple an effective counterdiabatic / flux-DRAG leakage-suppression term?</h3>
-        <p class="qseed"><b>Seed topic:</b> Reverse-engineering learned control strategies in parametric flux-driven iSWAP gates on asymmetric-SQUID tunable couplers</p>
-        <div class="qbody">
-          <p>The same envelope, attacked from the other side. Two literatures suggest the structure is not an
-          artifact: effective counterdiabatic driving can be absorbed as high-frequency modulation of the existing
-          control field at frequencies set by inter-level gaps, and flux-tuned DRAG ($\Phi$-DRAG) supplies an
-          analytic leakage-suppression correction unique to flux rather than microwave control.</p>
-          <p style="margin-top:12px">The agent must build the three-transmon circuit-QED model
-          ($f_{q1}=5.163$ GHz, $f_{q2}=4.678$ GHz, $\alpha_1=-0.200$ GHz, $\alpha_2=-0.183$ GHz), propagate the
-          105-point envelope in a 27-dimensional Hilbert space, reconstruct the effective iSWAP exchange rate
-          $J_{\text{eff}}$ from a Bessel-sideband effective Hamiltonian, and run a pre-registered ablation study
-          that notches out the 0.66 GHz component, symmetrizes the ramps, and removes the droop.</p>
-
-          <span class="lbl">Figure of merit</span>
-          <div class="fom">$$\text{verdict}_X=\frac{\overline{|\,\text{infid}_{\text{ablate}(X)}-\text{infid}_{\text{base}}\,|}}{\overline{|\,\text{infid}_{\text{white}}-\text{infid}_{\text{base}}\,|}}$$
-          <p style="font-size:.82rem;margin-top:9px;color:var(--muted)">Each envelope feature is classified functional or inert against a matched-variance white-noise null model. Six scored components; total error is minimized.</p></div>
-        </div>
-        <div class="qchips">
-          <span class="chip">VALIDITY <b>1/1</b></span>
-          <span class="chip hot">NOVELTY <b>4/5</b></span>
-          <span class="chip">EXECUTABILITY <b>1/1</b></span>
-        </div>
-        <div class="scale">
-          <div class="slegend"><span>bar = progress from trivial to reference</span><span class="sv">raw score</span></div>
-          <div class="srow"><span class="sl">trivial</span><div class="track"><div class="fill trivial" style="width:0.0%"></div></div><span class="sv">6.7524</span></div>
-          <div class="srow"><span class="sl">solver agent</span><div class="track"><div class="fill" style="width:26.8%"></div></div><span class="sv">4.9543</span></div>
-          <div class="srow"><span class="sl">reference</span><div class="track"><div class="fill ref" style="width:100.0%"></div></div><span class="sv">0.0321</span></div>
-          <p class="sprog">Best of 3 blind attempts reached <b>27%</b> of the way from the trivial baseline to the reference. <span class="muted">Direction: minimize. One evaluation costs 55.2 s against a 9000 s budget.</span></p>
-        </div>
-      </div>
-
-      <div class="qnav">
-        <button id="qprev" aria-label="Previous task">←</button>
-        <button id="qnext" aria-label="Next task">→</button>
-        <span class="qcount" id="qcount">1 / 5</span>
-        <span class="qdots" id="qdots"></span>
-      </div>
-    </div>
-
-    <p class="tnote">Full chain for every task — seed, proposal, AI review, scorer source, and the solving agent's
-      attempts — is browsable in the <a href="https://headwear-wiring-unheated.ngrok-free.dev/static/showcase.html" target="_blank" rel="noopener" style="color:var(--accent)">worked examples</a>.</p>
-  </div>
-</section>
-
-<section id="results">
-  <div class="wrap">
-    <div class="sec-head">
-      <h2>Results</h2>
-    </div>
-
-    <div class="tablewrap">
+        <div class="rev-field"><h2>Where everything scored</h2>    <div class="scoreboard">
       <table>
-        <thead>
-          <tr>
-            <th>Task</th><th>Domain</th><th style="text-align:right">Trivial</th>
-            <th style="text-align:right">Solver agent</th><th style="text-align:right">Reference</th>
-            <th style="text-align:right">Progress ↑</th><th style="text-align:right">Novelty</th>
-          </tr>
-        </thead>
+        <thead><tr><th></th><th>score</th><th>what it is</th></tr></thead>
         <tbody>
-          <tr><td>bench_ham1</td><td class="muted">Hamiltonian simulation</td><td class="num">0.9989</td><td class="num">0.7630</td><td class="num">0.4385</td><td class="prog">42%</td><td class="num">2/5</td></tr>
-          <tr><td>bench_metro2</td><td class="muted">Quantum metrology</td><td class="num">0.0000</td><td class="num">11.0022</td><td class="num">29.4603</td><td class="prog">37%</td><td class="num">2/5</td></tr>
-          <tr><td>flux_iswap_2</td><td class="muted">Quantum control</td><td class="num">6.7524</td><td class="num">4.9543</td><td class="num">0.0321</td><td class="prog">27%</td><td class="num">4/5</td></tr>
-          <tr><td>flux_iswap_1</td><td class="muted">Quantum control</td><td class="num">0.4712</td><td class="num">0.5324</td><td class="num">0.9100</td><td class="prog">14%</td><td class="num">4/5</td></tr>
-          <tr><td>bench_ham2</td><td class="muted">Hamiltonian simulation</td><td class="num">0.9962</td><td class="num">0.9994</td><td class="num">0.2713</td><td class="prog zero">0%</td><td class="num">4/5</td></tr>
+          <tr><td>trivial</td><td class="num">0.4712</td>
+              <td>hidden naive baseline the environment must beat</td></tr>
+          <tr class="solver"><td>solver agent</td><td class="num">0.5324</td>
+              <td>best of 3 blind attempts</td></tr>
+          <tr class="ref"><td>reference</td><td class="num">0.9100</td>
+              <td>hidden strong baseline the agent is measured against</td></tr>
         </tbody>
       </table>
-    </div>
-    <!-- TODO: extend this table as the remaining live environments have their traces published -->
-    <p class="tnote">Five of the live environments with published traces · Solver agent: best of 3 blind attempts · Progress normalized so trivial = 0% and reference = 100% · Novelty scored 1–5 by an independent reviewing agent (5 = original)</p>
+      <p class="scoreboard-note">
+        Direction: <strong>maximize</strong>. One evaluation costs 5.3 s against a 9000 s budget. 
+        Sandbox guard trips: 0.
+      </p>
+    </div></div>
+
+        <div class="rev-field"><h2>The environment, in full</h2>
+              <details class="code-fold">
+      <summary>TASK.md <span class="lines">66 lines</span></summary>
+      <pre class="code prose"># Reverse-engineering a learned parametric flux-driven iSWAP control strategy
+
+An expert supplied a numerically-optimized flux-drive envelope `e(t)` (105 points at 0.5 ns, 52 ns total) for a parametric iSWAP gate on two fixed-frequency transmons coupled through an asymmetric-SQUID tunable coupler, plus a hardware parameter set. Your job is to reverse-engineer what the optimizer discovered by (a) decomposing the envelope into physically-motivated components, (b) simulating the device Hamiltonian to establish which components causally control fidelity/leakage (ablation study), (c) adjudicating the counterdiabatic (Φ-DRAG / adiabatic-gauge-potential) hypothesis, and (d) adjudicating the sideband-resonance hypothesis by a ripple-frequency sweep.
+
+You are given the envelope and hardware parameters at call time. You must SIMULATE the actual three-transmon device Hamiltonian (qubit-qubit-coupler, 3 levels each; truncatable) yourself to measure causal effects; you may not read the ground truth.
+
+## Objective / direction
+
+A single scalar `score` in `[0, 1]` is returned; **direction = maximize**. It aggregates the agreement between YOUR submitted estimates and the hidden ground truth for:
+1. The six decomposition statistics measured from the given 105-point array.
+2. The causal ablation effects on leakage (removing edge asymmetry, removing droop, removing ripple), computed by simulating the device Hamiltonian.
+3. The sideband-resonance verdict: which injected ripple frequency (over a swept window) minimizes leakage.
+4. The counterdiabatic-consistency verdict: whether the measured edge/ripple structure is quantitatively consistent with the computed Φ-DRAG / AGP correction.
+
+## Interface (identical every round)
+
+Implement in `sandbox/solution.py`:
+
+```python
+def analyze(envelope, params):
+    &quot;&quot;&quot;
+    envelope: 1D numpy array, length 105, the flux-drive envelope e(t) sampled at dt=0.5 ns.
+    params: dict of hardware parameters (see below).
+
+    Returns a dict with keys:
+      &#x27;stats&#x27;: dict with float keys
+          &#x27;rise_ns&#x27;, &#x27;fall_ns&#x27;, &#x27;droop_slope_per_ns&#x27;, &#x27;ripple_std_frac&#x27;,
+          &#x27;lag1_autocorr&#x27;, &#x27;spectral_flatness&#x27;, &#x27;ripple_peak_ghz&#x27;
+      &#x27;ablation_leakage&#x27;: dict with float keys giving TOTAL leakage (population out of the
+          2-qubit computational subspace at t_gate) for each variant, obtained by simulating
+          the device Hamiltonian:
+          &#x27;full&#x27;          : the given pulse as-is
+          &#x27;no_asymmetry&#x27;  : surrogate with rise width = fall width
+          &#x27;no_droop&#x27;      : surrogate with flat plateau
+          &#x27;no_ripple&#x27;     : surrogate with ripple removed
+      &#x27;sideband_min_ghz&#x27;: float, the injected-ripple frequency (GHz) that minimizes leakage,
+          found by sweeping f_r over the provided window and simulating each.
+      &#x27;cd_consistent&#x27;: int in {-1, 0, 1}
+          +1 = measured edge/ripple structure is quantitatively consistent with the computed
+               Φ-DRAG/AGP counterdiabatic correction;
+           0 = data insufficient / undecidable;
+          -1 = inconsistent / unrelated.
+    &quot;&quot;&quot;
+    raise NotImplementedError
+```
+
+`params` contains: `f_q1_ghz`, `f_q2_ghz`, `alpha1_ghz`, `alpha2_ghz`, `g1c_ghz`, `g2c_ghz`,
+`fc_ghz`, `alphac_ghz`, `t_gate_ns`, `dt_ns`, `levels`, `phi_scale`, `w_d_ghz`,
+`sideband_window_ghz` (list of candidate ripple frequencies to sweep for the sideband test).
+
+The coupler unknowns (`fc_ghz`, `alphac_ghz`), the drive frequency (`w_d_ghz`) and the flux
+scale (`phi_scale`) are SUPPLIED so that everyone simulates the same device; you must still
+build and propagate the Hamiltonian to measure causal effects. Leakage = 1 - (population
+remaining in the 4-dim {|00&gt;,|01&gt;,|10&gt;,|11&gt;} subspace at t_gate), starting from a state in the
+computational subspace and averaged over the computational basis states as specified by the
+harness convention (start from |01&gt;, the state that undergoes exchange).
+
+## How to run
+
+`python evaluate.py` writes `sandbox/solution.py`&#x27;s result through the harness and prints the score.
+
+## Notes
+- qubits &lt;= 3; framework qiskit-aer available; CPU; whole job &lt;= 150 min.
+- Build the Hamiltonian sparse and PROPAGATE THE STATE (do not exponentiate full operators repeatedly). 3 levels/mode =&gt; 27-dim.
+- Fit out single-qubit Z phases before any fidelity claim (not scored directly, but affects your own diagnostics).
+</pre>
+    </details>
+              <details class="code-fold">
+      <summary>eval/harness.py <span class="lines">384 lines</span></summary>
+      <pre class="code">import os, sys, importlib.util
+import numpy as np
+import scipy.sparse as sp
+import scipy.sparse.linalg as spla
+
+# ---------------------------------------------------------------------------
+# The harness is the ONLY file that reaches into eval/. It loads the solution
+# from ../sandbox/solution.py by path, builds the hidden device instance,
+# computes ground truth, and scores agreement with the solution&#x27;s estimates.
+# ---------------------------------------------------------------------------
+
+HERE = os.path.dirname(os.path.abspath(__file__))
+SOL = os.path.join(HERE, &#x27;..&#x27;, &#x27;sandbox&#x27;, &#x27;solution.py&#x27;)
+
+# ---- hidden construction of the given envelope (NOT scored on constants) ----
+# These constants are used ONLY to synthesize the array the solver receives.
+# The solver is NEVER scored on recovering these; it is scored on statistics it
+# measures from the array and on causal simulation of the Hamiltonian.
+SEED = 20240117
+N = 105
+DT = 0.5  # ns
+T_GATE = 52.0
+_TRUE_RISE = 6.0
+_TRUE_FALL = 5.5
+_TRUE_DROOP = -0.75e-3  # per ns, on plateau (fraction of plateau amplitude)
+_TRUE_RIPPLE_STD = 0.0091
+_TRUE_RIPPLE_F = 0.66  # GHz
+
+PARAMS = {
+    &#x27;f_q1_ghz&#x27;: 4.800,
+    &#x27;f_q2_ghz&#x27;: 4.315,
+    &#x27;alpha1_ghz&#x27;: -0.200,
+    &#x27;alpha2_ghz&#x27;: -0.183,
+    &#x27;g1c_ghz&#x27;: 0.090,
+    &#x27;g2c_ghz&#x27;: 0.090,
+    &#x27;fc_ghz&#x27;: 6.200,
+    &#x27;alphac_ghz&#x27;: -0.250,
+    &#x27;t_gate_ns&#x27;: T_GATE,
+    &#x27;dt_ns&#x27;: DT,
+    &#x27;levels&#x27;: 3,
+    &#x27;phi_scale&#x27;: 1.0,
+    &#x27;w_d_ghz&#x27;: 0.485,   # (f_q1-f_q2); coupling modulated at this rate (RWA)
+    &#x27;sideband_window_ghz&#x27;: [0.30, 0.42, 0.485, 0.55, 0.62, 0.668, 0.72, 0.80],
+}
 
 
-  </div>
-</section>
+def _erf(x):
+    # vectorized erf via scipy would need import; use tanh-based smooth edge
+    # but keep it deterministic and monotone.
+    return np.vectorize(lambda v: math_erf(v))(x)
 
 
-<!-- TODO: the two rows below are the placeholder scores carried over from v1. Replace with
-     measured results (and current model names) before this is shown as real data. -->
-<section id="leaderboard">
-  <div class="wrap">
-    <div class="sec-head">
-      <h2>Leaderboard</h2>
-      <span class="tail">Frontier models, average progress across live environments: trivial baseline (0%) to reference solution (100%).</span>
-    </div>
-    <div class="lb">
-      <p class="headline">No model is near the human best on <b>QLE</b>.</p>
-      <p class="muted" style="max-width:62ch;font-size:.9rem">Average progress across live environments.
-        Preliminary placeholder scores — full evaluation in progress.</p>
-      <div class="rows">
-        <div class="lbrow">
-          <div class="lbtop"><span>Claude Opus 4.8 <span class="mono muted">· Anthropic</span></span><span class="pc">3.4%</span></div>
-          <div class="track"><div class="fill" style="width:3.4%"></div><div class="refmark"></div></div>
+def math_erf(v):
+    import math
+    return math.erf(v)
+
+
+def _make_envelope():
+    rng = np.random.default_rng(SEED)
+    t = np.arange(N) * DT
+    # rise/fall via erf edges
+    t0_r = _TRUE_RISE
+    t0_f = T_GATE - _TRUE_FALL
+    sig_r = _TRUE_RISE / 2.5631
+    sig_f = _TRUE_FALL / 2.5631
+    rise = 0.5 * (1 + _erf((t - t0_r) / (np.sqrt(2) * sig_r)))
+    fall = 0.5 * (1 - _erf((t - t0_f) / (np.sqrt(2) * sig_f)))
+    edge = rise * fall
+    # plateau droop (linear) applied only on plateau region
+    plateau_mask = (t &gt; t0_r) &amp; (t &lt; t0_f)
+    droop = np.ones_like(t)
+    tc = np.where(plateau_mask, t - t0_r, 0.0)
+    droop = 1.0 + _TRUE_DROOP * tc
+    base = edge * droop
+    # structured ripple: single tone + AR(1) coloring to give lag-1 corr ~ +0.59
+    tone = np.cos(2 * np.pi * _TRUE_RIPPLE_F * t + 0.7)
+    ar = np.zeros(N)
+    a = 0.55
+    noise = rng.normal(0, 1, N)
+    for i in range(1, N):
+        ar[i] = a * ar[i - 1] + noise[i]
+    ar = ar / (np.std(ar) + 1e-12)
+    ripple = (0.7 * tone + 0.3 * ar)
+    ripple = ripple / (np.std(ripple) + 1e-12)
+    ripple = ripple * _TRUE_RIPPLE_STD
+    # ripple gated to plateau
+    ripple = ripple * plateau_mask.astype(float)
+    e = base * (1.0 + ripple)
+    e = np.clip(e, 0.0, None)
+    return e.astype(float)
+
+
+# ---- device Hamiltonian (three transmons, `levels` levels each) -------------
+def _op(levels, which, nmodes):
+    # annihilation on mode `which` (0=q1,1=q2,2=coupler)
+    a = sp.diags(np.sqrt(np.arange(1, levels)), 1, format=&#x27;csr&#x27;)
+    I = sp.identity(levels, format=&#x27;csr&#x27;)
+    ops = []
+    for m in range(nmodes):
+        ops.append(a if m == which else I)
+    out = ops[0]
+    for m in range(1, nmodes):
+        out = sp.kron(out, ops[m], format=&#x27;csr&#x27;)
+    return out
+
+
+def _build_static(params):
+    L = params[&#x27;levels&#x27;]
+    nm = 3
+    a1 = _op(L, 0, nm); a2 = _op(L, 1, nm); ac = _op(L, 2, nm)
+    n1 = a1.conj().T @ a1; n2 = a2.conj().T @ a2; nc = ac.conj().T @ ac
+    w1 = 2*np.pi*params[&#x27;f_q1_ghz&#x27;]
+    w2 = 2*np.pi*params[&#x27;f_q2_ghz&#x27;]
+    wc = 2*np.pi*params[&#x27;fc_ghz&#x27;]
+    al1 = 2*np.pi*params[&#x27;alpha1_ghz&#x27;]
+    al2 = 2*np.pi*params[&#x27;alpha2_ghz&#x27;]
+    alc = 2*np.pi*params[&#x27;alphac_ghz&#x27;]
+    H0 = (w1*n1 + 0.5*al1*(a1.conj().T@a1.conj().T@a1@a1)
+          + w2*n2 + 0.5*al2*(a2.conj().T@a2.conj().T@a2@a2)
+          + wc*nc + 0.5*alc*(ac.conj().T@ac.conj().T@ac@ac))
+    g1c = 2*np.pi*params[&#x27;g1c_ghz&#x27;]
+    g2c = 2*np.pi*params[&#x27;g2c_ghz&#x27;]
+    Hc = g1c*(a1.conj().T@ac + ac.conj().T@a1) + g2c*(a2.conj().T@ac + ac.conj().T@a2)
+    # exchange operator between q1 and q2 (activated parametrically)
+    Hx = (a1.conj().T@a2 + a2.conj().T@a1)
+    return (H0 + Hc).tocsr(), Hx.tocsr()
+
+
+def _index(params, occ):
+    L = params[&#x27;levels&#x27;]
+    return occ[0]*L*L + occ[1]*L + occ[2]
+
+
+def _propagate(env, params):
+    &quot;&quot;&quot;Propagate |01&gt; under H0 + J(t)*Hx, J(t) ~ phi_scale * env * g_par.
+    Returns leakage = 1 - population in the 4-dim {q1,q2} computational subspace
+    (coupler in ground state) at t_gate. State propagation only (no full expm of operators).
+    &quot;&quot;&quot;
+    L = params[&#x27;levels&#x27;]
+    dim = L**3
+    H0, Hx = _build_static(params)
+    # effective parametric exchange rate scale (RWA, coupling modulated at w_d)
+    # chosen so plateau gives ~pi/2 exchange over the gate; phi_scale multiplies.
+    g_par = 2*np.pi * params[&#x27;phi_scale&#x27;] * 0.0155
+    dt = params[&#x27;dt_ns&#x27;]
+    nsteps = len(env)
+    psi = np.zeros(dim, dtype=complex)
+    psi[_index(params, (0,1,0))] = 1.0
+    # subspace indices for computational states (coupler=0)
+    comp = [_index(params,(0,0,0)), _index(params,(0,1,0)),
+            _index(params,(1,0,0)), _index(params,(1,1,0))]
+    # Move to rotating-ish frame implicitly: use full H with time-dep J.
+    # Use small sub-steps of Krylov exp for accuracy but cheaply (27-dim).
+    for k in range(nsteps):
+        J = g_par * env[k]
+        H = (H0 + J*Hx).tocsc()
+        psi = spla.expm_multiply(-1j*H*dt, psi)
+    pop_comp = sum(abs(psi[i])**2 for i in comp)
+    leak = 1.0 - float(pop_comp)
+    return max(0.0, min(1.0, leak))
+
+
+# ---- surrogate variants for ablation ground truth ---------------------------
+def _fit_and_variants(env):
+    &quot;&quot;&quot;Return dict of variant envelopes: full, no_asymmetry, no_droop, no_ripple.
+    Built by a fixed decomposition procedure so ground truth is well-defined.
+    &quot;&quot;&quot;
+    t = np.arange(N) * DT
+    # estimate edges by 10-90 crossing on a smoothed copy
+    sm = np.convolve(env, np.ones(5)/5, mode=&#x27;same&#x27;)
+    peak = np.median(np.sort(sm)[-30:])
+    def cross(arr, lo, hi, rising):
+        idx = np.where((arr[:-1] &lt; lo*peak) &amp; (arr[1:] &gt;= lo*peak))[0] if rising else \
+              np.where((arr[:-1] &gt;= lo*peak) &amp; (arr[1:] &lt; lo*peak))[0]
+        return idx
+    # simple: reconstruct erf edges from measured widths
+    rise_ns, fall_ns = _measure_edges(env)
+    t0_r = rise_ns
+    t0_f = T_GATE - fall_ns
+    def edge_from(rw, fw):
+        sr = rw/2.5631; sf = fw/2.5631
+        r = 0.5*(1+_erf((t-t0_r)/(np.sqrt(2)*sr)))
+        f = 0.5*(1-_erf((t-t0_f)/(np.sqrt(2)*sf)))
+        return r*f
+    plateau_mask = (t &gt; t0_r) &amp; (t &lt; t0_f)
+    droop_slope = _measure_droop(env, plateau_mask, peak)
+    tc = np.where(plateau_mask, t - t0_r, 0.0)
+    droop_prof = 1.0 + droop_slope * tc
+    edge_full = edge_from(rise_ns, fall_ns) * peak
+    # ripple = detrended residual on plateau
+    base_full = edge_full * droop_prof
+    ripple = np.zeros(N)
+    ripple[plateau_mask] = env[plateau_mask] - base_full[plateau_mask]
+    full = base_full + ripple
+    no_ripple = base_full
+    no_droop = edge_full  # flat plateau (droop removed), keep ripple? remove ripple too? 
+    no_droop = edge_full + ripple
+    avg = 0.5*(rise_ns+fall_ns)
+    no_asym = edge_from(avg, avg)*peak*droop_prof + ripple
+    return {&#x27;full&#x27;: full, &#x27;no_asymmetry&#x27;: no_asym,
+            &#x27;no_droop&#x27;: no_droop, &#x27;no_ripple&#x27;: no_ripple}
+
+
+def _measure_edges(env):
+    t = np.arange(N)*DT
+    peak = np.median(np.sort(env)[-30:])
+    half = 0.5*peak
+    # rise: first crossing above half from left
+    ri = np.argmax(env &gt;= half)
+    rise_ns = t[ri]
+    # 10-90 style width -&gt; approximate erf width; use distance from 0.1 to 0.9
+    def frac_time(fr, side):
+        lvl = fr*peak
+        if side == &#x27;rise&#x27;:
+            idx = np.argmax(env &gt;= lvl)
+            return t[idx]
+        else:
+            idx = len(env)-1-np.argmax(env[::-1] &gt;= lvl)
+            return t[idx]
+    r10 = frac_time(0.1,&#x27;rise&#x27;); r90 = frac_time(0.9,&#x27;rise&#x27;)
+    f90 = frac_time(0.9,&#x27;fall&#x27;); f10 = frac_time(0.1,&#x27;fall&#x27;)
+    rise_w = max(0.5, (r90 - r10))
+    fall_w = max(0.5, (f10 - f90))
+    # convert 10-90 to characteristic center-time proxy; report widths directly
+    return rise_w*1.0 + 4.4, fall_w*1.0 + 4.0  # approx map to erf-edge centre width used above
+
+
+def _measure_droop(env, plateau_mask, peak):
+    t = np.arange(N)*DT
+    tp = t[plateau_mask]; ep = env[plateau_mask]/peak
+    if len(tp) &lt; 3:
+        return 0.0
+    A = np.vstack([tp - tp[0], np.ones_like(tp)]).T
+    coef, *_ = np.linalg.lstsq(A, ep, rcond=None)
+    return float(coef[0])
+
+
+# ---------------------------- scoring ---------------------------------------
+def _ground_truth():
+    env = _make_envelope()
+    variants = _fit_and_variants(env)
+    gt_leak = {k: _propagate(v, PARAMS) for k, v in variants.items()}
+    # sideband ground truth: inject a single-tone ripple at each candidate freq
+    # onto the null (flat-top) base and simulate; the min-leakage freq is GT.
+    t = np.arange(N)*DT
+    peak = np.median(np.sort(env)[-30:])
+    r_ns, f_ns = _measure_edges(env)
+    t0_r, t0_f = r_ns, T_GATE - f_ns
+    plateau_mask = (t &gt; t0_r) &amp; (t &lt; t0_f)
+    sr = r_ns/2.5631; sf = f_ns/2.5631
+    base = peak*0.5*(1+_erf((t-t0_r)/(np.sqrt(2)*sr)))*0.5*(1-_erf((t-t0_f)/(np.sqrt(2)*sf)))
+    amp = _TRUE_RIPPLE_STD
+    sideband_leak = {}
+    for fr in PARAMS[&#x27;sideband_window_ghz&#x27;]:
+        rip = amp*np.cos(2*np.pi*fr*t)*plateau_mask
+        e = base*(1.0+rip)
+        sideband_leak[fr] = _propagate(e, PARAMS)
+    sideband_min = min(sideband_leak, key=sideband_leak.get)
+    # CD consistency ground truth: the constructed pulse HAS asymmetric edges
+    # AND a plateau-gated tone -&gt; counterdiabatic-consistent = +1 in this instance.
+    cd_true = 1
+    gt_stats = _true_stats(env)
+    return env, gt_stats, gt_leak, sideband_min, cd_true
+
+
+def _true_stats(env):
+    r_ns, f_ns = _measure_edges(env)
+    t = np.arange(N)*DT
+    peak = np.median(np.sort(env)[-30:])
+    t0_r, t0_f = r_ns, T_GATE - f_ns
+    plateau_mask = (t &gt; t0_r) &amp; (t &lt; t0_f)
+    droop = _measure_droop(env, plateau_mask, peak)
+    sr = r_ns/2.5631; sf = f_ns/2.5631
+    base = peak*0.5*(1+_erf((t-t0_r)/(np.sqrt(2)*sr)))*0.5*(1-_erf((t-t0_f)/(np.sqrt(2)*sf)))
+    tc = np.where(plateau_mask, t-t0_r, 0.0)
+    base = base*(1.0+droop*tc)
+    resid = np.zeros(N)
+    resid[plateau_mask] = (env[plateau_mask]-base[plateau_mask])/peak
+    r = resid[plateau_mask]
+    rstd = float(np.std(r))
+    lag1 = float(np.sum(r[:-1]*r[1:])/(np.sum(r*r)+1e-12))
+    # spectral flatness
+    R = np.abs(np.fft.rfft(r*np.hanning(len(r))))**2 + 1e-18
+    sf_flat = float(np.exp(np.mean(np.log(R)))/(np.mean(R)))
+    freqs = np.fft.rfftfreq(len(r), d=DT)
+    Rdc = R.copy(); Rdc[0] = 0
+    peak_ghz = float(freqs[np.argmax(Rdc)])
+    return {&#x27;rise_ns&#x27;: r_ns, &#x27;fall_ns&#x27;: f_ns, &#x27;droop_slope_per_ns&#x27;: droop,
+            &#x27;ripple_std_frac&#x27;: rstd, &#x27;lag1_autocorr&#x27;: lag1,
+            &#x27;spectral_flatness&#x27;: sf_flat, &#x27;ripple_peak_ghz&#x27;: peak_ghz}
+
+
+def _load_solution():
+    spec = importlib.util.spec_from_file_location(&#x27;solution&#x27;, SOL)
+    mod = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(mod)
+    return mod
+
+
+def _score(sub, gt_stats, gt_leak, sideband_min, cd_true):
+    # 1) decomposition stats (weight 0.30)
+    st = sub.get(&#x27;stats&#x27;, {}) or {}
+    def tol_score(key, tol, rel=False):
+        try:
+            v = float(st.get(key))
+        except Exception:
+            return 0.0
+        g = gt_stats[key]
+        if rel:
+            err = abs(v-g)/(abs(g)+1e-9)
+            return max(0.0, 1.0-err/ (tol))
+        err = abs(v-g)
+        return max(0.0, 1.0-err/tol)
+    s_stats = np.mean([
+        tol_score(&#x27;rise_ns&#x27;, 1.5),
+        tol_score(&#x27;fall_ns&#x27;, 1.5),
+        tol_score(&#x27;droop_slope_per_ns&#x27;, 0.6e-3),
+        tol_score(&#x27;ripple_std_frac&#x27;, 0.004),
+        tol_score(&#x27;lag1_autocorr&#x27;, 0.35),
+        tol_score(&#x27;spectral_flatness&#x27;, 0.15),
+        tol_score(&#x27;ripple_peak_ghz&#x27;, 0.12),
+    ])
+    # 2) ablation causal leakage (weight 0.35): score agreement of leakage values
+    al = sub.get(&#x27;ablation_leakage&#x27;, {}) or {}
+    parts = []
+    for k in [&#x27;full&#x27;,&#x27;no_asymmetry&#x27;,&#x27;no_droop&#x27;,&#x27;no_ripple&#x27;]:
+        try:
+            v = float(al.get(k))
+        except Exception:
+            parts.append(0.0); continue
+        g = gt_leak[k]
+        err = abs(v-g)
+        parts.append(max(0.0, 1.0 - err/max(0.02, 2.0*g+0.02)))
+    # also reward getting the ORDERING/sign of the causal effects right
+    def order_ok():
+        try:
+            vv = {k: float(al[k]) for k in gt_leak}
+        except Exception:
+            return 0.0
+        good = 0; tot = 0
+        keys = list(gt_leak.keys())
+        for i in range(len(keys)):
+            for j in range(i+1,len(keys)):
+                a,b = keys[i], keys[j]
+                tot += 1
+                if (vv[a]-vv[b])*(gt_leak[a]-gt_leak[b]) &gt;= 0:
+                    good += 1
+        return good/tot if tot else 0.0
+    s_abl = 0.6*np.mean(parts) + 0.4*order_ok()
+    # 3) sideband min (weight 0.20)
+    try:
+        fr = float(sub.get(&#x27;sideband_min_ghz&#x27;))
+        s_side = max(0.0, 1.0 - abs(fr - sideband_min)/0.20)
+    except Exception:
+        s_side = 0.0
+    # 4) CD verdict (weight 0.15)
+    try:
+        cd = int(sub.get(&#x27;cd_consistent&#x27;))
+        s_cd = 1.0 if cd == cd_true else (0.4 if cd == 0 else 0.0)
+    except Exception:
+        s_cd = 0.0
+    score = 0.30*s_stats + 0.35*s_abl + 0.20*s_side + 0.15*s_cd
+    return float(max(0.0, min(1.0, score)))
+
+
+def main():
+    env, gt_stats, gt_leak, sideband_min, cd_true = _ground_truth()
+    mod = _load_solution()
+    params = dict(PARAMS)
+    try:
+        sub = mod.analyze(env.copy(), params)
+    except NotImplementedError:
+        print(0.0); return
+    except Exception as e:
+        sys.stderr.write(&#x27;solution error: %r\n&#x27; % e)
+        print(0.0); return
+    if not isinstance(sub, dict):
+        print(0.0); return
+    print(_score(sub, gt_stats, gt_leak, sideband_min, cd_true))
+
+
+if __name__ == &#x27;__main__&#x27;:
+    main()
+</pre>
+    </details>
+              <details class="code-fold">
+      <summary>eval/_trivial.py <span class="lines">31 lines</span></summary>
+      <pre class="code">import numpy as np
+
+# Genuine-but-naive baseline: respects the interface and the task, but does NO
+# simulation and only crude signal reading. It reports leakage as zero for all
+# variants (a naive &#x27;assume the gate is perfect&#x27; claim), guesses the sideband
+# frequency as the middle of the window, and declares CD undecidable. It also
+# makes crude, biased decomposition guesses. This respects constraints (it fills
+# every field) but is unsophisticated, so it scores poorly.
+
+
+def analyze(envelope, params):
+    env = np.asarray(envelope, dtype=float)
+    peak = float(np.max(env)) if env.size else 1.0
+    # crude constant-ish guesses (not measured properly)
+    stats = {
+        &#x27;rise_ns&#x27;: 5.0,
+        &#x27;fall_ns&#x27;: 5.0,
+        &#x27;droop_slope_per_ns&#x27;: 0.0,
+        &#x27;ripple_std_frac&#x27;: 0.0,
+        &#x27;lag1_autocorr&#x27;: 0.0,
+        &#x27;spectral_flatness&#x27;: 1.0,
+        &#x27;ripple_peak_ghz&#x27;: 0.0,
+    }
+    # naive: assume no leakage anywhere (no simulation performed)
+    ablation = {&#x27;full&#x27;: 0.0, &#x27;no_asymmetry&#x27;: 0.0,
+                &#x27;no_droop&#x27;: 0.0, &#x27;no_ripple&#x27;: 0.0}
+    win = params.get(&#x27;sideband_window_ghz&#x27;, [0.5])
+    sideband = float(win[len(win)//2])
+    return {&#x27;stats&#x27;: stats, &#x27;ablation_leakage&#x27;: ablation,
+            &#x27;sideband_min_ghz&#x27;: sideband, &#x27;cd_consistent&#x27;: 0}
+</pre>
+    </details>
+              <details class="code-fold">
+      <summary>eval/_reference.py <span class="lines">149 lines</span></summary>
+      <pre class="code">import numpy as np
+import scipy.sparse as sp
+import scipy.sparse.linalg as spla
+import math
+
+# Self-contained strong reference. Reproduces the harness physics INDEPENDENTLY
+# (no shared import) and genuinely measures decomposition stats + causal leakage.
+
+_ERF = np.vectorize(math.erf)
+N = 105
+DT = 0.5
+T_GATE = 52.0
+
+
+def _op(levels, which, nmodes):
+    a = sp.diags(np.sqrt(np.arange(1, levels)), 1, format=&#x27;csr&#x27;)
+    I = sp.identity(levels, format=&#x27;csr&#x27;)
+    ops = [a if m == which else I for m in range(nmodes)]
+    out = ops[0]
+    for m in range(1, nmodes):
+        out = sp.kron(out, ops[m], format=&#x27;csr&#x27;)
+    return out
+
+
+def _build_static(p):
+    L = p[&#x27;levels&#x27;]; nm = 3
+    a1 = _op(L,0,nm); a2 = _op(L,1,nm); ac = _op(L,2,nm)
+    n1 = a1.conj().T@a1; n2 = a2.conj().T@a2; nc = ac.conj().T@ac
+    w1=2*np.pi*p[&#x27;f_q1_ghz&#x27;]; w2=2*np.pi*p[&#x27;f_q2_ghz&#x27;]; wc=2*np.pi*p[&#x27;fc_ghz&#x27;]
+    al1=2*np.pi*p[&#x27;alpha1_ghz&#x27;]; al2=2*np.pi*p[&#x27;alpha2_ghz&#x27;]; alc=2*np.pi*p[&#x27;alphac_ghz&#x27;]
+    H0 = (w1*n1 + 0.5*al1*(a1.conj().T@a1.conj().T@a1@a1)
+          + w2*n2 + 0.5*al2*(a2.conj().T@a2.conj().T@a2@a2)
+          + wc*nc + 0.5*alc*(ac.conj().T@ac.conj().T@ac@ac))
+    g1c=2*np.pi*p[&#x27;g1c_ghz&#x27;]; g2c=2*np.pi*p[&#x27;g2c_ghz&#x27;]
+    Hc = g1c*(a1.conj().T@ac+ac.conj().T@a1)+g2c*(a2.conj().T@ac+ac.conj().T@a2)
+    Hx = (a1.conj().T@a2 + a2.conj().T@a1)
+    return (H0+Hc).tocsr(), Hx.tocsr()
+
+
+def _idx(p, occ):
+    L=p[&#x27;levels&#x27;]; return occ[0]*L*L+occ[1]*L+occ[2]
+
+
+def _propagate(env, p):
+    L=p[&#x27;levels&#x27;]; dim=L**3
+    H0, Hx = _build_static(p)
+    g_par = 2*np.pi*p[&#x27;phi_scale&#x27;]*0.0155
+    dt=p[&#x27;dt_ns&#x27;]
+    psi=np.zeros(dim,dtype=complex); psi[_idx(p,(0,1,0))]=1.0
+    comp=[_idx(p,(0,0,0)),_idx(p,(0,1,0)),_idx(p,(1,0,0)),_idx(p,(1,1,0))]
+    for k in range(len(env)):
+        H=(H0 + g_par*env[k]*Hx).tocsc()
+        psi=spla.expm_multiply(-1j*H*dt, psi)
+    pop=sum(abs(psi[i])**2 for i in comp)
+    return max(0.0, min(1.0, 1.0-float(pop)))
+
+
+def _measure_edges(env):
+    t=np.arange(N)*DT
+    peak=np.median(np.sort(env)[-30:])
+    def frac_time(fr, side):
+        lvl=fr*peak
+        if side==&#x27;rise&#x27;:
+            return t[np.argmax(env&gt;=lvl)]
+        else:
+            return t[len(env)-1-np.argmax(env[::-1]&gt;=lvl)]
+    r10=frac_time(0.1,&#x27;rise&#x27;); r90=frac_time(0.9,&#x27;rise&#x27;)
+    f90=frac_time(0.9,&#x27;fall&#x27;); f10=frac_time(0.1,&#x27;fall&#x27;)
+    rise_w=max(0.5,(r90-r10)); fall_w=max(0.5,(f10-f90))
+    return rise_w+4.4, fall_w+4.0
+
+
+def _measure_droop(env, mask, peak):
+    t=np.arange(N)*DT
+    tp=t[mask]; ep=env[mask]/peak
+    if len(tp)&lt;3: return 0.0
+    A=np.vstack([tp-tp[0], np.ones_like(tp)]).T
+    coef,*_=np.linalg.lstsq(A,ep,rcond=None)
+    return float(coef[0])
+
+
+def _stats(env):
+    r_ns,f_ns=_measure_edges(env)
+    t=np.arange(N)*DT; peak=np.median(np.sort(env)[-30:])
+    t0_r,t0_f=r_ns,T_GATE-f_ns
+    mask=(t&gt;t0_r)&amp;(t&lt;t0_f)
+    droop=_measure_droop(env,mask,peak)
+    sr=r_ns/2.5631; sf=f_ns/2.5631
+    base=peak*0.5*(1+_ERF((t-t0_r)/(np.sqrt(2)*sr)))*0.5*(1-_ERF((t-t0_f)/(np.sqrt(2)*sf)))
+    tc=np.where(mask,t-t0_r,0.0)
+    base=base*(1.0+droop*tc)
+    resid=np.zeros(N)
+    resid[mask]=(env[mask]-base[mask])/peak
+    r=resid[mask]
+    rstd=float(np.std(r))
+    lag1=float(np.sum(r[:-1]*r[1:])/(np.sum(r*r)+1e-12))
+    R=np.abs(np.fft.rfft(r*np.hanning(len(r))))**2+1e-18
+    sf_flat=float(np.exp(np.mean(np.log(R)))/np.mean(R))
+    freqs=np.fft.rfftfreq(len(r),d=DT)
+    Rdc=R.copy(); Rdc[0]=0
+    peak_ghz=float(freqs[np.argmax(Rdc)])
+    return {&#x27;rise_ns&#x27;:r_ns,&#x27;fall_ns&#x27;:f_ns,&#x27;droop_slope_per_ns&#x27;:droop,
+            &#x27;ripple_std_frac&#x27;:rstd,&#x27;lag1_autocorr&#x27;:lag1,
+            &#x27;spectral_flatness&#x27;:sf_flat,&#x27;ripple_peak_ghz&#x27;:peak_ghz}
+
+
+def _variants(env):
+    t=np.arange(N)*DT; peak=np.median(np.sort(env)[-30:])
+    r_ns,f_ns=_measure_edges(env)
+    t0_r,t0_f=r_ns,T_GATE-f_ns; mask=(t&gt;t0_r)&amp;(t&lt;t0_f)
+    droop=_measure_droop(env,mask,peak)
+    def edge(rw,fw):
+        sr=rw/2.5631; sf=fw/2.5631
+        return 0.5*(1+_ERF((t-t0_r)/(np.sqrt(2)*sr)))*0.5*(1-_ERF((t-t0_f)/(np.sqrt(2)*sf)))
+    tc=np.where(mask,t-t0_r,0.0); droop_prof=1.0+droop*tc
+    edge_full=edge(r_ns,f_ns)*peak
+    base=edge_full*droop_prof
+    rip=np.zeros(N); rip[mask]=env[mask]-base[mask]
+    avg=0.5*(r_ns+f_ns)
+    return {&#x27;full&#x27;:base+rip,
+            &#x27;no_asymmetry&#x27;:edge(avg,avg)*peak*droop_prof+rip,
+            &#x27;no_droop&#x27;:edge_full+rip,
+            &#x27;no_ripple&#x27;:base}
+
+
+def analyze(envelope, params):
+    env=np.asarray(envelope,dtype=float)
+    stats=_stats(env)
+    variants=_variants(env)
+    ablation={k:_propagate(v,params) for k,v in variants.items()}
+    # sideband sweep
+    t=np.arange(N)*DT; peak=np.median(np.sort(env)[-30:])
+    r_ns,f_ns=_measure_edges(env); t0_r,t0_f=r_ns,T_GATE-f_ns
+    mask=(t&gt;t0_r)&amp;(t&lt;t0_f)
+    sr=r_ns/2.5631; sf=f_ns/2.5631
+    base=peak*0.5*(1+_ERF((t-t0_r)/(np.sqrt(2)*sr)))*0.5*(1-_ERF((t-t0_f)/(np.sqrt(2)*sf)))
+    amp=stats[&#x27;ripple_std_frac&#x27;] if stats[&#x27;ripple_std_frac&#x27;]&gt;1e-4 else 0.009
+    best=None; bestleak=1e9
+    for fr in params[&#x27;sideband_window_ghz&#x27;]:
+        e=base*(1.0+amp*np.cos(2*np.pi*fr*t)*mask)
+        lk=_propagate(e,params)
+        if lk&lt;bestleak: bestleak=lk; best=fr
+    # CD verdict: consistent if edges asymmetric AND a coherent tone present
+    asym=abs(stats[&#x27;rise_ns&#x27;]-stats[&#x27;fall_ns&#x27;])&gt;0.3
+    tone=stats[&#x27;lag1_autocorr&#x27;]&gt;0.2 and stats[&#x27;ripple_peak_ghz&#x27;]&gt;0.05
+    cd=1 if (asym and tone) else 0
+    return {&#x27;stats&#x27;:stats,&#x27;ablation_leakage&#x27;:ablation,
+            &#x27;sideband_min_ghz&#x27;:float(best),&#x27;cd_consistent&#x27;:int(cd)}
+</pre>
+    </details>
         </div>
-        <div class="lbrow">
-          <div class="lbtop"><span>GPT-5.5 <span class="mono muted">· OpenAI</span></span><span class="pc">2.1%</span></div>
-          <div class="track"><div class="fill" style="width:2.1%"></div><div class="refmark"></div></div>
+
+        <div class="rev-field"><h2>The solver agent's attempts</h2>
+              <details class="solver-round">
+      <summary>Round 1 — scored
+        0.3789
+        </summary>
+      <p class="summary"><strong>Its stated plan:</strong> No score history yet, so I commit to a physically-grounded first attempt: measure the six decomposition statistics directly from the 105-point array (rise/fall via 10-90% crossings, droop slope from plateau linear fit, ripple as residual after smoothing, autocorr, spectral flatness, peak ripple frequency), then build the sparse 3-transmon Hamiltonian (27-dim) and propagate |01&gt; under each pulse variant to get leakage for the ablation and sideband sweep. For the counterdiabatic verdict I compare the measured edge asymmetry/ripple structure against the AGP-derived derivative-of-plateau correction and return +1 if correlated. I keep the simulation lightweight (matrix exponential per step via scipy on a 27-dim sparse operator) to stay within time budget.</p>
+      
+    <details class="code-fold">
+      <summary>The solver it submitted <span class="lines">260 lines</span></summary>
+      <pre class="code">import numpy as np
+from scipy.linalg import expm
+
+
+def _annihilation(n):
+    return np.diag(np.sqrt(np.arange(1, n)), 1)
+
+
+def _kron3(a, b, c):
+    return np.kron(np.kron(a, b), c)
+
+
+def _build_static(params, L):
+    a = _annihilation(L)
+    ad = a.conj().T
+    n = ad @ a
+    I = np.eye(L)
+    # anharmonic term: (alpha/2) a^dag a^dag a a
+    def anh(al):
+        return (al / 2.0) * (ad @ ad @ a @ a)
+    f1 = params[&#x27;f_q1_ghz&#x27;]
+    f2 = params[&#x27;f_q2_ghz&#x27;]
+    fc = params[&#x27;fc_ghz&#x27;]
+    a1 = params[&#x27;alpha1_ghz&#x27;]
+    a2 = params[&#x27;alpha2_ghz&#x27;]
+    ac = params[&#x27;alphac_ghz&#x27;]
+    g1c = params[&#x27;g1c_ghz&#x27;]
+    g2c = params[&#x27;g2c_ghz&#x27;]
+    # 2*pi factors for angular freq
+    tp = 2.0 * np.pi
+    H1 = tp * (f1 * n + anh(a1))
+    H2 = tp * (f2 * n + anh(a2))
+    Hc = tp * (fc * n + anh(ac))
+    H = _kron3(H1, I, I) + _kron3(I, H2, I) + _kron3(I, I, Hc)
+    # couplings q1-coupler and q2-coupler
+    x = a + ad
+    Xq1c = _kron3(x, I, x)
+    Xq2c = _kron3(I, x, x)
+    Hc1 = tp * g1c * Xq1c
+    Hc2 = tp * g2c * Xq2c
+    H += Hc1 + Hc2
+    return H, x, L
+
+
+def _drive_op(L):
+    a = _annihilation(L)
+    ad = a.conj().T
+    n = ad @ a
+    I = np.eye(L)
+    # flux modulates coupler frequency -&gt; coupler number operator
+    return _kron3(I, I, n)
+
+
+def _comp_indices(L):
+    # states |q1 q2 c&gt; with c=0; computational 2-qubit subspace
+    def idx(i, j, k):
+        return (i * L + j) * L + k
+    return {
+        &#x27;00&#x27;: idx(0, 0, 0),
+        &#x27;01&#x27;: idx(0, 1, 0),
+        &#x27;10&#x27;: idx(1, 0, 0),
+        &#x27;11&#x27;: idx(1, 1, 0),
+    }
+
+
+def _propagate_leakage(env, params, L, Hstatic, Hdrive, ci):
+    dt = params[&#x27;dt_ns&#x27;]
+    tp = 2.0 * np.pi
+    phi_scale = params[&#x27;phi_scale&#x27;]
+    w_d = params[&#x27;w_d_ghz&#x27;]
+    # initial state |01&gt;
+    psi = np.zeros(Hstatic.shape[0], dtype=complex)
+    psi[ci[&#x27;01&#x27;]] = 1.0
+    comp_idx = [ci[&#x27;00&#x27;], ci[&#x27;01&#x27;], ci[&#x27;10&#x27;], ci[&#x27;11&#x27;]]
+    N = len(env)
+    for k in range(N):
+        t = k * dt
+        # flux drive: envelope * cos(w_d t) modulates coupler
+        drive_amp = tp * phi_scale * env[k] * np.cos(tp * w_d * t)
+        H = Hstatic + drive_amp * Hdrive
+        U = expm(-1j * H * dt)
+        psi = U @ psi
+    pop_comp = sum(np.abs(psi[i]) ** 2 for i in comp_idx)
+    leak = 1.0 - pop_comp
+    return float(np.clip(leak, 0.0, 1.0))
+
+
+def _decompose(env, dt):
+    N = len(env)
+    t = np.arange(N) * dt
+    amp = np.max(env) if np.max(env) != 0 else 1.0
+    # plateau region: middle portion
+    lo = 0.1 * amp
+    hi = 0.9 * amp
+    # rise: first crossing of lo to hi
+    def cross_time(vals, times, level, rising=True):
+        for i in range(1, len(vals)):
+            if rising and vals[i - 1] &lt; level &lt;= vals[i]:
+                # interp
+                frac = (level - vals[i - 1]) / (vals[i] - vals[i - 1] + 1e-12)
+                return times[i - 1] + frac * (times[i] - times[i - 1])
+            if (not rising) and vals[i - 1] &gt;= level &gt; vals[i]:
+                frac = (vals[i - 1] - level) / (vals[i - 1] - vals[i] + 1e-12)
+                return times[i - 1] + frac * (times[i] - times[i - 1])
+        return None
+    # find plateau peak index
+    peak_idx = int(np.argmax(env))
+    rise_lo = cross_time(env[:peak_idx + 1], t[:peak_idx + 1], lo, True)
+    rise_hi = cross_time(env[:peak_idx + 1], t[:peak_idx + 1], hi, True)
+    rise_ns = (rise_hi - rise_lo) if (rise_lo is not None and rise_hi is not None) else 2.0
+    # fall
+    fall_seg = env[peak_idx:]
+    fall_t = t[peak_idx:]
+    fall_hi = cross_time(fall_seg, fall_t, hi, False)
+    fall_lo = cross_time(fall_seg, fall_t, lo, False)
+    fall_ns = (fall_lo - fall_hi) if (fall_lo is not None and fall_hi is not None) else 2.0
+    if rise_ns is None or rise_ns &lt;= 0:
+        rise_ns = 2.0
+    if fall_ns is None or fall_ns &lt;= 0:
+        fall_ns = 2.0
+    # plateau mask: env above 0.8*amp
+    mask = env &gt; 0.8 * amp
+    if np.sum(mask) &gt;= 3:
+        tp_ = t[mask]
+        vp = env[mask]
+        A = np.vstack([tp_, np.ones_like(tp_)]).T
+        coef, *_ = np.linalg.lstsq(A, vp, rcond=None)
+        droop_slope = coef[0]
+        trend = A @ coef
+        resid = vp - trend
+        ripple_std_frac = np.std(resid) / (amp + 1e-12)
+    else:
+        droop_slope = 0.0
+        ripple_std_frac = 0.0
+    # lag-1 autocorrelation of full envelope (detrended)
+    e = env - np.mean(env)
+    denom = np.sum(e * e) + 1e-12
+    lag1 = float(np.sum(e[:-1] * e[1:]) / denom)
+    # spectral flatness of ripple residual over plateau (use full spectrum)
+    # use detrended plateau residual if available else full
+    sig = env - np.convolve(env, np.ones(5) / 5.0, mode=&#x27;same&#x27;)
+    fft = np.abs(np.fft.rfft(sig)) ** 2
+    fft = fft[1:]  # drop DC
+    fft = fft + 1e-18
+    gm = np.exp(np.mean(np.log(fft)))
+    am = np.mean(fft)
+    spectral_flatness = float(gm / am)
+    # ripple peak frequency
+    freqs = np.fft.rfftfreq(N, d=dt)  # in 1/ns = GHz
+    fft_full = np.abs(np.fft.rfft(sig))
+    fft_full[0] = 0
+    peak_bin = int(np.argmax(fft_full))
+    ripple_peak_ghz = float(freqs[peak_bin])
+    return {
+        &#x27;rise_ns&#x27;: float(rise_ns),
+        &#x27;fall_ns&#x27;: float(fall_ns),
+        &#x27;droop_slope_per_ns&#x27;: float(droop_slope),
+        &#x27;ripple_std_frac&#x27;: float(ripple_std_frac),
+        &#x27;lag1_autocorr&#x27;: float(lag1),
+        &#x27;spectral_flatness&#x27;: float(spectral_flatness),
+        &#x27;ripple_peak_ghz&#x27;: float(ripple_peak_ghz),
+    }, mask, amp
+
+
+def _make_surrogates(env, dt, stats, mask, amp):
+    N = len(env)
+    peak_idx = int(np.argmax(env))
+    smooth = np.convolve(env, np.ones(5) / 5.0, mode=&#x27;same&#x27;)
+    ripple = env - smooth
+
+    # no_ripple: remove ripple
+    no_ripple = smooth.copy()
+
+    # no_droop: flatten plateau to constant amp
+    no_droop = env.copy()
+    if np.sum(mask) &gt;= 1:
+        plateau_mean = np.mean(env[mask])
+        no_droop[mask] = plateau_mean
+
+    # no_asymmetry: make rise width = fall width by symmetrizing edges
+    # simplest: mirror the pulse to symmetric shape averaging rise and fall
+    no_asym = env.copy()
+    # build symmetric edge: average of rising half-shape and time-reversed falling
+    half = N // 2
+    left = env[:half]
+    right = env[N - half:][::-1]
+    m = min(len(left), len(right))
+    avg_edge = 0.5 * (left[:m] + right[:m])
+    no_asym[:m] = avg_edge
+    no_asym[N - m:] = avg_edge[::-1]
+
+    return {&#x27;no_ripple&#x27;: no_ripple, &#x27;no_droop&#x27;: no_droop, &#x27;no_asymmetry&#x27;: no_asym}
+
+
+def analyze(envelope, params):
+    env = np.asarray(envelope, dtype=float).ravel()
+    dt = params[&#x27;dt_ns&#x27;]
+    L = int(params.get(&#x27;levels&#x27;, 3))
+
+    stats, mask, amp = _decompose(env, dt)
+
+    Hstatic, xop, L = _build_static(params, L)
+    Hdrive = _drive_op(L)
+    ci = _comp_indices(L)
+
+    surr = _make_surrogates(env, dt, stats, mask, amp)
+
+    ablation = {}
+    ablation[&#x27;full&#x27;] = _propagate_leakage(env, params, L, Hstatic, Hdrive, ci)
+    ablation[&#x27;no_asymmetry&#x27;] = _propagate_leakage(surr[&#x27;no_asymmetry&#x27;], params, L, Hstatic, Hdrive, ci)
+    ablation[&#x27;no_droop&#x27;] = _propagate_leakage(surr[&#x27;no_droop&#x27;], params, L, Hstatic, Hdrive, ci)
+    ablation[&#x27;no_ripple&#x27;] = _propagate_leakage(surr[&#x27;no_ripple&#x27;], params, L, Hstatic, Hdrive, ci)
+
+    # sideband sweep: inject ripple at each candidate freq, measure leakage
+    window = params.get(&#x27;sideband_window_ghz&#x27;, [])
+    base = np.convolve(env, np.ones(5) / 5.0, mode=&#x27;same&#x27;)
+    ripple_amp = stats[&#x27;ripple_std_frac&#x27;] * amp
+    if ripple_amp &lt;= 0:
+        ripple_amp = 0.01 * amp
+    t = np.arange(len(env)) * dt
+    best_f = None
+    best_leak = np.inf
+    for f in window:
+        inj = base + ripple_amp * np.sin(2.0 * np.pi * f * t) * mask.astype(float)
+        lk = _propagate_leakage(inj, params, L, Hstatic, Hdrive, ci)
+        if lk &lt; best_leak:
+            best_leak = lk
+            best_f = f
+    if best_f is None:
+        best_f = float(stats[&#x27;ripple_peak_ghz&#x27;])
+    sideband_min_ghz = float(best_f)
+
+    # counterdiabatic consistency: compare ripple structure to derivative of plateau
+    # AGP correction ~ d(envelope)/dt; check correlation between ripple and smoothed derivative
+    smooth = base
+    deriv = np.gradient(smooth, dt)
+    ripple_sig = env - smooth
+    if np.sum(mask) &gt;= 5:
+        r = ripple_sig[mask]
+        d = deriv[mask]
+        if np.std(r) &gt; 1e-9 and np.std(d) &gt; 1e-9:
+            corr = np.corrcoef(r, d)[0, 1]
+        else:
+            corr = 0.0
+    else:
+        corr = 0.0
+    if abs(corr) &gt; 0.3:
+        cd_consistent = 1
+    elif abs(corr) &lt; 0.1:
+        cd_consistent = -1
+    else:
+        cd_consistent = 0
+
+    return {
+        &#x27;stats&#x27;: stats,
+        &#x27;ablation_leakage&#x27;: ablation,
+        &#x27;sideband_min_ghz&#x27;: sideband_min_ghz,
+        &#x27;cd_consistent&#x27;: int(cd_consistent),
+    }
+</pre>
+    </details>
+    </details>
+    <details class="solver-round">
+      <summary>Round 2 — scored
+        0.4112
+        </summary>
+      <p class="summary"><strong>Its stated plan:</strong> Round 1 scored 0.38 with a slow expm-per-step propagator and heuristic surrogates. Key improvements: (1) use a rotating-frame/efficient propagator via eigendecomposition of the static+drive to speed up, but more importantly fix physical correctness of the drive (flux modulates coupler frequency, and the envelope itself is likely the slowly-varying flux modulation amplitude at frequency w_d). (2) Make surrogates cleaner and detect ripple via detrended plateau residual FFT for the ripple_peak. (3) For counterdiabatic consistency, the AGP correction relates ripple to the time-derivative of the smooth envelope during edges/plateau; correlate ripple with derivative and also check edge asymmetry sign consistency. I keep the structure but speed up propagation by caching expm via a fixed dt eigen-basis only when H is time-independent per step (it isn&#x27;t), so instead I reduce cost by truncating and using scipy expm on 27-dim which is fine. I refine decomposition statistics to be more robust and set droop slope as fractional-ish, and make ripple injection use the actual base plateau.</p>
+      
+    <details class="code-fold">
+      <summary>The solver it submitted <span class="lines">276 lines</span></summary>
+      <pre class="code">import numpy as np
+from scipy.linalg import expm
+
+
+def _annihilation(n):
+    return np.diag(np.sqrt(np.arange(1, n)), 1)
+
+
+def _kron3(a, b, c):
+    return np.kron(np.kron(a, b), c)
+
+
+def _build_static(params, L):
+    a = _annihilation(L)
+    ad = a.conj().T
+    n = ad @ a
+    I = np.eye(L)
+
+    def anh(al):
+        return (al / 2.0) * (ad @ ad @ a @ a)
+
+    f1 = params[&#x27;f_q1_ghz&#x27;]
+    f2 = params[&#x27;f_q2_ghz&#x27;]
+    fc = params[&#x27;fc_ghz&#x27;]
+    a1 = params[&#x27;alpha1_ghz&#x27;]
+    a2 = params[&#x27;alpha2_ghz&#x27;]
+    ac = params[&#x27;alphac_ghz&#x27;]
+    g1c = params[&#x27;g1c_ghz&#x27;]
+    g2c = params[&#x27;g2c_ghz&#x27;]
+    tp = 2.0 * np.pi
+    H1 = tp * (f1 * n + anh(a1))
+    H2 = tp * (f2 * n + anh(a2))
+    Hc = tp * (fc * n + anh(ac))
+    H = _kron3(H1, I, I) + _kron3(I, H2, I) + _kron3(I, I, Hc)
+    x = a + ad
+    Xq1c = _kron3(x, I, x)
+    Xq2c = _kron3(I, x, x)
+    H += tp * g1c * Xq1c + tp * g2c * Xq2c
+    return H
+
+
+def _drive_op(L):
+    a = _annihilation(L)
+    ad = a.conj().T
+    n = ad @ a
+    I = np.eye(L)
+    return _kron3(I, I, n)
+
+
+def _comp_indices(L):
+    def idx(i, j, k):
+        return (i * L + j) * L + k
+    return {
+        &#x27;00&#x27;: idx(0, 0, 0),
+        &#x27;01&#x27;: idx(0, 1, 0),
+        &#x27;10&#x27;: idx(1, 0, 0),
+        &#x27;11&#x27;: idx(1, 1, 0),
+    }
+
+
+def _propagate_leakage(env, params, L, Hstatic, Hdrive, ci):
+    dt = params[&#x27;dt_ns&#x27;]
+    tp = 2.0 * np.pi
+    phi_scale = params[&#x27;phi_scale&#x27;]
+    w_d = params[&#x27;w_d_ghz&#x27;]
+    psi = np.zeros(Hstatic.shape[0], dtype=complex)
+    psi[ci[&#x27;01&#x27;]] = 1.0
+    comp_idx = [ci[&#x27;00&#x27;], ci[&#x27;01&#x27;], ci[&#x27;10&#x27;], ci[&#x27;11&#x27;]]
+    N = len(env)
+    for k in range(N):
+        t = (k + 0.5) * dt
+        drive_amp = tp * phi_scale * env[k] * np.cos(tp * w_d * t)
+        H = Hstatic + drive_amp * Hdrive
+        U = expm(-1j * H * dt)
+        psi = U @ psi
+    pop_comp = sum(np.abs(psi[i]) ** 2 for i in comp_idx)
+    leak = 1.0 - pop_comp
+    return float(np.clip(leak, 0.0, 1.0))
+
+
+def _decompose(env, dt):
+    N = len(env)
+    t = np.arange(N) * dt
+    amp = np.max(env) if np.max(env) != 0 else 1.0
+    lo = 0.1 * amp
+    hi = 0.9 * amp
+
+    def cross_time(vals, times, level, rising=True):
+        for i in range(1, len(vals)):
+            if rising and vals[i - 1] &lt; level &lt;= vals[i]:
+                frac = (level - vals[i - 1]) / (vals[i] - vals[i - 1] + 1e-12)
+                return times[i - 1] + frac * (times[i] - times[i - 1])
+            if (not rising) and vals[i - 1] &gt;= level &gt; vals[i]:
+                frac = (vals[i - 1] - level) / (vals[i - 1] - vals[i] + 1e-12)
+                return times[i - 1] + frac * (times[i] - times[i - 1])
+        return None
+
+    peak_idx = int(np.argmax(env))
+    rise_lo = cross_time(env[:peak_idx + 1], t[:peak_idx + 1], lo, True)
+    rise_hi = cross_time(env[:peak_idx + 1], t[:peak_idx + 1], hi, True)
+    rise_ns = (rise_hi - rise_lo) if (rise_lo is not None and rise_hi is not None) else 2.0
+    fall_seg = env[peak_idx:]
+    fall_t = t[peak_idx:]
+    fall_hi = cross_time(fall_seg, fall_t, hi, False)
+    fall_lo = cross_time(fall_seg, fall_t, lo, False)
+    fall_ns = (fall_lo - fall_hi) if (fall_lo is not None and fall_hi is not None) else 2.0
+    if rise_ns is None or rise_ns &lt;= 0:
+        rise_ns = 2.0
+    if fall_ns is None or fall_ns &lt;= 0:
+        fall_ns = 2.0
+
+    mask = env &gt; 0.8 * amp
+    if np.sum(mask) &gt;= 3:
+        tp_ = t[mask]
+        vp = env[mask]
+        A = np.vstack([tp_, np.ones_like(tp_)]).T
+        coef, *_ = np.linalg.lstsq(A, vp, rcond=None)
+        droop_slope = coef[0]
+        trend = A @ coef
+        resid = vp - trend
+        ripple_std_frac = np.std(resid) / (amp + 1e-12)
+    else:
+        droop_slope = 0.0
+        ripple_std_frac = 0.0
+
+    e = env - np.mean(env)
+    denom = np.sum(e * e) + 1e-12
+    lag1 = float(np.sum(e[:-1] * e[1:]) / denom)
+
+    # ripple signal: detrended plateau extended; use high-pass via smoothing
+    smooth = np.convolve(env, np.ones(5) / 5.0, mode=&#x27;same&#x27;)
+    sig = env - smooth
+    fft = np.abs(np.fft.rfft(sig)) ** 2
+    fft = fft[1:]
+    fft = fft + 1e-18
+    gm = np.exp(np.mean(np.log(fft)))
+    am = np.mean(fft)
+    spectral_flatness = float(gm / am)
+
+    freqs = np.fft.rfftfreq(N, d=dt)
+    fft_full = np.abs(np.fft.rfft(sig))
+    fft_full[0] = 0
+    peak_bin = int(np.argmax(fft_full))
+    ripple_peak_ghz = float(freqs[peak_bin])
+
+    return {
+        &#x27;rise_ns&#x27;: float(rise_ns),
+        &#x27;fall_ns&#x27;: float(fall_ns),
+        &#x27;droop_slope_per_ns&#x27;: float(droop_slope),
+        &#x27;ripple_std_frac&#x27;: float(ripple_std_frac),
+        &#x27;lag1_autocorr&#x27;: float(lag1),
+        &#x27;spectral_flatness&#x27;: float(spectral_flatness),
+        &#x27;ripple_peak_ghz&#x27;: float(ripple_peak_ghz),
+    }, mask, amp
+
+
+def _make_surrogates(env, dt, stats, mask, amp):
+    N = len(env)
+    smooth = np.convolve(env, np.ones(5) / 5.0, mode=&#x27;same&#x27;)
+    ripple = env - smooth
+
+    # no_ripple: remove ripple -&gt; smoothed
+    no_ripple = smooth.copy()
+
+    # no_droop: replace plateau with constant mean while preserving ripple
+    no_droop = env.copy()
+    if np.sum(mask) &gt;= 1:
+        idxs = np.where(mask)[0]
+        t = np.arange(N) * dt
+        tp_ = t[idxs]
+        vp = smooth[idxs]
+        A = np.vstack([tp_, np.ones_like(tp_)]).T
+        coef, *_ = np.linalg.lstsq(A, vp, rcond=None)
+        trend = A @ coef
+        flat = np.mean(vp)
+        no_droop[idxs] = flat + (smooth[idxs] - trend) + ripple[idxs]
+
+    # no_asymmetry: symmetrize rise/fall by building a symmetric edge profile
+    peak_idx = int(np.argmax(env))
+    no_asym = smooth.copy()
+    # extract rising and falling edges of the smooth pulse
+    rise = smooth[:peak_idx + 1]
+    fall = smooth[peak_idx:][::-1]
+    m = min(len(rise), len(fall))
+    if m &gt;= 2:
+        avg = 0.5 * (rise[-m:] + fall[-m:])
+        no_asym[peak_idx + 1 - m:peak_idx + 1] = avg
+        end = min(peak_idx + m, N)
+        no_asym[peak_idx:end] = avg[::-1][:end - peak_idx]
+    no_asym = no_asym + ripple
+
+    return {&#x27;no_ripple&#x27;: no_ripple, &#x27;no_droop&#x27;: no_droop, &#x27;no_asymmetry&#x27;: no_asym}
+
+
+def analyze(envelope, params):
+    env = np.asarray(envelope, dtype=float).ravel()
+    dt = params[&#x27;dt_ns&#x27;]
+    L = int(params.get(&#x27;levels&#x27;, 3))
+
+    stats, mask, amp = _decompose(env, dt)
+
+    Hstatic = _build_static(params, L)
+    Hdrive = _drive_op(L)
+    ci = _comp_indices(L)
+
+    surr = _make_surrogates(env, dt, stats, mask, amp)
+
+    ablation = {}
+    ablation[&#x27;full&#x27;] = _propagate_leakage(env, params, L, Hstatic, Hdrive, ci)
+    ablation[&#x27;no_asymmetry&#x27;] = _propagate_leakage(surr[&#x27;no_asymmetry&#x27;], params, L, Hstatic, Hdrive, ci)
+    ablation[&#x27;no_droop&#x27;] = _propagate_leakage(surr[&#x27;no_droop&#x27;], params, L, Hstatic, Hdrive, ci)
+    ablation[&#x27;no_ripple&#x27;] = _propagate_leakage(surr[&#x27;no_ripple&#x27;], params, L, Hstatic, Hdrive, ci)
+
+    window = params.get(&#x27;sideband_window_ghz&#x27;, [])
+    base = np.convolve(env, np.ones(5) / 5.0, mode=&#x27;same&#x27;)
+    ripple_amp = stats[&#x27;ripple_std_frac&#x27;] * amp
+    if ripple_amp &lt;= 0:
+        ripple_amp = 0.01 * amp
+    t = np.arange(len(env)) * dt
+    best_f = None
+    best_leak = np.inf
+    for f in window:
+        inj = base + ripple_amp * np.sin(2.0 * np.pi * f * t) * mask.astype(float)
+        lk = _propagate_leakage(inj, params, L, Hstatic, Hdrive, ci)
+        if lk &lt; best_leak:
+            best_leak = lk
+            best_f = f
+    if best_f is None:
+        best_f = float(stats[&#x27;ripple_peak_ghz&#x27;])
+    sideband_min_ghz = float(best_f)
+
+    # Counterdiabatic / AGP consistency: AGP correction to a flux drive scales with
+    # the time-derivative of the smooth envelope. Test whether the ripple structure
+    # and edge asymmetry track d(envelope)/dt during edges (where AGP is largest).
+    smooth = base
+    deriv = np.gradient(smooth, dt)
+    ripple_sig = env - smooth
+    # edge region: where |deriv| is significant
+    dabs = np.abs(deriv)
+    edge_mask = dabs &gt; 0.2 * np.max(dabs)
+    corrs = []
+    if np.sum(edge_mask) &gt;= 5:
+        r = ripple_sig[edge_mask]
+        d = deriv[edge_mask]
+        if np.std(r) &gt; 1e-9 and np.std(d) &gt; 1e-9:
+            corrs.append(abs(np.corrcoef(r, d)[0, 1]))
+    if np.sum(mask) &gt;= 5:
+        r = ripple_sig[mask]
+        d = deriv[mask]
+        if np.std(r) &gt; 1e-9 and np.std(d) &gt; 1e-9:
+            corrs.append(abs(np.corrcoef(r, d)[0, 1]))
+    # also test correlation with second derivative (DRAG-like)
+    dderiv = np.gradient(deriv, dt)
+    if np.sum(mask) &gt;= 5:
+        r = ripple_sig[mask]
+        d2 = dderiv[mask]
+        if np.std(r) &gt; 1e-9 and np.std(d2) &gt; 1e-9:
+            corrs.append(abs(np.corrcoef(r, d2)[0, 1]))
+    corr = max(corrs) if corrs else 0.0
+
+    # asymmetry sign: AGP predicts opposite-sign edge corrections (rise vs fall)
+    asym = stats[&#x27;rise_ns&#x27;] - stats[&#x27;fall_ns&#x27;]
+    if corr &gt; 0.35 or (corr &gt; 0.2 and abs(asym) &gt; 0.3):
+        cd_consistent = 1
+    elif corr &lt; 0.12 and abs(asym) &lt; 0.2:
+        cd_consistent = -1
+    else:
+        cd_consistent = 0
+
+    return {
+        &#x27;stats&#x27;: stats,
+        &#x27;ablation_leakage&#x27;: ablation,
+        &#x27;sideband_min_ghz&#x27;: sideband_min_ghz,
+        &#x27;cd_consistent&#x27;: int(cd_consistent),
+    }
+</pre>
+    </details>
+    </details>
+    <details class="solver-round">
+      <summary>Round 3 — scored
+        0.5324
+        </summary>
+      <p class="summary"><strong>Its stated plan:</strong> The score (~0.41) suggests partial agreement; my decomposition stats and ablation are probably roughly right but the surrogates and CD/sideband verdicts may be off. Key improvements: (1) make the physics propagation faster and more accurate by moving to a rotating frame / using flux-modulation coupling properly, (2) improve decomposition robustness (better rise/fall via interpolation, cleaner ripple extraction with a smoother trend), (3) make surrogates strictly isolate one factor each, and (4) improve the CD verdict logic and sideband injection to match plateau ripple amplitude. Given the flux drive modulates the coupler, I&#x27;ll keep the drive as n_coupler modulation but ensure consistent conventions and add a matrix-exponential precompute cache is impractical since H changes each step, so I keep expm but reduce cost by working in the interaction picture is complex; I keep it simple and correct.</p>
+      
+    <details class="code-fold">
+      <summary>The solver it submitted <span class="lines">295 lines</span></summary>
+      <pre class="code">import numpy as np
+from scipy.linalg import expm
+
+
+def _annihilation(n):
+    return np.diag(np.sqrt(np.arange(1, n)), 1)
+
+
+def _kron3(a, b, c):
+    return np.kron(np.kron(a, b), c)
+
+
+def _build_static(params, L):
+    a = _annihilation(L)
+    ad = a.conj().T
+    n = ad @ a
+    I = np.eye(L)
+
+    def anh(al):
+        return (al / 2.0) * (ad @ ad @ a @ a)
+
+    f1 = params[&#x27;f_q1_ghz&#x27;]
+    f2 = params[&#x27;f_q2_ghz&#x27;]
+    fc = params[&#x27;fc_ghz&#x27;]
+    a1 = params[&#x27;alpha1_ghz&#x27;]
+    a2 = params[&#x27;alpha2_ghz&#x27;]
+    ac = params[&#x27;alphac_ghz&#x27;]
+    g1c = params[&#x27;g1c_ghz&#x27;]
+    g2c = params[&#x27;g2c_ghz&#x27;]
+    tp = 2.0 * np.pi
+    H1 = tp * (f1 * n + anh(a1))
+    H2 = tp * (f2 * n + anh(a2))
+    Hc = tp * (fc * n + anh(ac))
+    H = _kron3(H1, I, I) + _kron3(I, H2, I) + _kron3(I, I, Hc)
+    x = a + ad
+    Xq1c = _kron3(x, I, x)
+    Xq2c = _kron3(I, x, x)
+    H += tp * g1c * Xq1c + tp * g2c * Xq2c
+    return H
+
+
+def _drive_op(L):
+    a = _annihilation(L)
+    ad = a.conj().T
+    n = ad @ a
+    I = np.eye(L)
+    return _kron3(I, I, n)
+
+
+def _comp_indices(L):
+    def idx(i, j, k):
+        return (i * L + j) * L + k
+    return {
+        &#x27;00&#x27;: idx(0, 0, 0),
+        &#x27;01&#x27;: idx(0, 1, 0),
+        &#x27;10&#x27;: idx(1, 0, 0),
+        &#x27;11&#x27;: idx(1, 1, 0),
+    }
+
+
+def _propagate_leakage(env, params, L, Hstatic, Hdrive, ci):
+    dt = params[&#x27;dt_ns&#x27;]
+    tp = 2.0 * np.pi
+    phi_scale = params[&#x27;phi_scale&#x27;]
+    w_d = params[&#x27;w_d_ghz&#x27;]
+    psi = np.zeros(Hstatic.shape[0], dtype=complex)
+    psi[ci[&#x27;01&#x27;]] = 1.0
+    comp_idx = [ci[&#x27;00&#x27;], ci[&#x27;01&#x27;], ci[&#x27;10&#x27;], ci[&#x27;11&#x27;]]
+    N = len(env)
+    for k in range(N):
+        t = (k + 0.5) * dt
+        drive_amp = tp * phi_scale * env[k] * np.cos(tp * w_d * t)
+        H = Hstatic + drive_amp * Hdrive
+        U = expm(-1j * H * dt)
+        psi = U @ psi
+    pop_comp = sum(np.abs(psi[i]) ** 2 for i in comp_idx)
+    leak = 1.0 - pop_comp
+    return float(np.clip(leak, 0.0, 1.0))
+
+
+def _smooth_trend(env, win=7):
+    # robust low-pass trend via moving average with edge handling
+    N = len(env)
+    pad = win // 2
+    ext = np.concatenate([np.full(pad, env[0]), env, np.full(pad, env[-1])])
+    kern = np.ones(win) / win
+    sm = np.convolve(ext, kern, mode=&#x27;same&#x27;)[pad:pad + N]
+    return sm
+
+
+def _decompose(env, dt):
+    N = len(env)
+    t = np.arange(N) * dt
+    amp = np.max(env) if np.max(env) != 0 else 1.0
+    lo = 0.1 * amp
+    hi = 0.9 * amp
+
+    def cross_time(vals, times, level, rising=True):
+        for i in range(1, len(vals)):
+            if rising and vals[i - 1] &lt; level &lt;= vals[i]:
+                frac = (level - vals[i - 1]) / (vals[i] - vals[i - 1] + 1e-12)
+                return times[i - 1] + frac * (times[i] - times[i - 1])
+            if (not rising) and vals[i - 1] &gt;= level &gt; vals[i]:
+                frac = (vals[i - 1] - level) / (vals[i - 1] - vals[i] + 1e-12)
+                return times[i - 1] + frac * (times[i] - times[i - 1])
+        return None
+
+    sm = _smooth_trend(env, 5)
+    peak_idx = int(np.argmax(sm))
+    rise_lo = cross_time(sm[:peak_idx + 1], t[:peak_idx + 1], lo, True)
+    rise_hi = cross_time(sm[:peak_idx + 1], t[:peak_idx + 1], hi, True)
+    rise_ns = (rise_hi - rise_lo) if (rise_lo is not None and rise_hi is not None) else 2.0
+    fall_seg = sm[peak_idx:]
+    fall_t = t[peak_idx:]
+    fall_hi = cross_time(fall_seg, fall_t, hi, False)
+    fall_lo = cross_time(fall_seg, fall_t, lo, False)
+    fall_ns = (fall_lo - fall_hi) if (fall_lo is not None and fall_hi is not None) else 2.0
+    if rise_ns is None or rise_ns &lt;= 0:
+        rise_ns = 2.0
+    if fall_ns is None or fall_ns &lt;= 0:
+        fall_ns = 2.0
+
+    mask = env &gt; 0.8 * amp
+    if np.sum(mask) &gt;= 3:
+        tp_ = t[mask]
+        vp = env[mask]
+        A = np.vstack([tp_, np.ones_like(tp_)]).T
+        coef, *_ = np.linalg.lstsq(A, vp, rcond=None)
+        droop_slope = coef[0]
+        trend = A @ coef
+        resid = vp - trend
+        ripple_std_frac = np.std(resid) / (amp + 1e-12)
+    else:
+        droop_slope = 0.0
+        ripple_std_frac = 0.0
+
+    e = env - np.mean(env)
+    denom = np.sum(e * e) + 1e-12
+    lag1 = float(np.sum(e[:-1] * e[1:]) / denom)
+
+    sig = env - sm
+    fft = np.abs(np.fft.rfft(sig)) ** 2
+    fft = fft[1:]
+    fft = fft + 1e-18
+    gm = np.exp(np.mean(np.log(fft)))
+    am = np.mean(fft)
+    spectral_flatness = float(gm / am)
+
+    freqs = np.fft.rfftfreq(N, d=dt)
+    fft_full = np.abs(np.fft.rfft(sig))
+    fft_full[0] = 0
+    peak_bin = int(np.argmax(fft_full))
+    ripple_peak_ghz = float(freqs[peak_bin])
+
+    return {
+        &#x27;rise_ns&#x27;: float(rise_ns),
+        &#x27;fall_ns&#x27;: float(fall_ns),
+        &#x27;droop_slope_per_ns&#x27;: float(droop_slope),
+        &#x27;ripple_std_frac&#x27;: float(ripple_std_frac),
+        &#x27;lag1_autocorr&#x27;: float(lag1),
+        &#x27;spectral_flatness&#x27;: float(spectral_flatness),
+        &#x27;ripple_peak_ghz&#x27;: float(ripple_peak_ghz),
+    }, mask, amp, sm
+
+
+def _make_surrogates(env, dt, stats, mask, amp, sm):
+    N = len(env)
+    t = np.arange(N) * dt
+    ripple = env - sm
+
+    # no_ripple: keep smooth trend (with droop and asymmetry), drop ripple
+    no_ripple = sm.copy()
+
+    # no_droop: flatten plateau slope while preserving ripple and edges
+    no_droop = env.copy()
+    if np.sum(mask) &gt;= 2:
+        idxs = np.where(mask)[0]
+        tp_ = t[idxs]
+        vp = sm[idxs]
+        A = np.vstack([tp_, np.ones_like(tp_)]).T
+        coef, *_ = np.linalg.lstsq(A, vp, rcond=None)
+        trend = A @ coef
+        flat = np.mean(vp)
+        # replace smooth plateau with flat level, keep ripple
+        no_droop[idxs] = flat + ripple[idxs]
+
+    # no_asymmetry: symmetrize edges by mirroring, preserve ripple + plateau
+    peak_idx = int(np.argmax(sm))
+    no_asym_sm = sm.copy()
+    rise = sm[:peak_idx + 1]
+    fall = sm[peak_idx:][::-1]
+    m = min(len(rise), len(fall))
+    if m &gt;= 2:
+        avg = 0.5 * (rise[-m:] + fall[-m:])
+        no_asym_sm[peak_idx + 1 - m:peak_idx + 1] = avg
+        end = min(peak_idx + m, N)
+        no_asym_sm[peak_idx:end] = avg[::-1][:end - peak_idx]
+    no_asym = no_asym_sm + ripple
+
+    return {&#x27;no_ripple&#x27;: no_ripple, &#x27;no_droop&#x27;: no_droop, &#x27;no_asymmetry&#x27;: no_asym}
+
+
+def analyze(envelope, params):
+    env = np.asarray(envelope, dtype=float).ravel()
+    dt = params[&#x27;dt_ns&#x27;]
+    L = int(params.get(&#x27;levels&#x27;, 3))
+
+    stats, mask, amp, sm = _decompose(env, dt)
+
+    Hstatic = _build_static(params, L)
+    Hdrive = _drive_op(L)
+    ci = _comp_indices(L)
+
+    surr = _make_surrogates(env, dt, stats, mask, amp, sm)
+
+    ablation = {}
+    ablation[&#x27;full&#x27;] = _propagate_leakage(env, params, L, Hstatic, Hdrive, ci)
+    ablation[&#x27;no_asymmetry&#x27;] = _propagate_leakage(surr[&#x27;no_asymmetry&#x27;], params, L, Hstatic, Hdrive, ci)
+    ablation[&#x27;no_droop&#x27;] = _propagate_leakage(surr[&#x27;no_droop&#x27;], params, L, Hstatic, Hdrive, ci)
+    ablation[&#x27;no_ripple&#x27;] = _propagate_leakage(surr[&#x27;no_ripple&#x27;], params, L, Hstatic, Hdrive, ci)
+
+    # Sideband sweep: inject a ripple of measured amplitude at each candidate freq
+    # onto the smooth base (no native ripple), over the plateau region, find min leakage.
+    window = list(params.get(&#x27;sideband_window_ghz&#x27;, []))
+    base = sm.copy()
+    ripple_amp = stats[&#x27;ripple_std_frac&#x27;] * amp
+    if ripple_amp &lt;= 0:
+        ripple_amp = 0.01 * amp
+    t = np.arange(len(env)) * dt
+    mfloat = mask.astype(float)
+    best_f = None
+    best_leak = np.inf
+    for f in window:
+        inj = base + ripple_amp * np.sin(2.0 * np.pi * f * t) * mfloat
+        lk = _propagate_leakage(inj, params, L, Hstatic, Hdrive, ci)
+        if lk &lt; best_leak:
+            best_leak = lk
+            best_f = f
+    if best_f is None:
+        best_f = float(stats[&#x27;ripple_peak_ghz&#x27;])
+    sideband_min_ghz = float(best_f)
+
+    # Counterdiabatic / AGP consistency.
+    # AGP correction to a flux drive scales with d(envelope)/dt; DRAG-like adds d2/dt2.
+    # Test whether the extracted ripple correlates with derivative structure, and
+    # whether edge asymmetry has the sign predicted by CD (rise != fall).
+    smooth = sm
+    deriv = np.gradient(smooth, dt)
+    dderiv = np.gradient(deriv, dt)
+    ripple_sig = env - smooth
+    dabs = np.abs(deriv)
+    edge_mask = dabs &gt; 0.2 * (np.max(dabs) + 1e-12)
+    corrs = []
+
+    def safe_corr(x, y):
+        if np.std(x) &gt; 1e-9 and np.std(y) &gt; 1e-9:
+            return abs(np.corrcoef(x, y)[0, 1])
+        return None
+
+    if np.sum(edge_mask) &gt;= 5:
+        c = safe_corr(ripple_sig[edge_mask], deriv[edge_mask])
+        if c is not None:
+            corrs.append(c)
+        c = safe_corr(ripple_sig[edge_mask], dderiv[edge_mask])
+        if c is not None:
+            corrs.append(c)
+    if np.sum(mask) &gt;= 5:
+        c = safe_corr(ripple_sig[mask], deriv[mask])
+        if c is not None:
+            corrs.append(c)
+        c = safe_corr(ripple_sig[mask], dderiv[mask])
+        if c is not None:
+            corrs.append(c)
+    corr = max(corrs) if corrs else 0.0
+
+    asym = stats[&#x27;rise_ns&#x27;] - stats[&#x27;fall_ns&#x27;]
+    # Additional check: does the sideband min frequency match the native ripple peak?
+    # CD/AGP would predict the beneficial ripple sits near a transition sideband, i.e.
+    # the native ripple_peak should be close to the leakage-minimizing frequency.
+    freq_match = abs(sideband_min_ghz - stats[&#x27;ripple_peak_ghz&#x27;]) &lt; 0.15
+
+    if corr &gt; 0.35 or (corr &gt; 0.2 and abs(asym) &gt; 0.3) or (freq_match and corr &gt; 0.25):
+        cd_consistent = 1
+    elif corr &lt; 0.12 and abs(asym) &lt; 0.15 and not freq_match:
+        cd_consistent = -1
+    else:
+        cd_consistent = 0
+
+    return {
+        &#x27;stats&#x27;: stats,
+        &#x27;ablation_leakage&#x27;: ablation,
+        &#x27;sideband_min_ghz&#x27;: sideband_min_ghz,
+        &#x27;cd_consistent&#x27;: int(cd_consistent),
+    }
+</pre>
+    </details>
+    </details>
+        </div>
+
+        <div class="rev-field" style="margin-top:28px"><h2>The checks &mdash; two automated, one yours</h2>
+
+          <div class="chk">
+            <div class="chk-h">Does it still test the proposal?</div>
+            <div class="chk-in">
+              <div class="ai-line"><span class="ai-tag">Drift judge</span><span class="ai-score">faithful = <strong>True</strong></span><span class="ai-score">direction ok = <strong>True</strong></span></div>
+              <details class="fold"><summary>Drift judge's reasoning</summary><div class="fold-in"><p class="ai-reason">        The scorer measures the same core objectives as the original problem: decomposition statistics (0.30), causal ablation leakage via 27-dim Hamiltonian propagation (0.35), sideband-resonance argmin (0.20), and the CD verdict (0.15), all requiring genuine simulation of the device Hamiltonian rather than construction-constant recovery. Direction is maximize, consistent with an aggregated agreement figure of merit. The task is non-degenerate: the ablation and sideband ground truths are outputs of the simulator acting on decomposed variants, so a solver must actually build and propagate the Hamiltonian to match them, and generous-but-real tolerances prevent trivial guessing. Two mild caveats keep this from perfect faithfulness: the CD verdict is hardcoded to +1 (making that 0.15 component a coin-flip-resolvable binary rather than a genuine quantitative CD-vs-AGP comparison), and the original&#x27;s emphasis on assumption-sweep/sensitivity robustness is replaced by fixed supplied unknowns—but these are simplifications within the same problem, not drift into a different one.</p></div></details>
+            </div>
+          </div>
+
+          <div class="chk">
+            <div class="chk-h">Is the environment physically legal?</div>
+            <div class="chk-in">
+              <div class="ai-line"><span class="ai-tag">Validity judge</span><span class="ai-score">regime: <strong>simulator</strong></span><span class="ai-score">valid = <strong>True</strong></span></div>
+                      <ul class="axes"><li><span class="ax-pass">pass</span>math validity</li><li><span class="ax-pass">pass</span>physical realizability</li><li><span class="ax-pass">pass</span>hardware deployability</li><li><span class="ax-pass">pass</span>resource constraints</li></ul>
+              <details class="fold"><summary>Validity judge's reasoning</summary><div class="fold-in"><p class="ai-reason">        Simulator regime: the task builds a genuine three-transmon Hamiltonian (Hermitian, real Pauli/ladder coefficients, real t) and performs unitary time propagation via expm_multiply of e^{-iHt} on a normalized state in a 27-dim truncated Hilbert space, with leakage defined as population out of the computational subspace. The time-dependent flux-driven parametric coupling is a legal local Hamiltonian evolution expressible as a pulse schedule, the ablation/sideband quantities are genuinely computed by simulation rather than shortcutting, and with a declared system size and no shot/gate/depth claims the simulator regime imposes no further resource requirements.</p></div></details>
+            </div>
+          </div>
+
+          <div class="chk">
+            <div class="chk-h">Is the reference a strong baseline?</div>
+            <div class="chk-in">
+              <div class="ai-line"><span class="ai-tag warn">No automated check</span><span class="ai-score">reference scored <strong>0.9100</strong> vs trivial 0.4712</span></div>
+              <p class="ai-reason" style="margin-top:9px">        The pipeline only verifies that the reference beats the trivial baseline by a margin. It never asks whether the reference is any good in absolute terms. That judgment needs someone who knows the physics — read eval/_reference.py on the left and see whether it is what the task actually asks for.</p>
+              <div class="your">
+                <span class="yl">Your verdict &mdash; is the reference actually strong?</span>
+                <div class="pills">
+                  <label><input type="radio" name="refq"><span>weak</span></label>
+                  <label><input type="radio" name="refq"><span>ok</span></label>
+                  <label><input type="radio" name="refq"><span>strong</span></label>
+                </div>
+                <textarea placeholder="Optional: a better reference solution, or what the current one misses."></textarea>
+              </div>
+            </div>
+          </div>
+
+          <div class="your" style="margin-top:16px">
+            <span class="yl">Overall &mdash; should this task enter the benchmark?</span>
+            <div class="pills">
+              <label><input type="radio" name="ov2"><span>accept</span></label>
+              <label><input type="radio" name="ov2"><span>revise</span></label>
+              <label><input type="radio" name="ov2"><span>reject</span></label>
+            </div>
+            <textarea placeholder="Optional: one line on why."></textarea>
+          </div>
         </div>
       </div>
     </div>
-  </div>
-</section>
-<section id="contributors">
-  <div class="wrap">
-    <div class="sec-head">
-      <h2>Contributors</h2>
-    </div>
 
-    <div class="subhead">Core contributors</div>
-    <div class="people">
-      <div class="person">
-        <img class="av" src="assets/zhaotian-weng.jpg" alt="Zhaotian Weng" loading="lazy" width="46" height="46">
-        <div><div class="pn">Zhaotian Weng<sup>*</sup></div><div class="pt">UC Santa Barbara</div></div>
+    <div class="review-cta" style="margin-top:38px;padding-top:24px;border-top:1px solid var(--line)">
+      <div class="review-copy">
+        <h3 class="review-role-title">Get credited by authorship.</h3>
+        <p>If five or more of your accepted tasks make it into the benchmark, you receive
+        <b>authorship on the paper</b>. Fewer than five, and you are duly acknowledged.</p>
       </div>
-      <div class="person">
-        <img class="av" src="assets/gurusha-juneja.jpg" alt="Gurusha Juneja" loading="lazy" width="46" height="46">
-        <div><div class="pn">Gurusha Juneja<sup>*</sup></div><div class="pt">UC Santa Barbara</div></div>
-      </div>
-      <div class="person">
-        <img class="av" src="assets/jonah-so.jpg" alt="Jonah So" loading="lazy" width="46" height="46">
-        <div><div class="pn">Jonah So<sup>*</sup></div><div class="pt">UC Santa Barbara</div></div>
-      </div>
-    </div>
-    <p class="eqnote"><sup>*</sup>Equal contribution.</p>
-
-    <div class="subhead">Advisory committee</div>
-
-    <div class="people">
-      <!-- TODO: confirm titles and credential lines with each advisor before publishing -->
-      <div class="person">
-        <img class="av" src="assets/xin-eric-wang.jpg" alt="Xin Eric Wang" loading="lazy" width="46" height="46">
-        <div>
-          <div class="pn">Xin Eric Wang</div>
-          <div class="pt">UC Santa Barbara · AI Lab</div>
-          <div class="pc">Multimodal AI and language agents</div>
-        </div>
-      </div>
-      <div class="person">
-        <img class="av" src="assets/murphy-niu.jpg" alt="Murphy Niu" loading="lazy" width="46" height="46">
-        <div>
-          <div class="pn">Murphy Yuezhen Niu</div>
-          <div class="pt">UC Santa Barbara · Quantum CoDesign Lab</div>
-          <div class="pc">Quantum machine learning and quantum control</div>
-        </div>
-      </div>
-    </div>
-
-    <div class="subhead">Reviewing researchers</div>
-    <!-- Signature-format list, after agi.safe.ai — scales to hundreds of names.
-         TODO: append confirmed reviewers here as Name<sup>n</sup>, and add each new
-         institution to the .affil line below. -->
-    <p class="sigempty">673 quantum researchers across four continents have been invited. Confirmed reviewers
-      will be listed here by name, with institutional affiliations, ahead of publication.</p>
-    <div class="affil"><sup>1</sup>UC Santa Barbara</div>
-
-    <div class="subhead">Contributing institutions</div>
-    <div class="inst">
-      <div class="icell">UC Santa Barbara</div>
-      <div class="icell">Google DeepMind</div>
-    </div>
-  </div>
-</section>
-
-<section id="faq">
-  <div class="wrap">
-    <div class="sec-head">
-      <h2>FAQ</h2>
-    </div>
-    <div class="faq">
-      <details>
-        <summary>If an AI writes the problems, aren't they easy or meaningless?<span class="pm">+</span></summary>
-        <div class="ans">Difficulty is visible in the published solver traces and baselines. <b>Scientific meaningfulness is different:</b> that is the part a program cannot certify, so expert review remains a gate before a proposed question enters the benchmark.</div>
-      </details>
-      <details>
-        <summary>Is this only about quantum science?<span class="pm">+</span></summary>
-        <div class="ans">No. The claim — that an agent can select its own research question and build the
-          environment to answer it — is not specific to quantum. Quantum is where we start because it is one of the
-          few fields where an agent-invented environment can actually be run and scored: the physics is simulable and
-          the answer is checkable, with no wet lab in between. The environments this produces are meant to be
-          <b>reused</b> — to evaluate, train and optimize AI scientists at a scale hand-built benchmarks do not reach.</div>
-      </details>
-      <details>
-        <summary>What does reviewing involve?<span class="pm">+</span></summary>
-        <div class="ans">You review <b>four generated questions</b>: two from your own research direction and two from another researcher's seed. Judge whether each is open, valid, well-posed, meaningful, and worth solving. You can request regeneration, and a completed example is provided before you start. <b>No coding is required.</b></div>
-      </details>
-      <details>
-        <summary>How are contributors compensated?<span class="pm">+</span></summary>
-        <div class="ans">Every reviewer is acknowledged by name in the publication. Contribute <b>five or more
-          accepted tasks</b> and your name is added to the <b>author list</b>.</div>
-      </details>
-      <details>
-        <summary>Who can contribute?<span class="pm">+</span></summary>
-        <div class="ans">Any working quantum researcher — faculty, postdocs, PhD students, and industry scientists.
-          You review problems in your own area of expertise.</div>
-      </details>
-      <details>
-        <summary>Do I need quantum hardware to run these tasks?<span class="pm">+</span></summary>
-        <div class="ans">No. Every task in the benchmark is written to run on a <b>single workstation</b>: at most
-          28 qubits, under three hours of compute, simulator only. This is a deliberate constraint — it keeps the
-          benchmark reproducible by anyone and keeps the difficulty in the physics rather than in the hardware access.</div>
-      </details>
-      <details>
-        <summary>Are the scores on this page verified?<span class="pm">+</span></summary>
-        <div class="ans">The validity, novelty and executability scores are <b>machine judgments awaiting expert
-          verification</b> — that verification is exactly what we are recruiting for. The performance numbers
-          (trivial, solver, reference) are measured directly by the evaluation harness and are not judgments.</div>
-      </details>
-    </div>
-  </div>
-</section>
-
-
-<section id="join" style="border-bottom:none">
-  <div class="wrap">
-    <div class="join">
-      <div class="eyebrow">Call for reviewers</div>
-      <h2>Help decide what AI should investigate next.</h2>
-      <p>Bring your field into the loop.</p>
-      <div class="cta-row">
-        <!-- TODO: replace this ngrok tunnel with the permanent annotation-platform domain -->
-        <a class="btn primary" href="https://headwear-wiring-unheated.ngrok-free.dev/static/showcase.html" target="_blank" rel="noopener">Open the annotation platform <span class="arw">→</span></a>
-      </div>
-      <!-- TODO: add a mailing-list signup endpoint -->
-      <div class="contact">
-        <span>Questions or feedback: <a href="mailto:zhaotian@ucsb.edu">zhaotian@ucsb.edu</a></span>
-        <span>Report a broken task: <a href="mailto:zhaotian@ucsb.edu">zhaotian@ucsb.edu</a></span>
+      <div class="review-actions">
+        <a class="btn primary" href="https://docs.google.com/forms/d/e/1FAIpQLSexRBbH09PI8zHvypUEDg5eFGUJlxLno7UM67O3VfCi96pblA/viewform" target="_blank" rel="noopener">Sign up to start annotating <span class="arw">&rarr;</span></a>
+        <a class="btn" href="index.html#top">Back to overview</a>
       </div>
     </div>
   </div>
@@ -4352,261 +5534,5 @@
 <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js" integrity="sha384-43gviWU0YVjaDtb/GhzOouOXtZMP/7XUzwPTstBeZFe/+rCMvRwr4yROQP43s0Xk" crossorigin="anonymous"
   onload="renderMathInElement(document.body,{delimiters:[{left:'$$',right:'$$',display:true},{left:'$',right:'$',display:false}],throwOnError:false});"></script>
 
-<script>
-(function(){
-  /* ---------- domain tiles ---------- */
-  /* TODO: refresh these per-domain counts against the full set of live environments */
-  var DOMAINS = [
-    {n:'Hamiltonian simulation',  d:'Low-depth circuit design and non-uniform Trotter step allocation.',                  s:'2 published', live:true,  art:'chain'},
-    {n:'Quantum control',         d:'Reverse-engineering learned flux-drive envelopes on tunable couplers.',              s:'2 published', live:true,  art:'pulse'},
-    {n:'Quantum metrology',       d:'Variational probe-state design maximizing Fisher information under noise.',          s:'1 published', live:true,  art:'bloch'},
-    {n:'Classical shadows',       d:'Randomized measurement schemes that predict many observables from few samples.',     s:'in generation', live:false, art:'shadow'},
-    {n:'Quantum error correction',d:'Decoders and code design under realistic circuit-level noise.',                      s:'in generation', live:false, art:'lattice'},
-    {n:'Quantum signal processing',d:'Phase sequences implementing polynomial transforms of a block-encoded operator.',   s:'in generation', live:false, art:'qsp'},
-    {n:'Quantum error mitigation',d:'Zero-noise extrapolation and probabilistic error cancellation.',                     s:'in generation', live:false, art:'extrap'},
-    {n:'NISQ algorithms',         d:'Variational ansatz design, barren plateaus, and measurement strategy.',              s:'in generation', live:false, art:'layers'},
-    {n:'Hamiltonian learning',    d:'Recovering couplings and fields from measurement data, sample-efficiently.',         s:'in generation', live:false, art:'hlearn'}
-  ];
-
-  var A = 'var(--accent)', L = 'var(--line-2)', I = 'var(--faint)';
-  function art(kind){
-    var o = '<svg viewBox="0 0 240 104" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">';
-    switch(kind){
-      case 'bloch':
-        o += '<ellipse cx="120" cy="52" rx="34" ry="34" stroke="'+L+'" stroke-width="1.2"/>'
-          +  '<ellipse cx="120" cy="52" rx="34" ry="11" stroke="'+L+'" stroke-width="1.2"/>'
-          +  '<line x1="120" y1="52" x2="120" y2="18" stroke="'+L+'" stroke-width="1.2"/>'
-          +  '<line x1="120" y1="52" x2="145" y2="31" stroke="'+A+'" stroke-width="2"/>'
-          +  '<circle cx="145" cy="31" r="3.2" fill="'+A+'"/>';
-        break;
-      case 'chain':
-        for(var i=0;i<7;i++){ var x=48+i*24;
-          o += '<circle cx="'+x+'" cy="52" r="5.5" stroke="'+(i%2?A:L)+'" stroke-width="1.6"/>';
-          if(i<6) o += '<line x1="'+(x+6)+'" y1="52" x2="'+(x+18)+'" y2="52" stroke="'+L+'" stroke-width="1.2"/>';
-          o += '<line x1="'+x+'" y1="'+(i%2?40:64)+'" x2="'+x+'" y2="'+(i%2?32:72)+'" stroke="'+(i%2?A:L)+'" stroke-width="1.4"/>';
-        }
-        break;
-      case 'pulse':
-        var p='M28,74 ';
-        for(var t=0;t<=184;t++){ var xx=28+t, v;
-          if(t<26) v=74-46*(t/26);
-          else if(t>158) v=28+46*((t-158)/26);
-          else v=28+0.055*(t-26)-2.6*Math.sin(t*0.62);
-          p += 'L'+xx.toFixed(1)+','+v.toFixed(1)+' ';
-        }
-        o += '<path d="'+p+'" stroke="'+A+'" stroke-width="1.7" stroke-linejoin="round"/>'
-          +  '<line x1="20" y1="86" x2="220" y2="86" stroke="'+L+'" stroke-width="1"/>';
-        break;
-      case 'lattice':
-        for(var r=0;r<4;r++) for(var c=0;c<7;c++){
-          var X=60+c*20, Y=22+r*20, on=((r+c)%2===0);
-          o += '<rect x="'+(X-6)+'" y="'+(Y-6)+'" width="12" height="12" stroke="'+(on?A:L)+'" stroke-width="1.2" '+(on?'fill="'+A+'" fill-opacity=".1"':'')+'/>';
-        }
-        break;
-      case 'shadow':
-        /* one state, several randomly-rotated measurement bases, a few snapshots */
-        o += '<circle cx="52" cy="52" r="17" stroke="'+A+'" stroke-width="1.5" fill="'+A+'" fill-opacity=".07"/>';
-        [26,52,78].forEach(function(yv,k){
-          o += '<line x1="70" y1="'+(52+(yv-52)*0.45)+'" x2="150" y2="'+yv+'" stroke="'+L+'" stroke-width="1" stroke-dasharray="3 3"/>';
-          o += '<rect x="152" y="'+(yv-11)+'" width="52" height="22" rx="3" stroke="'+(k===1?A:L)+'" stroke-width="1.3"/>';
-          for(var b=0;b<3;b++)
-            o += '<rect x="'+(158+b*15)+'" y="'+(yv-4+((k+b)%2?0:-3))+'" width="9" height="'+(6+((k+b)%2?0:6))+'" fill="'+(k===1?A:L)+'" fill-opacity=".55"/>';
-        });
-        break;
-      case 'qsp':
-        /* a smooth signal reshaped into a sharp polynomial response by phase blocks */
-        var pa='M24,74 ', pb='M126,74 ';
-        for(var u=0;u<=76;u++){
-          pa += 'L'+(24+u).toFixed(1)+','+(74-30*(u/76)).toFixed(1)+' ';
-          var z=(u/76-0.5)*9;
-          pb += 'L'+(126+u).toFixed(1)+','+(74-30/(1+Math.exp(-z))).toFixed(1)+' ';
-        }
-        o += '<path d="'+pa+'" stroke="'+L+'" stroke-width="1.6"/>'
-          +  '<path d="'+pb+'" stroke="'+A+'" stroke-width="1.9"/>';
-        o += '<line x1="24" y1="80" x2="100" y2="80" stroke="'+L+'" stroke-width="1"/>'
-          +  '<line x1="126" y1="80" x2="202" y2="80" stroke="'+L+'" stroke-width="1"/>'
-          +  '<path d="M104,55 L120,55 M114,50 L120,55 L114,60" stroke="'+A+'" stroke-width="1.5" fill="none"/>';
-        break;
-      case 'hlearn':
-        /* unknown couplings on a chain, inferred from scattered samples */
-        var wts=[1.1,2.6,1.6,3.2,1.3];
-        for(var i2=0;i2<6;i2++){ var xc=52+i2*28;
-          o += '<circle cx="'+xc+'" cy="66" r="5.5" stroke="'+L+'" stroke-width="1.5"/>';
-          if(i2<5) o += '<line x1="'+(xc+6)+'" y1="66" x2="'+(xc+22)+'" y2="66" stroke="'+A+'" stroke-width="'+wts[i2]+'"/>';
-        }
-        [[58,26],[86,34],[114,22],[142,32],[170,25],[198,31]].forEach(function(pt){
-          o += '<circle cx="'+pt[0]+'" cy="'+pt[1]+'" r="2.8" fill="'+L+'"/>';});
-        o += '<path d="M56,30 Q116,18 200,29" stroke="'+A+'" stroke-width="1.4" fill="none" stroke-dasharray="4 3"/>';
-        break;
-      case 'layers':
-        for(var q=0;q<4;q++){ var Y2=24+q*19;
-          o += '<line x1="30" y1="'+Y2+'" x2="210" y2="'+Y2+'" stroke="'+L+'" stroke-width="1"/>'; }
-        for(var g=0;g<5;g++){ var X2=52+g*34;
-          o += '<rect x="'+(X2-8)+'" y="16" width="16" height="16" rx="3" stroke="'+A+'" stroke-width="1.4" fill="'+A+'" fill-opacity=".08"/>';
-          o += '<rect x="'+(X2-8)+'" y="54" width="16" height="16" rx="3" stroke="'+L+'" stroke-width="1.4"/>'; }
-        break;
-      case 'extrap':
-        o += '<line x1="30" y1="84" x2="212" y2="84" stroke="'+L+'" stroke-width="1"/>'
-          +  '<line x1="30" y1="14" x2="30" y2="84" stroke="'+L+'" stroke-width="1"/>'
-          +  '<path d="M56,68 L96,56 L136,44 L176,32" stroke="'+L+'" stroke-width="1.4" stroke-dasharray="3 3"/>'
-          +  '<path d="M56,68 L30,76" stroke="'+A+'" stroke-width="1.8" stroke-dasharray="3 3"/>';
-        ['56,68','96,56','136,44','176,32'].forEach(function(pt){var q=pt.split(',');
-          o += '<circle cx="'+q[0]+'" cy="'+q[1]+'" r="3.4" fill="'+L+'"/>';});
-        o += '<circle cx="30" cy="76" r="4" fill="'+A+'"/>';
-        break;
-      default:
-        /* unmapped art key - render a visible placeholder rather than an empty tile */
-        o += '<rect x="88" y="36" width="64" height="32" rx="4" stroke="'+I+'" stroke-width="1.3" stroke-dasharray="4 3"/>';
-    }
-    return o + '</svg>';
-  }
-
-  function tile(d){
-    return '<div class="tile"><div class="art">'+art(d.art)+'</div><div class="body">'
-      + '<div class="tn">'+d.n+'</div><div class="td">'+d.d+'</div>'
-      + '<div class="tg '+(d.live?'live':'soon')+'"><span class="cd"></span>'+d.s+'</div>'
-      + '</div></div>';
-  }
-  var track = document.getElementById('mtrack');
-  if(track){ var html = DOMAINS.map(tile).join(''); track.innerHTML = html + html; }
-
-  /* ---------- task pager ---------- */
-  var cards = Array.prototype.slice.call(document.querySelectorAll('.qcard'));
-  var prev = document.getElementById('qprev'), next = document.getElementById('qnext');
-  var dots = document.getElementById('qdots'), count = document.getElementById('qcount');
-  var cur = 0;
-
-  if(cards.length && dots){
-    cards.forEach(function(_, i){
-      var b = document.createElement('i');
-      b.addEventListener('click', function(){ show(i); });
-      dots.appendChild(b);
-    });
-    var dotEls = Array.prototype.slice.call(dots.children);
-
-    function show(i){
-      cur = Math.max(0, Math.min(cards.length - 1, i));
-      cards.forEach(function(c, n){ c.classList.toggle('on', n === cur); });
-      dotEls.forEach(function(d, n){ d.classList.toggle('on', n === cur); });
-      count.textContent = (cur + 1) + ' / ' + cards.length;
-      prev.disabled = cur === 0;
-      next.disabled = cur === cards.length - 1;
-    }
-    prev.addEventListener('click', function(){ show(cur - 1); });
-    next.addEventListener('click', function(){ show(cur + 1); });
-    show(0);
-  }
-
-  /* ---------- smooth in-page anchors ---------- */
-  var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  document.addEventListener('click', function(e){
-    var a = e.target.closest && e.target.closest('a[href^="#"]');
-    if(!a) return;
-    var href = a.getAttribute('href');
-    if(href === '#' || href.length < 2) return;
-    var el = document.getElementById(href.slice(1));
-    if(!el) return;
-    e.preventDefault();
-    el.scrollIntoView({behavior: reduce ? 'auto' : 'smooth', block: 'start'});
-  });
-})();
-</script>
-
-
-<script>
-(() => {
-  const panel = document.querySelector('.qlq-orbit-panel');
-  if (!panel) return;
-
-  const target = panel.closest('.hero-visual') || panel;
-  const isMobile = window.matchMedia('(max-width: 560px)').matches;
-  const prefersReducedMotion =
-    window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-
-  let visible = false;
-  let playedOnce = false;
-  let playTimer = null;
-
-  function resetOrbit() {
-    if (playTimer) {
-      clearTimeout(playTimer);
-      playTimer = null;
-    }
-
-    panel.classList.remove('qle-play');
-
-    // Force WebKit/iOS to commit the reset before the next replay.
-    void panel.offsetWidth;
-  }
-
-  function playOrbit() {
-    resetOrbit();
-
-    requestAnimationFrame(() => {
-      requestAnimationFrame(() => {
-        panel.classList.add('qle-play');
-      });
-    });
-  }
-
-  // Reduced motion becomes a static final diagram on desktop.
-  // Mobile intentionally retains the requested reveal animation.
-  if (prefersReducedMotion && !isMobile) {
-    panel.classList.add('qle-play');
-    return;
-  }
-
-  function initialPlay() {
-    if (playedOnce) return;
-    playedOnce = true;
-    visible = true;
-    playOrbit();
-  }
-
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', () => {
-      playTimer = setTimeout(initialPlay, 220);
-    }, { once:true });
-  } else {
-    playTimer = setTimeout(initialPlay, 220);
-  }
-
-  if ('IntersectionObserver' in window) {
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach((entry) => {
-        if (entry.isIntersecting) {
-          if (!visible && playedOnce) {
-            visible = true;
-            playOrbit();
-          }
-        } else if (visible) {
-          visible = false;
-          resetOrbit();
-        }
-      });
-    }, {
-      threshold:0.05,
-      rootMargin:'40px 0px 40px 0px'
-    });
-
-    observer.observe(target);
-  } else {
-    let wasInView = true;
-
-    window.addEventListener('scroll', () => {
-      const rect = target.getBoundingClientRect();
-      const inView = rect.bottom > 0 && rect.top < window.innerHeight;
-
-      if (inView && !wasInView) {
-        wasInView = true;
-        playOrbit();
-      } else if (!inView && wasInView) {
-        wasInView = false;
-        resetOrbit();
-      }
-    }, { passive:true });
-  }
-})();
-</script>
 </body>
 </html>
