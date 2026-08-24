@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Quantum's Last Exam</title>
+<title>Quantum's Last Question</title>
 <meta name="description" content="Researchers provide only a few keywords. An agent reviews the surrounding literature, proposes open quantum research questions, and builds executable environments around them. No human writes the task itself; reusable environments can then evaluate, train and optimize AI scientists at scale.">
 <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🔬</text></svg>">
 
@@ -991,7 +991,7 @@
 
   .hero{
     position:relative;
-    padding-top:clamp(64px,9vw,110px);
+    padding-top:clamp(32px,5vw,60px);
   }
   .hero::after{
     content:"";
@@ -2528,8 +2528,16 @@
     border-top:1px solid rgba(139,104,69,.32);
   }
 
-  #contribute .review-cta > div{
+  #contribute .review-cta > .review-copy{
     max-width:720px;
+  }
+
+  #contribute .review-actions{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    flex:none;
+    flex-wrap:wrap;
   }
 
   #contribute .review-cta p{
@@ -2732,13 +2740,890 @@
     }
   }
 
+
+  /* ==========================================================
+     QLQ CONNECTED RESEARCH ORBIT — CLEAN IMPLEMENTATION
+     One semantic orbit. The line advances through each research
+     activity and each node resolves as the line reaches it.
+     ========================================================== */
+
+  .qlq-orbit-panel .qle-canvas{
+    position:relative;
+    height:100% !important;
+  }
+
+  .qlq-connected-stage{
+    position:absolute;
+    inset:0;
+    overflow:visible;
+  }
+
+  .qlq-connected-svg{
+    position:absolute;
+    inset:0;
+    width:100%;
+    height:100%;
+    overflow:visible;
+    pointer-events:none;
+    z-index:0;
+  }
+
+  .qlq-connected-guides{
+    fill:none;
+    stroke:#8b6845;
+    stroke-width:.75;
+    opacity:.09;
+  }
+
+  /* One open orbit: Literature -> Build ENV -> Solve -> Score -> Next Question. */
+  .qlq-orbit-main{
+    fill:none;
+    stroke:#6b4528;
+    stroke-width:2.35;
+    stroke-linecap:round;
+    stroke-linejoin:round;
+    vector-effect:non-scaling-stroke;
+    transform-origin:320px 250px;
+    transform:rotate(-12deg);
+    stroke-dasharray:1000;
+    stroke-dashoffset:1000;
+    opacity:1;
+  }
+
+  .qlq-core-hub{
+    position:absolute;
+    left:50%;
+    top:50%;
+    width:148px;
+    height:148px;
+    transform:translate(-50%,-50%) scale(.90);
+    border-radius:50%;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    text-align:center;
+    background:
+      radial-gradient(circle at 38% 34%, rgba(255,255,255,.58), rgba(255,255,255,0) 34%),
+      #f3e4c7;
+    border:1.6px solid #8d5e32;
+    color:#5c3e27;
+    opacity:0;
+    z-index:4;
+  }
+
+  .qlq-core-hub::before{
+    content:"";
+    position:absolute;
+    inset:12px;
+    border-radius:50%;
+    border:1px solid rgba(15,130,125,.34);
+  }
+
+  .qlq-core-kicker{
+    margin-bottom:7px;
+    color:#0f827d;
+    font-family:var(--mono);
+    font-size:.51rem;
+    font-weight:600;
+    letter-spacing:.12em;
+    text-transform:uppercase;
+  }
+
+  .qlq-core-hub strong{
+    font-family:var(--mono);
+    font-size:.86rem;
+    font-weight:700;
+    letter-spacing:.08em;
+    line-height:1.08;
+  }
+
+  .qlq-ring-node{
+    position:absolute;
+    width:88px;
+    height:88px;
+    margin-left:-44px;
+    margin-top:-44px;
+    opacity:0;
+    transform:scale(.84);
+    z-index:5;
+  }
+
+  /* These points are sampled from the SAME rotated ellipse as the SVG path. */
+  .node-literature{left:84.85%;top:40.52%;}
+  .node-build{left:68.61%;top:69.40%;}
+  .node-solve{left:28.39%;top:74.96%;}
+  .node-score{left:17.67%;top:45.30%;}
+  .node-question{left:54.88%;top:25%;}
+
+  .qlq-ring-core{
+    position:absolute;
+    inset:8px;
+    display:grid;
+    place-items:center;
+    border-radius:50%;
+    background:
+      radial-gradient(circle at 42% 34%, rgba(255,255,255,.56), rgba(255,255,255,0) 32%),
+      #f5ecda;
+    border:1px solid rgba(115,82,48,.44);
+    box-shadow:
+      0 0 0 6px rgba(139,104,69,.045),
+      0 10px 18px -16px rgba(72,45,23,.42);
+  }
+
+  .qlq-ring-core svg{
+    width:26px;
+    height:26px;
+    fill:none;
+    stroke:#0f827d;
+    stroke-width:1.55;
+    stroke-linecap:round;
+    stroke-linejoin:round;
+  }
+
+  .qlq-ring-core.highlight{
+    background:
+      radial-gradient(circle at 42% 34%, rgba(255,255,255,.62), rgba(255,255,255,0) 34%),
+      #f2dfbd;
+    border:1.6px solid #8d5e32;
+    box-shadow:
+      0 0 0 10px rgba(15,130,125,.14),
+      0 12px 20px -13px rgba(72,45,23,.62);
+  }
+
+  .qlq-ring-label{
+    position:absolute;
+    top:92px;
+    left:50%;
+    transform:translateX(-50%) translateY(5px);
+    width:126px;
+    text-align:center;
+    white-space:nowrap;
+    color:#6f6255;
+    font-family:var(--mono);
+    font-size:.62rem;
+    font-weight:500;
+    letter-spacing:.06em;
+    line-height:1.22;
+    text-transform:uppercase;
+    opacity:0;
+  }
+
+  .qlq-ring-label.emphasis{
+    color:#6b4a2d;
+    font-weight:700;
+  }
+
+  .qlq-human-note{
+    position:absolute;
+    right:54px;
+    bottom:54px;
+    color:#7d664b;
+    font-family:var(--display);
+    font-size:.80rem;
+    font-style:italic;
+    letter-spacing:.01em;
+    opacity:0;
+    z-index:5;
+  }
+
+  /* Animation timeline
+     Orbit starts at Literature (t=0°) and ends exactly at Next Question (t=285°).
+     Node delays track the arc-length fractions of that same ellipse. */
+  .qle-panel.qle-play .qlq-core-hub{
+    animation:
+      qlqHubIn .52s cubic-bezier(.2,.78,.2,1) .10s forwards;
+  }
+
+  .qle-panel.qle-play .qlq-orbit-main{
+    animation:qlqOrbitDraw 3.60s linear .35s forwards;
+  }
+
+  /* Start node. */
+  .qle-panel.qle-play .node-literature{
+    animation:qlqNodeIn .34s cubic-bezier(.2,.78,.2,1) .30s forwards;
+  }
+  .qle-panel.qle-play .node-literature .qlq-ring-label{
+    animation:qlqLabelIn .28s ease .42s forwards;
+  }
+
+  /* ~20.6% of the drawn orbit. */
+  .qle-panel.qle-play .node-build{
+    animation:qlqNodeIn .34s cubic-bezier(.2,.78,.2,1) 1.09s forwards;
+  }
+  .qle-panel.qle-play .node-build .qlq-ring-label{
+    animation:qlqLabelIn .28s ease 1.20s forwards;
+  }
+
+  /* ~49.4% of the drawn orbit. */
+  .qle-panel.qle-play .node-solve{
+    animation:qlqNodeIn .34s cubic-bezier(.2,.78,.2,1) 2.13s forwards;
+  }
+  .qle-panel.qle-play .node-solve .qlq-ring-label{
+    animation:qlqLabelIn .28s ease 2.24s forwards;
+  }
+
+  /* ~70.5% of the drawn orbit. */
+  .qle-panel.qle-play .node-score{
+    animation:qlqNodeIn .34s cubic-bezier(.2,.78,.2,1) 2.89s forwards;
+  }
+  .qle-panel.qle-play .node-score .qlq-ring-label{
+    animation:qlqLabelIn .28s ease 3.00s forwards;
+  }
+
+  /* Final destination: the line terminates at this node. */
+  .qle-panel.qle-play .node-question{
+    animation:qlqQuestionIn .52s cubic-bezier(.16,.86,.25,1) 3.88s forwards;
+  }
+  .qle-panel.qle-play .node-question .qlq-ring-label{
+    animation:qlqLabelIn .28s ease 4.02s forwards;
+  }
+  .qle-panel.qle-play .node-question .qlq-ring-core{
+    animation:qlqQuestionPulse .95s ease 4.05s 1,
+              qlqHighlightBreathe 5.4s ease-in-out 5.25s infinite;
+  }
+  .qle-panel.qle-play .qlq-human-note{
+    animation:qlqHumanNoteIn .38s ease 4.32s forwards;
+  }
+
+  @keyframes qlqOrbitDraw{
+    from{stroke-dashoffset:1000;}
+    to{stroke-dashoffset:0;}
+  }
+
+  @keyframes qlqHubIn{
+    from{opacity:0;transform:translate(-50%,-50%) scale(.90);}
+    to{opacity:1;transform:translate(-50%,-50%) scale(1);}
+  }
+
+  @keyframes qlqNodeIn{
+    0%{opacity:0;transform:scale(.84);}
+    72%{opacity:1;transform:scale(1.035);}
+    100%{opacity:1;transform:scale(1);}
+  }
+
+  @keyframes qlqQuestionIn{
+    0%{opacity:0;transform:scale(.78);}
+    64%{opacity:1;transform:scale(1.08);}
+    100%{opacity:1;transform:scale(1);}
+  }
+
+  @keyframes qlqLabelIn{
+    from{opacity:0;transform:translateX(-50%) translateY(5px);}
+    to{opacity:1;transform:translateX(-50%) translateY(0);}
+  }
+
+  @keyframes qlqQuestionPulse{
+    0%,100%{
+      transform:scale(1);
+      box-shadow:
+        0 0 0 11px rgba(31,139,114,.16),
+        0 9px 20px -11px rgba(31,139,114,.42);
+    }
+
+    50%{
+      transform:scale(1.12);
+      box-shadow:
+        0 0 0 21px rgba(31,139,114,.26),
+        0 13px 24px -10px rgba(31,139,114,.56);
+    }
+  }
+  @keyframes qlqHighlightBreathe{
+    0%,100%{
+      box-shadow:
+        0 0 0 10px rgba(15,130,125,.14),
+        0 12px 20px -13px rgba(72,45,23,.62);
+    }
+    50%{
+      box-shadow:
+        0 0 0 14px rgba(15,130,125,.19),
+        0 14px 22px -12px rgba(72,45,23,.68);
+    }
+  }
+
+  @keyframes qlqHumanNoteIn{
+    from{opacity:0;transform:translateY(5px);}
+    to{opacity:.84;transform:translateY(0);}
+  }
+
+  @media(max-width:560px){
+    .qlq-human-note{
+      right:34px;
+      bottom:44px;
+      font-size:.70rem;
+      width:150px;
+      text-align:right;
+    }
+
+    .qlq-ring-label{
+      width:112px;
+      font-size:.57rem;
+    }
+  }
+
+  @media(prefers-reduced-motion:reduce) and (min-width:561px){
+    .qlq-orbit-main{
+      stroke-dashoffset:0 !important;
+      animation:none !important;
+    }
+
+    .qlq-core-hub,
+    .qlq-ring-node,
+    .qlq-ring-label,
+    .qlq-human-note{
+      opacity:1 !important;
+      animation:none !important;
+    }
+
+    .qlq-core-hub{
+      transform:translate(-50%,-50%) scale(1) !important;
+    }
+
+    .qlq-ring-node{
+      transform:scale(1) !important;
+    }
+
+    .qlq-ring-label{
+      transform:translateX(-50%) translateY(0) !important;
+    }
+  }
+
+
+
+  /* ==========================================================
+     MOTION PASS — fast reconnaissance lap, then semantic reveal.
+     The extra depth lines are parallel/recessed, never intersecting.
+     ========================================================== */
+
+  .qlq-depth-field{
+    transform-origin:320px 250px;
+    transform:rotate(-12deg);
+  }
+
+  .qlq-depth-line{
+    fill:none;
+    stroke:#8b6845;
+    stroke-linecap:round;
+    vector-effect:non-scaling-stroke;
+    opacity:0;
+  }
+
+  .qlq-depth-line.depth-a{stroke-width:1.05;}
+  .qlq-depth-line.depth-b{stroke-width:.90;}
+  .qlq-depth-line.depth-c{stroke-width:.75;}
+
+  .qlq-orbit-scan-track,
+  .qlq-orbit-scan{
+    fill:none;
+    transform-origin:320px 250px;
+    transform:rotate(-12deg);
+    vector-effect:non-scaling-stroke;
+    stroke-linecap:round;
+  }
+
+  .qlq-orbit-scan-track{
+    stroke:#0f827d;
+    stroke-width:.9;
+    opacity:0;
+  }
+
+  /* Short bright segment that makes exactly one quick lap. */
+  .qlq-orbit-scan{
+    stroke:#0f827d;
+    stroke-width:2.25;
+    stroke-dasharray:120 880;
+    stroke-dashoffset:0;
+    opacity:0;
+    filter:drop-shadow(0 0 2px rgba(15,130,125,.22));
+  }
+
+  /* Hide workflow nodes until the second, slower pass begins. */
+  .qle-panel.qle-play .qlq-core-hub{
+    animation:
+      qlqHubIn .48s cubic-bezier(.2,.78,.2,1) .12s forwards !important;
+  }
+
+  .qle-panel.qle-play .qlq-depth-line.depth-a{
+    animation:qlqDepthIn .55s ease .18s forwards;
+  }
+  .qle-panel.qle-play .qlq-depth-line.depth-b{
+    animation:qlqDepthInB .60s ease .28s forwards;
+  }
+  .qle-panel.qle-play .qlq-depth-line.depth-c{
+    animation:qlqDepthInC .65s ease .38s forwards;
+  }
+
+  .qle-panel.qle-play .qlq-orbit-scan-track{
+    animation:qlqScanTrack .95s ease .18s both;
+  }
+  .qle-panel.qle-play .qlq-orbit-scan{
+    animation:qlqFastLap .92s cubic-bezier(.28,.02,.20,1) .18s both;
+  }
+
+  /* The real research path begins only after the reconnaissance lap completes. */
+  .qle-panel.qle-play .qlq-orbit-main{
+    animation:qlqOrbitDraw 3.60s linear 1.30s forwards !important;
+  }
+
+  .qle-panel.qle-play .node-literature{
+    animation:qlqNodeIn .34s cubic-bezier(.2,.78,.2,1) 1.27s forwards !important;
+  }
+  .qle-panel.qle-play .node-literature .qlq-ring-label{
+    animation:qlqLabelIn .28s ease 1.39s forwards !important;
+  }
+
+  .qle-panel.qle-play .node-build{
+    animation:qlqNodeIn .34s cubic-bezier(.2,.78,.2,1) 2.04s forwards !important;
+  }
+  .qle-panel.qle-play .node-build .qlq-ring-label{
+    animation:qlqLabelIn .28s ease 2.15s forwards !important;
+  }
+
+  .qle-panel.qle-play .node-solve{
+    animation:qlqNodeIn .34s cubic-bezier(.2,.78,.2,1) 3.08s forwards !important;
+  }
+  .qle-panel.qle-play .node-solve .qlq-ring-label{
+    animation:qlqLabelIn .28s ease 3.19s forwards !important;
+  }
+
+  .qle-panel.qle-play .node-score{
+    animation:qlqNodeIn .34s cubic-bezier(.2,.78,.2,1) 3.84s forwards !important;
+  }
+  .qle-panel.qle-play .node-score .qlq-ring-label{
+    animation:qlqLabelIn .28s ease 3.95s forwards !important;
+  }
+
+  .qle-panel.qle-play .node-question{
+    animation:qlqQuestionIn .52s cubic-bezier(.16,.86,.25,1) 4.83s forwards !important;
+  }
+  .qle-panel.qle-play .node-question .qlq-ring-label{
+    animation:qlqLabelIn .28s ease 4.97s forwards !important;
+  }
+  .qle-panel.qle-play .node-question .qlq-ring-core{
+    animation:qlqQuestionPulse .95s ease 5.00s 1,
+              qlqHighlightBreathe 5.4s ease-in-out 6.20s infinite !important;
+  }
+  .qle-panel.qle-play .qlq-human-note{
+    animation:qlqHumanNoteIn .38s ease 5.27s forwards !important;
+  }
+
+  @keyframes qlqFastLap{
+    0%{opacity:0;stroke-dashoffset:0;}
+    7%{opacity:.95;}
+    88%{opacity:.95;stroke-dashoffset:-1000;}
+    100%{opacity:0;stroke-dashoffset:-1000;}
+  }
+
+  @keyframes qlqScanTrack{
+    0%{opacity:0;}
+    18%{opacity:.16;}
+    78%{opacity:.14;}
+    100%{opacity:0;}
+  }
+
+  @keyframes qlqDepthIn{
+    from{opacity:0;transform:translateY(7px);}
+    to{opacity:.17;transform:translateY(0);}
+  }
+  @keyframes qlqDepthInB{
+    from{opacity:0;transform:translateY(9px);}
+    to{opacity:.11;transform:translateY(0);}
+  }
+  @keyframes qlqDepthInC{
+    from{opacity:0;transform:translateY(11px);}
+    to{opacity:.07;transform:translateY(0);}
+  }
+
+  /* Keep the back field subtly alive after reveal, without rotating anything. */
+  .qle-panel.qle-play .qlq-depth-field{
+    animation:qlqDepthDrift 10s ease-in-out 1.0s infinite alternate;
+  }
+  @keyframes qlqDepthDrift{
+    from{transform:rotate(-12deg) translateY(0);}
+    to{transform:rotate(-12deg) translateY(3px);}
+  }
+
+  @media(prefers-reduced-motion:reduce) and (min-width:561px){
+    .qlq-orbit-scan,
+    .qlq-orbit-scan-track{display:none !important;}
+    .qlq-depth-field{animation:none !important;}
+    .qlq-depth-line{opacity:.10 !important;transform:none !important;animation:none !important;}
+  }
+
+
+
+  /* ==========================================================
+     CONNECTED MOTION REFINEMENT
+     Bridge the fast scan and the semantic orbit so the animation
+     reads as one continuous connected motion.
+     ========================================================== */
+
+  .qlq-orbit-guide,
+  .qlq-orbit-head{
+    fill:none;
+    transform-origin:320px 250px;
+    transform:rotate(-12deg);
+    vector-effect:non-scaling-stroke;
+    stroke-linecap:round;
+    stroke-linejoin:round;
+  }
+
+  .qlq-orbit-guide{
+    stroke:#8d5e32;
+    stroke-width:1.15;
+    opacity:0;
+  }
+
+  .qlq-orbit-head{
+    stroke:#0f827d;
+    stroke-width:2.25;
+    stroke-dasharray:84 916;
+    stroke-dashoffset:0;
+    opacity:0;
+    filter:drop-shadow(0 0 2px rgba(15,130,125,.24));
+  }
+
+  .qlq-orbit-scan-track{ stroke-width:1.15; }
+
+  .qle-panel.qle-play .qlq-orbit-scan-track{
+    animation:qlqScanTrackConnected 1.18s ease .12s both;
+  }
+  .qle-panel.qle-play .qlq-orbit-scan{
+    animation:qlqFastLapConnected 1.10s cubic-bezier(.24,.06,.18,1) .12s both;
+  }
+  .qle-panel.qle-play .qlq-orbit-guide{
+    animation:qlqOrbitGuideIn .42s ease .22s forwards;
+  }
+
+  /* Slight overlap avoids a dead pause between the scan lap and the real orbit. */
+  .qle-panel.qle-play .qlq-orbit-main{
+    animation:qlqOrbitDraw 3.60s linear 1.02s forwards !important;
+  }
+  .qle-panel.qle-play .qlq-orbit-head{
+    animation:qlqOrbitHeadTravel 3.60s linear 1.02s forwards !important;
+  }
+
+  .qle-panel.qle-play .node-literature{
+    animation:qlqNodeIn .34s cubic-bezier(.2,.78,.2,1) 1.06s forwards !important;
+  }
+  .qle-panel.qle-play .node-literature .qlq-ring-label{
+    animation:qlqLabelIn .28s ease 1.18s forwards !important;
+  }
+
+  .qle-panel.qle-play .node-build{
+    animation:qlqNodeIn .34s cubic-bezier(.2,.78,.2,1) 1.76s forwards !important;
+  }
+  .qle-panel.qle-play .node-build .qlq-ring-label{
+    animation:qlqLabelIn .28s ease 1.87s forwards !important;
+  }
+
+  .qle-panel.qle-play .node-solve{
+    animation:qlqNodeIn .34s cubic-bezier(.2,.78,.2,1) 2.80s forwards !important;
+  }
+  .qle-panel.qle-play .node-solve .qlq-ring-label{
+    animation:qlqLabelIn .28s ease 2.91s forwards !important;
+  }
+
+  .qle-panel.qle-play .node-score{
+    animation:qlqNodeIn .34s cubic-bezier(.2,.78,.2,1) 3.56s forwards !important;
+  }
+  .qle-panel.qle-play .node-score .qlq-ring-label{
+    animation:qlqLabelIn .28s ease 3.67s forwards !important;
+  }
+
+  .qle-panel.qle-play .node-question{
+    animation:qlqQuestionIn .52s cubic-bezier(.16,.86,.25,1) 4.54s forwards !important;
+  }
+  .qle-panel.qle-play .node-question .qlq-ring-label{
+    animation:qlqLabelIn .28s ease 4.68s forwards !important;
+  }
+  .qle-panel.qle-play .node-question .qlq-ring-core{
+    animation:qlqQuestionPulse .95s ease 4.74s 1,
+              qlqHighlightBreathe 5.4s ease-in-out 5.95s infinite !important;
+  }
+  .qle-panel.qle-play .qlq-human-note{
+    animation:qlqHumanNoteIn .38s ease 4.96s forwards !important;
+  }
+
+  @keyframes qlqOrbitGuideIn{
+    from{opacity:0}
+    to{opacity:.18}
+  }
+
+  @keyframes qlqFastLapConnected{
+    0%{opacity:0;stroke-dashoffset:0;}
+    5%{opacity:.98;}
+    82%{opacity:.95;stroke-dashoffset:-1000;}
+    100%{opacity:.22;stroke-dashoffset:-1000;}
+  }
+
+  @keyframes qlqScanTrackConnected{
+    0%{opacity:0;}
+    14%{opacity:.17;}
+    84%{opacity:.16;}
+    100%{opacity:.08;}
+  }
+
+  @keyframes qlqOrbitHeadTravel{
+    0%{opacity:0;stroke-dashoffset:0;}
+    3%{opacity:.96;}
+    92%{opacity:.96;}
+    100%{opacity:0;stroke-dashoffset:-1000;}
+  }
+
+  @media(prefers-reduced-motion:reduce) and (min-width:561px){
+    .qlq-orbit-scan,
+    .qlq-orbit-scan-track,
+    .qlq-orbit-head{display:none !important;}
+    .qlq-orbit-guide{opacity:.18 !important;animation:none !important;}
+  }
+
+
+
+  /* ==========================================================
+     FAST CONNECTED TIMING
+     Compress the complete hero motion into ~2.4 seconds.
+     ========================================================== */
+  .qle-panel.qle-play .qlq-orbit-scan-track{
+    animation:qlqScanTrackConnected .58s ease .06s both !important;
+  }
+  .qle-panel.qle-play .qlq-orbit-scan{
+    animation:qlqFastLapConnected .54s cubic-bezier(.22,.04,.16,1) .06s both !important;
+  }
+  .qle-panel.qle-play .qlq-orbit-guide{
+    animation:qlqOrbitGuideIn .22s ease .10s forwards !important;
+  }
+  .qle-panel.qle-play .qlq-orbit-main{
+    animation:qlqOrbitDraw 1.72s linear .48s forwards !important;
+  }
+  .qle-panel.qle-play .qlq-orbit-head{
+    animation:qlqOrbitHeadTravel 1.72s linear .48s forwards !important;
+  }
+
+  .qle-panel.qle-play .node-literature{
+    animation:qlqNodeIn .20s cubic-bezier(.2,.78,.2,1) .50s forwards !important;
+  }
+  .qle-panel.qle-play .node-literature .qlq-ring-label{
+    animation:qlqLabelIn .16s ease .57s forwards !important;
+  }
+
+  .qle-panel.qle-play .node-build{
+    animation:qlqNodeIn .20s cubic-bezier(.2,.78,.2,1) .84s forwards !important;
+  }
+  .qle-panel.qle-play .node-build .qlq-ring-label{
+    animation:qlqLabelIn .16s ease .91s forwards !important;
+  }
+
+  .qle-panel.qle-play .node-solve{
+    animation:qlqNodeIn .20s cubic-bezier(.2,.78,.2,1) 1.32s forwards !important;
+  }
+  .qle-panel.qle-play .node-solve .qlq-ring-label{
+    animation:qlqLabelIn .16s ease 1.39s forwards !important;
+  }
+
+  .qle-panel.qle-play .node-score{
+    animation:qlqNodeIn .20s cubic-bezier(.2,.78,.2,1) 1.68s forwards !important;
+  }
+  .qle-panel.qle-play .node-score .qlq-ring-label{
+    animation:qlqLabelIn .16s ease 1.75s forwards !important;
+  }
+
+  .qle-panel.qle-play .node-question{
+    animation:qlqQuestionIn .28s cubic-bezier(.16,.86,.25,1) 2.12s forwards !important;
+  }
+  .qle-panel.qle-play .node-question .qlq-ring-label{
+    animation:qlqLabelIn .16s ease 2.20s forwards !important;
+  }
+  .qle-panel.qle-play .node-question .qlq-ring-core{
+    animation:qlqQuestionPulse .48s ease 2.18s 1,
+              qlqHighlightBreathe 4.8s ease-in-out 2.75s infinite !important;
+  }
+  .qle-panel.qle-play .qlq-human-note{
+    animation:qlqHumanNoteIn .22s ease 2.32s forwards !important;
+  }
+
+  .qle-panel.qle-play .qlq-core-hub{
+    animation:
+      qlqHubIn .26s cubic-bezier(.2,.78,.2,1) .04s forwards !important;
+  }
+
+  .qle-panel.qle-play .qlq-depth-line.depth-a{animation:qlqDepthIn .26s ease .06s forwards !important;}
+  .qle-panel.qle-play .qlq-depth-line.depth-b{animation:qlqDepthInB .30s ease .10s forwards !important;}
+  .qle-panel.qle-play .qlq-depth-line.depth-c{animation:qlqDepthInC .34s ease .14s forwards !important;}
+
+
+
+  /* ==========================================================
+     Softer main orbit line: still dark, but less visually heavy.
+     ========================================================== */
+  .qlq-orbit-main{
+    stroke:#5b3a24 !important;
+    stroke-width:2.10 !important;
+    opacity:.78 !important;
+  }
+
+  .qlq-orbit-guide{
+    stroke:#775136 !important;
+    opacity:.14 !important;
+  }
+
+
+
+  /* ==========================================================
+     Atom-depth background orbit revision
+     Remove recessed faded arcs and replace them with two full
+     background orbit lines for a cleaner atom-like depth effect.
+     ========================================================== */
+  .qlq-depth-field,
+  .qlq-depth-line{
+    display:none !important;
+    animation:none !important;
+  }
+
+  .qlq-bg-orbit{
+    fill:none;
+    stroke:#7a5435;
+    stroke-linecap:round;
+    vector-effect:non-scaling-stroke;
+    opacity:0;
+    transform-origin:320px 250px;
+  }
+
+  .qlq-bg-orbit.bg-a{
+    stroke-width:1.18;
+    transform:rotate(34deg);
+  }
+
+  .qlq-bg-orbit.bg-b{
+    stroke-width:1.00;
+    transform:rotate(68deg);
+  }
+
+  .qle-panel.qle-play .qlq-bg-orbit.bg-a{
+    animation:qlqBgOrbitInA .34s ease .08s forwards !important;
+  }
+
+  .qle-panel.qle-play .qlq-bg-orbit.bg-b{
+    animation:qlqBgOrbitInB .38s ease .14s forwards !important;
+  }
+
+  @keyframes qlqBgOrbitInA{
+    from{opacity:0;transform:rotate(34deg) scale(.985)}
+    to{opacity:.24;transform:rotate(34deg) scale(1)}
+  }
+
+  @keyframes qlqBgOrbitInB{
+    from{opacity:0;transform:rotate(68deg) scale(.985)}
+    to{opacity:.18;transform:rotate(68deg) scale(1)}
+  }
+
+  @media(prefers-reduced-motion:reduce) and (min-width:561px){
+    .qlq-bg-orbit.bg-a{opacity:.24 !important;animation:none !important;}
+    .qlq-bg-orbit.bg-b{opacity:.18 !important;animation:none !important;}
+  }
+
+
+
+  /* ==========================================================
+     EDIT LABEL POSITIONS HERE
+     These are the final label positions used by the hero diagram.
+     Increase/decrease left/right/top values to fine-tune later.
+     ========================================================== */
+  .qlq-ring-label{
+    z-index:14;
+    width:max-content;
+    max-width:170px;
+    white-space:normal;
+    pointer-events:none;
+
+    /* Soft knockout so orbit lines never cut through the text. */
+    background:rgba(244,239,229,.84);
+    box-shadow:0 0 0 4px rgba(244,239,229,.84);
+    border-radius:999px;
+  }
+
+  /* Literature Review — close to the right side of the node. */
+  .node-literature .qlq-ring-label{
+    left:90px !important;
+    top:38px !important;
+    transform:translateY(5px);
+    text-align:center !important;
+  }
+
+  /* Score — close to the left side of the node. */
+  .node-score .qlq-ring-label{
+    left:auto !important;
+    right:90px !important;
+    top:38px !important;
+    transform:translateY(5px);
+    text-align:right !important;
+  }
+
+  /* Build ENV — tucked just below/right of the node. */
+  .node-build .qlq-ring-label{
+    left:44px !important;
+    top:92px !important;
+    transform:translateY(5px);
+    text-align:left !important;
+  }
+
+  /* Solve — tucked just below/left of the node. */
+  .node-solve .qlq-ring-label{
+    left:auto !important;
+    right:44px !important;
+    top:90px !important;
+    transform:translateY(5px);
+    text-align:right !important;
+  }
+
+  /* Next Question — close above the final node. */
+  .node-question .qlq-ring-label{
+    left:50% !important;
+    top:-20px !important;
+    transform:translateX(-50%) translateY(5px);
+    text-align:center !important;
+  }
+
+  .qle-panel.qle-play .node-literature .qlq-ring-label,
+  .qle-panel.qle-play .node-score .qlq-ring-label,
+  .qle-panel.qle-play .node-build .qlq-ring-label,
+  .qle-panel.qle-play .node-solve .qlq-ring-label{
+    animation:qlqLabelInSide .16s ease forwards !important;
+  }
+
+  .qle-panel.qle-play .node-literature .qlq-ring-label{ animation-delay:.57s !important; }
+  .qle-panel.qle-play .node-build .qlq-ring-label{ animation-delay:.91s !important; }
+  .qle-panel.qle-play .node-solve .qlq-ring-label{ animation-delay:1.39s !important; }
+  .qle-panel.qle-play .node-score .qlq-ring-label{ animation-delay:1.75s !important; }
+  .qle-panel.qle-play .node-question .qlq-ring-label{ animation:qlqLabelIn .16s ease 2.20s forwards !important; }
+
+  @keyframes qlqLabelInSide{
+    from{opacity:0;transform:translateY(5px);}
+    to{opacity:1;transform:translateY(0);}
+  }
+
+  @media(max-width:560px){
+    .qlq-ring-label{
+      max-width:132px;
+      font-size:.56rem;
+      box-shadow:0 0 0 3px rgba(244,239,229,.84);
+    }
+
+    .node-literature .qlq-ring-label{left:88px !important;top:36px !important;}
+    .node-score .qlq-ring-label{right:88px !important;top:36px !important;}
+    .node-build .qlq-ring-label{left:42px !important;top:84px !important;}
+    .node-solve .qlq-ring-label{right:42px !important;top:84px !important;}
+    .node-question .qlq-ring-label{top:-14px !important;}
+  }
+
 </style>
 </head>
 <body>
 
 <header class="nav">
   <div class="wrap">
-    <a class="brand" href="#top"><span class="dot"></span>Quantum's Last Exam</a>
+    <a class="brand" href="#top"><span class="dot"></span>Quantum's Last Question
+    </a>
     <nav>
       <a href="#domains">Domains</a>
       <a href="#how">Key features</a>
@@ -2748,7 +3633,7 @@
       <a href="#contributors">Contributors</a>
       <a href="#faq">FAQ</a>
     </nav>
-    <a class="navcta" href="#contribute">Contribute</a>
+    <a class="navcta" href="https://headwear-wiring-unheated.ngrok-free.dev/static/showcase.html" target="_blank" rel="noopener">Join us</a>
   </div>
 </header>
 
@@ -2757,14 +3642,9 @@
     <div class="hero-grid">
       <div class="hero-copy">
         <div class="eyebrow">UCSB AI Lab × UCSB Quantum CoDesign Lab — v0.5</div>
-        <h1>Quantum's Last Exam</h1>
+        <h1>Quantum's Last Question</h1>
         <div class="hero-question">From <span class="accent">answering </span> questions right to <span class="accent">asking </span> the right questions. </div>
         <p class="hero-deck">A two-stage pipeline that <b>proposes research tasks</b> and <b>builds executable quantum environments</b> for scientific agents.</p>
-
-        <div class="hero-status">
-          <span class="pulse" aria-hidden="true"></span>
-          <strong>0 human-written tasks</strong><span class="slash">·</span><strong>10+ environments live</strong>
-        </div>
 
         <!-- Resource strip -->
         <div class="res">
@@ -2777,15 +3657,6 @@
           </a>
         </div>
 
-        <p class="resnote">
-          <a href="https://headwear-wiring-unheated.ngrok-free.dev/static/showcase.html"
-             target="_blank" rel="noopener">
-            Sign up to start annotating today&nbsp;↗
-          </a>.
-          All it takes is a line of email and your subfield, and a completed example is waiting
-          on the platform to show you exactly what a review looks like.
-        </p>
-
         <div class="cta-row">
           <a class="btn primary" href="#contribute">
             Contribute <span class="arw">→</span>
@@ -2794,164 +3665,107 @@
         </div>
       </div>
 
-      <div class="hero-visual" aria-label="Animated two-stage autonomous research pipeline">
-        <div class="qle-panel">
-          <div class="qle-head">
-            QLE pipeline
-            <span class="qle-live"><i aria-hidden="true"></i> live</span>
-          </div>
-
+      <div class="hero-visual" aria-label="Animated orbital diagram showing a research agent connected to key research activities">
+        <div class="qle-panel qlq-orbit-panel qlq-connected-panel">
           <div class="qle-canvas">
-<div class="qle-atom-bg" aria-hidden="true">
-              <svg viewBox="0 0 320 320">
-                <g class="atom-core">
-                  <circle class="atom-nucleus-ring" cx="160" cy="160" r="14"/>
-                  <circle class="atom-nucleus" cx="160" cy="160" r="5"/>
+            <div class="qlq-connected-stage">
+              <svg class="qlq-connected-svg" viewBox="0 0 640 500" aria-hidden="true">
+                <g class="qlq-connected-guides">
+                  <circle cx="320" cy="250" r="182"/>
+                  <line x1="320" y1="58" x2="320" y2="442"/>
+                  <line x1="116" y1="250" x2="524" y2="250"/>
                 </g>
 
-                <g class="atom-orbit atom-orbit-a">
-                  <ellipse cx="160" cy="160" rx="112" ry="40"/>
-                  <circle class="atom-electron" cx="272" cy="160" r="4.2"/>
-                </g>
+                <!-- Background orbit lines add atom-like depth. -->
+                <ellipse class="qlq-bg-orbit bg-a" cx="320" cy="250" rx="216" ry="124" pathLength="1000"/>
+                <ellipse class="qlq-bg-orbit bg-b" cx="320" cy="250" rx="194" ry="112" pathLength="1000"/>
 
-                <g class="atom-orbit atom-orbit-b">
-                  <ellipse cx="160" cy="160" rx="112" ry="40"/>
-                  <circle class="atom-electron" cx="272" cy="160" r="4.2"/>
-                </g>
+                <!-- Fast reconnaissance lap: a short teal sweep circles once before the workflow begins. -->
+                <ellipse class="qlq-orbit-scan-track" cx="320" cy="250" rx="228" ry="132" pathLength="1000"/>
+                <ellipse class="qlq-orbit-scan" cx="320" cy="250" rx="228" ry="132" pathLength="1000"/>
 
-                <g class="atom-orbit atom-orbit-c">
-                  <ellipse cx="160" cy="160" rx="112" ry="40"/>
-                  <circle class="atom-electron" cx="272" cy="160" r="4.2"/>
-                </g>
+                <!-- Faint guide makes the two beats read as one connected system. -->
+                <path class="qlq-orbit-guide" pathLength="1000"
+                      d="M548 250
+                         A228 132 0 0 1 320 382
+                         A228 132 0 0 1 92 250
+                         A228 132 0 0 1 320 118
+                         A228 132 0 0 1 379.01 122.50"/>
+
+                <!-- Semantic discovery orbit: Literature -> Build ENV -> Solve -> Score -> Next Question. -->
+                <path class="qlq-orbit-main" pathLength="1000"
+                      d="M548 250
+                         A228 132 0 0 1 320 382
+                         A228 132 0 0 1 92 250
+                         A228 132 0 0 1 320 118
+                         A228 132 0 0 1 379.01 122.50"/>
+                <path class="qlq-orbit-head" pathLength="1000"
+                      d="M548 250
+                         A228 132 0 0 1 320 382
+                         A228 132 0 0 1 92 250
+                         A228 132 0 0 1 320 118
+                         A228 132 0 0 1 379.01 122.50"/>
               </svg>
+
+              <div class="qlq-core-hub">
+                <strong>RESEARCH<br>AGENT</strong>
+              </div>
+
+              <div class="qlq-ring-node node-question">
+                <div class="qlq-ring-core highlight">
+                  <svg viewBox="0 0 24 24" aria-hidden="true">
+                    <path d="M9.5 9a2.8 2.8 0 1 1 4.8 2c-.9.8-1.7 1.4-1.7 2.5"/>
+                    <circle cx="12" cy="18" r="1"/>
+                  </svg>
+                </div>
+                <span class="qlq-ring-label emphasis">Next Question</span>
+              </div>
+
+              <div class="qlq-ring-node node-literature">
+                <div class="qlq-ring-core">
+                  <svg viewBox="0 0 24 24" aria-hidden="true">
+                    <path d="M5 6h14M5 12h14M5 18h9"/>
+                  </svg>
+                </div>
+                <span class="qlq-ring-label">Literature<br>Review</span>
+              </div>
+
+              <div class="qlq-ring-node node-build">
+                <div class="qlq-ring-core">
+                  <svg viewBox="0 0 24 24" aria-hidden="true">
+                    <rect x="5" y="5" width="14" height="14" rx="2"/>
+                    <path d="M2 9h3M2 15h3M19 9h3M19 15h3"/>
+                  </svg>
+                </div>
+                <span class="qlq-ring-label">Build ENV</span>
+              </div>
+
+              <div class="qlq-ring-node node-solve">
+                <div class="qlq-ring-core">
+                  <svg viewBox="0 0 24 24" aria-hidden="true">
+                    <circle cx="12" cy="12" r="7"/>
+                    <path d="M12 5v14M5 12h14"/>
+                  </svg>
+                </div>
+                <span class="qlq-ring-label">Solve</span>
+              </div>
+
+              <div class="qlq-ring-node node-score">
+                <div class="qlq-ring-core">
+                  <svg viewBox="0 0 24 24" aria-hidden="true">
+                    <path d="M4 17l5-6 4 3 7-9"/>
+                  </svg>
+                </div>
+                <span class="qlq-ring-label">Score</span>
+              </div>
             </div>
-
-            <div class="qle-stage one">
-              <div class="qle-stage-head">
-                <div class="qle-stage-name">01 / Task Generation </div>
-                <!-- <div class="qle-stage-desc">literature review · task proposal</div> -->
-              </div>
-
-              <div class="qle-rail" aria-hidden="true">
-                <svg viewBox="0 0 300 40" preserveAspectRatio="none">
-                  <defs>
-                    <marker id="qleArrow1"
-                            viewBox="0 0 10 10"
-                            refX="9" refY="5"
-                            markerWidth="7.5" markerHeight="7.5"
-                            orient="auto"
-                            markerUnits="strokeWidth">
-                      <polygon points="0,0 10,5 0,10" fill="#8d5e32"/>
-                    </marker>
-                  </defs>
-
-                  <path id="qleFlowStage1"
-                        class="qle-flow-line qle-growing-arrow"
-                        d="M18 28 C18 28 18 28 18 28"
-                        marker-end="url(#qleArrow1)">
-                    <animate id="qleGrowStage1"
-                             attributeName="d"
-                             begin="indefinite"
-                             dur=".75s"
-                             fill="freeze"
-                             calcMode="spline"
-                             keyTimes="0;1"
-                             keySplines=".22 .72 .18 1"
-                             values="
-                               M18 28 C18 28 18 28 18 28;
-                               M18 28 C82 4 158 6 278 13
-                             "/>
-                  </path>
-                </svg>
-              </div>
-
-
-              <div class="qle-node literature">
-                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 6h14M5 12h14M5 18h9"/></svg>
-                <span class="qle-node-label">Literature Review</span>
-              </div>
-
-              <div class="qle-node task">
-                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg>
-                <span class="qle-node-label">Task</span>
-              </div>
-
-              <span class="qle-valid" aria-label="Task validated">Validated</span>
-
-              <div class="qle-stage-flash" aria-hidden="true"></div>
-            </div>
-
-            <div class="qle-agent">RESEARCH<br>AGENT</div>
-
-            <div class="qle-stage two">
-              <div class="qle-stage-head">
-                <div class="qle-stage-name">02 / Environment Generation</div>
-                <!-- <div class="qle-stage-desc">build · solve · evaluate</div> -->
-              </div>
-
-              <div class="qle-rail" aria-hidden="true">
-                <svg viewBox="0 0 300 40" preserveAspectRatio="none">
-                  <defs>
-                    <marker id="qleArrow2"
-                            viewBox="0 0 10 10"
-                            refX="9" refY="5"
-                            markerWidth="7.5" markerHeight="7.5"
-                            orient="auto"
-                            markerUnits="strokeWidth">
-                      <polygon points="0,0 10,5 0,10" fill="#8d5e32"/>
-                    </marker>
-                  </defs>
-
-                  <path id="qleFlowStage2"
-                        class="qle-flow-line qle-growing-arrow"
-                        d="M10 8 C10 8 10 8 10 8 C10 8 10 8 10 8"
-                        marker-end="url(#qleArrow2)">
-                    <animate id="qleGrowStage2"
-                             attributeName="d"
-                             begin="indefinite"
-                             dur=".82s"
-                             fill="freeze"
-                             calcMode="spline"
-                             keyTimes="0;0.47;1"
-                             keySplines=".2 .7 .2 1;.25 .7 .25 1"
-                             values="
-                               M10 8 C10 8 10 8 10 8 C10 8 10 8 10 8;
-                               M10 8 C44 29 83 34 126 25 C126 25 126 25 126 25;
-                               M10 8 C58 34 102 34 142 21 C192 5 230 8 282 25
-                             "/>
-                  </path>
-                </svg>
-              </div>
-
-
-              <div class="qle-node build">
-                <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="5" width="14" height="14" rx="2"/><path d="M2 9h3M2 15h3M19 9h3M19 15h3"/></svg>
-                <span class="qle-node-label">Build ENV</span>
-              </div>
-
-              <div class="qle-node solve">
-                <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="7"/><path d="M12 5v14M5 12h14"/></svg>
-                <span class="qle-node-label">Solve</span>
-              </div>
-
-              <div class="qle-node evaluate">
-                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 17l5-6 4 3 7-9"/></svg>
-                <span class="qle-node-label">Score</span>
-              </div>
-
-              <span class="qle-valid" aria-label="Environment validated">Validated</span>
-
-              <div class="qle-stage-flash" aria-hidden="true"></div>
-            </div>
-
-            <div class="qle-handoff" aria-hidden="true"><span class="qle-side-label">proposed task</span></div>
-            <div class="qle-feedback" aria-hidden="true"><span class="qle-side-label">feedback</span></div>
           </div>
         </div>
+
         <div class="qle-caption">
           <strong>A blueprint for the next da Vinci — A Scientific Generalist AI.</strong>
-          <!-- <span class="qle-caption-sub">A discovery benchmark for AI agents in quantum science.</span> -->
         </div>
+      </div>
       </div>
     </div>
   </div>
@@ -2967,42 +3781,40 @@
 
 <section id="contribute">
   <div class="wrap">
-    <div class="sec-head stmt">
-      <span class="num">01</span>
-      <h2>Give the agent a direction. Let it find the research gap.</h2>
+    <div class="sec-head tight">
+      <h2>Research Begins With One Word.</h2>
     </div>
-
-    <p class="contribute-intro">
-    Start with just a few keywords from your research area. 
-    The agent reviews the literature around them and generates candidate open questions for you to judge.
-    </p>
 
     <div class="reasons contribution-flow">
       <div class="reason">
         <span class="flow-kicker">01 / SEED</span>
-        <b>A few keywords</b>
-        <span>Give us a topic, method, phenomenon, or bottleneck from your subfield — NOT a fully written research problem. </span>
+        <b>Set the Direction</b>
+        <span>A topic, method, phenomenon, or bottleneck — not a fully written research problem.</span>
       </div>
       <div class="reason">
         <span class="flow-kicker">02 / DISCOVER</span>
-        <b>Agent finds open questions</b>
-        <span>QLE searches the surrounding literature and proposes research-grade questions grounded in that scientific context. </span>
+        <b>Agent Finds the Gap</b>
+        <span>QLE searches the surrounding literature for unresolved directions that can become research tasks.</span>
       </div>
       <div class="reason">
         <span class="flow-kicker">03 / VALIDATE</span>
-        <b>You judge what is worth asking</b>
-        <span>Decide whether the generated questions are genuinely novel, scientifically meaningful, and worth turning into tasks.</span>
+        <b>Decide What Matters</b>
+        <span>Judge novelty, validity, and whether the question is scientifically worth pursuing.</span>
       </div>
     </div>
 
     <div class="review-cta">
-      <div>
-        <h3 class="review-role-title">Your role</h3>
-        <p>Review questions generated by QLE and steer the agent with feedback until they feel genuinely novel and worth pursuing.</p>
-        <span>*Five or more accepted tasks earns authorship on our paper.</span>
+      <div class="review-copy">
+        <h3 class="review-role-title">Your judgment is the gate.</h3>
+        <h4>Only accepted questions move forward.</h4>
+        <p>Rejected questions are refined or regenerated before they become executable environments.</p>
+        <span>** Five or more accepted tasks earns authorship on our paper **</span>
       </div>
       <!-- TODO: replace this ngrok tunnel with the permanent annotation-platform domain -->
-      <a class="btn primary" href="https://headwear-wiring-unheated.ngrok-free.dev/static/showcase.html" target="_blank" rel="noopener">Seed a research direction <span class="arw">→</span></a>
+      <div class="review-actions">
+        <a class="btn primary" href="https://headwear-wiring-unheated.ngrok-free.dev/static/showcase.html" target="_blank" rel="noopener">Seed a research direction <span class="arw">→</span></a>
+        <a class="btn" href="https://headwear-wiring-unheated.ngrok-free.dev/static/showcase.html" target="_blank" rel="noopener">Sign up</a>
+      </div>
     </div>
   </div>
 </section>
@@ -3087,17 +3899,14 @@
 <section id="news">
   <div class="wrap">
     <div class="sec-head">
-      <span class="num">02</span>
       <h2>Where the project stands</h2>
     </div>
     <div class="news">
       <div class="nrow">
-        <span class="t"><b>Five worked examples released.</b> The full chain — seed, proposal, AI review, and the
-          evaluation environment built from it — is now browsable for all five live tasks.</span>
+        <span class="t"><b>Five worked examples released.</b> Complete task records and evaluation environments are now browsable end to end.</span>
       </div>
       <div class="nrow">
-        <span class="t"><b>Call for reviewers opens.</b> 673 quantum researchers across four continents invited to
-          verify machine-generated tasks in their own subfield.</span>
+        <span class="t"><b>Call for reviewers opens.</b> Quantum researchers across four continents are joining the expert-review stage.</span>
       </div>
       <div class="nrow">
         <span class="t"><b>Quantum control enters the benchmark.</b> Two tasks now ask agents to
@@ -3111,16 +3920,15 @@
 <section id="how">
   <div class="wrap">
     <div class="sec-head">
-      <span class="num">03</span>
-      <h2>Key features of QLE</h2>
+      <h2>What makes QLE different</h2>
     </div>
 
     <div class="diff">
-      <div class="dcell"><div class="di">Auto-generated</div><h3>No hand curation</h3><p>New problems mined from live literature and formalized by machine.</p></div>
+      <div class="dcell"><div class="di">Reusable</div><h3>More than a benchmark</h3><p>Each environment can be reused to evaluate, train, and optimize scientific agents.</p></div>
       <div class="dcell"><div class="di">Auto-scored</div><h3>No human grading</h3><p>Each task ships as a runnable environment with a reference and a trivial baseline.</p></div>
       <div class="dcell"><div class="di">Contamination-resistant</div><h3>Answers unknown</h3><p>Questions are open at creation time. Nothing to memorize from training data.</p></div>
       <div class="dcell"><div class="di">Self-hardening</div><h3>Difficulty scales</h3><p>The setter diagnoses how the last agent won, then rebuilds the environment to close that shortcut.</p></div>
-      <div class="dcell"><div class="di">Expert-validated</div><h3>Vetted by researchers</h3><p>Working quantum scientists confirm each task is valid, novel, and worth solving.</p></div>
+      <div class="dcell"><div class="di">Reproducible</div><h3>Bounded by design</h3><p>Tasks run on a single workstation under explicit compute, qubit, and time budgets.</p></div>
       <div class="dcell"><div class="di">Discovery-focused</div><h3>Research, not recall</h3><p>Measures the ability to propose and build a solution, not to retrieve a fact.</p></div>
     </div>
   </div>
@@ -3130,9 +3938,8 @@
 <section id="tasks">
   <div class="wrap">
     <div class="sec-head">
-      <span class="num">04</span>
       <h2>Samples from QLE</h2>
-      <span class="tail">Published in full, exactly as generated. Nothing below has been hand-edited — not the problem, not the physics, not the scorer.</span>
+      <span class="tail">Five complete examples, including the task, scorer, baselines, and solver trace.</span>
     </div>
 
     <div class="qwrap">
@@ -3344,7 +4151,6 @@
 <section id="results">
   <div class="wrap">
     <div class="sec-head">
-      <span class="num">05</span>
       <h2>Results</h2>
     </div>
 
@@ -3369,10 +4175,6 @@
     <!-- TODO: extend this table as the remaining live environments have their traces published -->
     <p class="tnote">Five of the live environments with published traces · Solver agent: best of 3 blind attempts · Progress normalized so trivial = 0% and reference = 100% · Novelty scored 1–5 by an independent reviewing agent (5 = original)</p>
 
-    <div class="callout" style="margin-top:26px">
-      <div class="big">Are our tasks easy or degenerate?</div>
-      <p><b>No.</b> No agent has matched the reference on any environment (best: 42% of the way from trivial to reference), and on the task rated most novel the solver did worse than the trivial baseline.</p>
-    </div>
 
   </div>
 </section>
@@ -3383,7 +4185,6 @@
 <section id="leaderboard">
   <div class="wrap">
     <div class="sec-head">
-      <span class="num">06</span>
       <h2>Leaderboard</h2>
       <span class="tail">Frontier models, average progress across live environments: trivial baseline (0%) to reference solution (100%).</span>
     </div>
@@ -3407,7 +4208,6 @@
 <section id="contributors">
   <div class="wrap">
     <div class="sec-head">
-      <span class="num">07</span>
       <h2>Contributors</h2>
     </div>
 
@@ -3469,26 +4269,12 @@
 <section id="faq">
   <div class="wrap">
     <div class="sec-head">
-      <span class="num">08</span>
       <h2>FAQ</h2>
     </div>
     <div class="faq">
-      <details open>
-        <summary>What is this benchmark for?<span class="pm">+</span></summary>
-        <div class="ans">Two things. First, it is a benchmark: an agent that scores well here is demonstrably good at
-          <b>scientific discovery</b> — it can take an open quantum problem and build a solution that works, rather
-          than retrieve an answer it has seen. Second, and more importantly, it is a <b>generator</b>. The environments
-          are produced automatically, so they can be produced in quantity, which is what makes it possible to
-          evaluate, train and optimize AI scientists at a scale that hand-built benchmarks cannot reach.</div>
-      </details>
       <details>
         <summary>If an AI writes the problems, aren't they easy or meaningless?<span class="pm">+</span></summary>
-        <div class="ans">That is the right question to ask, and it is why the results are published in full. So far
-          <b>no frontier agent has solved any environment in the benchmark</b>; the best result is 42% of the way from
-          the trivial baseline to the reference, and on the environment rated most novel the solving agent scored
-          worse than the trivial baseline. Difficulty, at least, is not the failure mode. <b>Meaningfulness is the
-          part a program cannot certify</b> — which is exactly why we are recruiting working quantum researchers to
-          judge it rather than asserting it ourselves.</div>
+        <div class="ans">Difficulty is visible in the published solver traces and baselines. <b>Scientific meaningfulness is different:</b> that is the part a program cannot certify, so expert review remains a gate before a proposed question enters the benchmark.</div>
       </details>
       <details>
         <summary>Is this only about quantum science?<span class="pm">+</span></summary>
@@ -3499,22 +4285,8 @@
           <b>reused</b> — to evaluate, train and optimize AI scientists at a scale hand-built benchmarks do not reach.</div>
       </details>
       <details>
-        <summary>How is it different from other benchmarks?<span class="pm">+</span></summary>
-        <div class="ans">It is an <b>evolving benchmark, created automatically</b>. Problems are mined from the live
-          literature, formalized, and auto-scored with no human effort required to build each environment. Because the
-          pipeline generates and hardens its own tasks, it does not saturate the way a fixed question set does: when an
-          agent finds a shortcut, the setter diagnoses it and rebuilds the environment to close it.</div>
-      </details>
-      <details>
         <summary>What does reviewing involve?<span class="pm">+</span></summary>
-        <div class="ans">You enter a few keywords from a research direction you care about — not a fully written
-          problem. The pipeline reviews the surrounding literature and generates two candidate open questions from
-          that seed. You judge those two, plus two generated from another researcher's seed — <b>four in total</b> —
-          deciding whether each is genuinely open, valid, well-posed, scientifically meaningful, and worth solving.
-          The outside pair matters: every generated question gets a reader who did not choose its seed. You can
-          <b>keep giving feedback and regenerating until the questions are actually interesting</b>, so the process is
-          a conversation with the task proposer rather than a grading form. A completed example is provided before
-          you start. No coding is required.</div>
+        <div class="ans">You review <b>four generated questions</b>: two from your own research direction and two from another researcher's seed. Judge whether each is open, valid, well-posed, meaningful, and worth solving. You can request regeneration, and a completed example is provided before you start. <b>No coding is required.</b></div>
       </details>
       <details>
         <summary>How are contributors compensated?<span class="pm">+</span></summary>
@@ -3547,15 +4319,12 @@
   <div class="wrap">
     <div class="join">
       <div class="eyebrow">Call for reviewers</div>
-      <h2>A few keywords. New questions. Your judgment.</h2>
-      <p> Shape what AI discovers next.</p>
+      <h2>Help decide what AI should investigate next.</h2>
+      <p>Bring your field into the loop.</p>
       <div class="cta-row">
         <!-- TODO: replace this ngrok tunnel with the permanent annotation-platform domain -->
         <a class="btn primary" href="https://headwear-wiring-unheated.ngrok-free.dev/static/showcase.html" target="_blank" rel="noopener">Open the annotation platform <span class="arw">→</span></a>
-        <a class="btn" href="#how">Key features</a>
       </div>
-      <div class="fine">673 researchers invited · North America · Europe · Asia · Australia</div>
-
       <!-- TODO: add a mailing-list signup endpoint -->
       <div class="contact">
         <span>Questions or feedback: <a href="mailto:zhaotian@ucsb.edu">zhaotian@ucsb.edu</a></span>
@@ -3569,7 +4338,7 @@
   <div class="wrap">
     <div class="labs">UCSB <span>AI Lab</span> × UCSB <span>Quantum CoDesign Lab</span></div>
     <div class="meta">
-      <span>Quantum's Last Exam — v0.5</span>
+      <span>Quantum's Last Question — v0.5</span>
       <span>Auto-generated · Auto-scored</span>
       <!-- TODO: confirm the licences the project will actually ship under -->
       <span>Tasks &amp; data: CC BY 4.0</span>
@@ -3746,163 +4515,98 @@
 
 <script>
 (() => {
-  const panel = document.querySelector('.qle-panel');
+  const panel = document.querySelector('.qlq-orbit-panel');
   if (!panel) return;
 
-  const flow1 = document.getElementById('qleFlowStage1');
-  const flow2 = document.getElementById('qleFlowStage2');
-  const grow1 = document.getElementById('qleGrowStage1');
-  const grow2 = document.getElementById('qleGrowStage2');
-
-  const flow1Start = 'M18 28 C18 28 18 28 18 28';
-  const flow2Start = 'M10 8 C10 8 10 8 10 8 C10 8 10 8 10 8';
-  const flow1End = 'M18 28 C82 4 158 6 278 13';
-  const flow2End = 'M10 8 C58 34 102 34 142 21 C192 5 230 8 282 25';
-
+  const target = panel.closest('.hero-visual') || panel;
   const isMobile = window.matchMedia('(max-width: 560px)').matches;
   const prefersReducedMotion =
     window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-  let timers = [];
-  let isVisible = false;
-  let hasPlayedInitially = false;
+  let visible = false;
+  let playedOnce = false;
+  let playTimer = null;
 
-  function clearTimers() {
-    timers.forEach(clearTimeout);
-    timers = [];
-  }
+  function resetOrbit() {
+    if (playTimer) {
+      clearTimeout(playTimer);
+      playTimer = null;
+    }
 
-  function resetAnimation() {
-    clearTimers();
     panel.classList.remove('qle-play');
 
-    if (flow1) {
-      flow1.style.opacity = '0';
-      flow1.setAttribute('d', flow1Start);
-    }
-
-    if (flow2) {
-      flow2.style.opacity = '0';
-      flow2.setAttribute('d', flow2Start);
-    }
-
-    // Important on iOS/WebKit: commit the reset before replaying CSS animations.
+    // Force WebKit/iOS to commit the reset before the next replay.
     void panel.offsetWidth;
   }
 
-  function startSvgFlow(flow, grow, fallbackPath) {
-    if (!flow) return;
+  function playOrbit() {
+    resetOrbit();
 
-    flow.style.opacity = '1';
-
-    try {
-      if (grow && typeof grow.beginElement === 'function') {
-        grow.beginElement();
-      } else {
-        flow.setAttribute('d', fallbackPath);
-      }
-    } catch (e) {
-      // Some in-app iOS browsers are inconsistent with SVG SMIL.
-      // The CSS/node animation still runs; this keeps the arrow visible.
-      flow.setAttribute('d', fallbackPath);
-    }
-  }
-
-  function playAnimation() {
-    resetAnimation();
-
-    // Two RAFs are more reliable than a timeout alone on mobile Safari
-    // when restarting a class-based CSS animation.
     requestAnimationFrame(() => {
       requestAnimationFrame(() => {
         panel.classList.add('qle-play');
-
-        timers.push(setTimeout(() => {
-          startSvgFlow(flow1, grow1, flow1End);
-        }, 200));
-
-        timers.push(setTimeout(() => {
-          startSvgFlow(flow2, grow2, flow2End);
-        }, 1620));
       });
     });
   }
 
-  // Keep the accessibility preference on desktop. On mobile we explicitly
-  // allow this hero sequence because it is the requested interactive visual.
+  // Reduced motion becomes a static final diagram on desktop.
+  // Mobile intentionally retains the requested reveal animation.
   if (prefersReducedMotion && !isMobile) {
     panel.classList.add('qle-play');
-
-    if (flow1) {
-      flow1.setAttribute('d', flow1End);
-      flow1.style.opacity = '1';
-    }
-    if (flow2) {
-      flow2.setAttribute('d', flow2End);
-      flow2.style.opacity = '1';
-    }
     return;
   }
 
-  // Always trigger once after load. This fixes iOS/WhatsApp in-app browsers
-  // where IntersectionObserver can miss the first transformed element state.
   function initialPlay() {
-    if (hasPlayedInitially) return;
-    hasPlayedInitially = true;
-    isVisible = true;
-    playAnimation();
+    if (playedOnce) return;
+    playedOnce = true;
+    visible = true;
+    playOrbit();
   }
 
   if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', () => {
-      setTimeout(initialPlay, 220);
+      playTimer = setTimeout(initialPlay, 220);
     }, { once:true });
   } else {
-    setTimeout(initialPlay, 220);
+    playTimer = setTimeout(initialPlay, 220);
   }
 
-  // Replay whenever the diagram leaves the viewport and comes back.
   if ('IntersectionObserver' in window) {
     const observer = new IntersectionObserver((entries) => {
       entries.forEach((entry) => {
         if (entry.isIntersecting) {
-          if (!isVisible && hasPlayedInitially) {
-            isVisible = true;
-            playAnimation();
+          if (!visible && playedOnce) {
+            visible = true;
+            playOrbit();
           }
-        } else if (isVisible) {
-          isVisible = false;
-          resetAnimation();
+        } else if (visible) {
+          visible = false;
+          resetOrbit();
         }
       });
     }, {
-      threshold: 0.05,
-      rootMargin: '40px 0px 40px 0px'
+      threshold:0.05,
+      rootMargin:'40px 0px 40px 0px'
     });
 
-    // Observe the unscaled wrapper rather than the transformed panel;
-    // this is substantially more reliable on mobile WebKit.
-    observer.observe(panel.closest('.hero-visual') || panel);
+    observer.observe(target);
   } else {
-    // Fallback for older embedded/in-app browsers.
     let wasInView = true;
 
     window.addEventListener('scroll', () => {
-      const target = panel.closest('.hero-visual') || panel;
       const rect = target.getBoundingClientRect();
       const inView = rect.bottom > 0 && rect.top < window.innerHeight;
 
       if (inView && !wasInView) {
         wasInView = true;
-        playAnimation();
+        playOrbit();
       } else if (!inView && wasInView) {
         wasInView = false;
-        resetAnimation();
+        resetOrbit();
       }
     }, { passive:true });
   }
 })();
 </script>
-
 </body>
 </html>
