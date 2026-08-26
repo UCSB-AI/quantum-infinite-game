@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Quantum's Last Question</title>
-<meta name="description" content="Researchers provide only a few keywords. An agent reviews the surrounding literature, proposes open quantum research questions, and builds executable environments around them. No human writes the task itself; reusable environments can then evaluate, train and optimize AI scientists at scale.">
+<title>Quantum's Infinite Game — Scaling AI Agents for Open-Ended Scientific Discovery</title>
+<meta name="description" content="Quantum's Infinite Game scales AI agents for open-ended scientific discovery: continuously discover open problems, operationalize them into verifiable research environments, solve them, and use the results to seed new directions for exploration.">
 <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🔬</text></svg>">
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -387,7 +387,7 @@
     .hero-grid{display:grid;grid-template-columns:minmax(0,.92fr) minmax(430px,1.08fr);gap:clamp(38px,6vw,76px);align-items:center}
     .hero-copy{padding-bottom:clamp(42px,6vw,72px)}
     .hero h1{font-size:clamp(3.45rem,7.5vw,6.35rem);line-height:.91;letter-spacing:-.065em;margin:.22em 0 .3em;max-width:8.8ch}
-    .hero-question{font-size:clamp(1.45rem,2.55vw,2.15rem);font-weight:500;letter-spacing:-.04em;line-height:1.14;max-width:15ch;margin-bottom:18px}
+    .hero-question{font-size:clamp(1.45rem,2.55vw,2.15rem);font-weight:500;letter-spacing:-.04em;line-height:1.14;max-width:24ch;margin-bottom:18px}
     .hero-question .accent{color:var(--accent)}
     .hero-deck{font-size:clamp(.98rem,1.3vw,1.08rem);max-width:47ch;color:var(--muted);line-height:1.64}
     .hero-deck b{color:var(--ink);font-weight:600}
@@ -708,7 +708,7 @@
     line-height:1.15;
     letter-spacing:-.04em;
     font-weight:600;
-    max-width:15ch;
+    max-width:24ch;
     color:var(--ink);
   }
   .hero-question .accent{color:var(--accent)}
@@ -1034,7 +1034,7 @@
     font-weight:500;
     line-height:1.08;
     letter-spacing:-.02em;
-    max-width:15ch;
+    max-width:24ch;
   }
   .hero-question .accent{
     color:var(--accent-deep);
@@ -1970,7 +1970,7 @@
 
 
   /* ==========================================================
-     Original QLE animation cadence
+     Original QIG animation cadence
      Restores the pre-Da-Vinci flow while retaining the new style.
      ========================================================== */
 
@@ -2775,7 +2775,7 @@
     opacity:.09;
   }
 
-  /* One open orbit: Literature -> Build ENV -> Solve -> Score -> Next Question. */
+  /* One open orbit: Discover -> Build ENV -> Solve -> Verify -> Next Problem. */
   .qlq-orbit-main{
     fill:none;
     stroke:#6b4528;
@@ -2928,7 +2928,7 @@
   }
 
   /* Animation timeline
-     Orbit starts at Literature (t=0°) and ends exactly at Next Question (t=285°).
+     Orbit starts at Discover (t=0°) and ends exactly at Next Problem (t=285°).
      Node delays track the arc-length fractions of that same ellipse. */
   .qle-panel.qle-play .qlq-core-hub{
     animation:
@@ -3576,7 +3576,7 @@
     text-align:right !important;
   }
 
-  /* Next Question — close above the final node. */
+  /* Next Problem — close above the final node. */
   .node-question .qlq-ring-label{
     left:50% !important;
     top:-20px !important;
@@ -3622,11 +3622,11 @@
 
 <header class="nav">
   <div class="wrap">
-    <a class="brand" href="#top"><span class="dot"></span>Quantum's Last Question
+    <a class="brand" href="#top"><span class="dot"></span>Quantum's Infinite Game
     </a>
     <nav>
       <a href="#domains">Domains</a>
-      <a href="#how">Key features</a>
+      <a href="#how">Infinite game</a>
       <a href="#tasks">Tasks</a>
       <a href="#results">Results</a>
       <a href="#leaderboard">Leaderboard</a>
@@ -3642,9 +3642,9 @@
     <div class="hero-grid">
       <div class="hero-copy">
         <div class="eyebrow">UCSB AI Lab × UCSB Quantum CoDesign Lab — v0.5</div>
-        <h1>Quantum's Last Question</h1>
-        <div class="hero-question">From <span class="accent">answering </span> questions right to <span class="accent">asking </span> the right questions. </div>
-        <p class="hero-deck">A two-stage pipeline that <b>proposes research tasks</b> and <b>builds executable quantum environments</b> for scientific agents.</p>
+        <h1>Quantum's Infinite Game</h1>
+        <div class="hero-question">Scaling AI Agents for <span class="accent">Open-Ended Scientific Discovery</span></div>
+        <p class="hero-deck"><b>Scientific discovery is not a finite exam with a fixed set of questions and known answers. It is an infinite game.</b> AI agents continuously discover open problems, operationalize them into verifiable research environments, solve them, and use what they learn to uncover new directions for exploration.</p>
 
         <!-- Resource strip -->
         <div class="res">
@@ -3692,7 +3692,7 @@
                          A228 132 0 0 1 320 118
                          A228 132 0 0 1 379.01 122.50"/>
 
-                <!-- Semantic discovery orbit: Literature -> Build ENV -> Solve -> Score -> Next Question. -->
+                <!-- Infinite research loop: Discover -> Build ENV -> Solve -> Verify -> Next Problem. -->
                 <path class="qlq-orbit-main" pathLength="1000"
                       d="M548 250
                          A228 132 0 0 1 320 382
@@ -3711,15 +3711,15 @@
                 <strong>RESEARCH<br>AGENT</strong>
               </div>
 
-              <div class="qlq-ring-node node-question">
+              <a class="qlq-ring-node node-question" href="#tasks" aria-label="Explore sample problems and research environments">
                 <div class="qlq-ring-core highlight">
                   <svg viewBox="0 0 24 24" aria-hidden="true">
                     <path d="M9.5 9a2.8 2.8 0 1 1 4.8 2c-.9.8-1.7 1.4-1.7 2.5"/>
                     <circle cx="12" cy="18" r="1"/>
                   </svg>
                 </div>
-                <span class="qlq-ring-label emphasis">Next Question</span>
-              </div>
+                <span class="qlq-ring-label emphasis">Next Problem</span>
+              </a>
 
               <div class="qlq-ring-node node-literature">
                 <div class="qlq-ring-core">
@@ -3727,7 +3727,7 @@
                     <path d="M5 6h14M5 12h14M5 18h9"/>
                   </svg>
                 </div>
-                <span class="qlq-ring-label">Literature<br>Review</span>
+                <span class="qlq-ring-label">Discover</span>
               </div>
 
               <div class="qlq-ring-node node-build">
@@ -3756,14 +3756,14 @@
                     <path d="M4 17l5-6 4 3 7-9"/>
                   </svg>
                 </div>
-                <span class="qlq-ring-label">Score</span>
+                <span class="qlq-ring-label">Verify</span>
               </div>
             </div>
           </div>
         </div>
 
         <div class="qle-caption">
-          <strong>A blueprint for the next da Vinci — A Scientific Generalist AI.</strong>
+          <strong>Discover → operationalize → solve → verify → discover again.</strong>
         </div>
       </div>
       </div>
@@ -3772,7 +3772,7 @@
 
   <div class="readout">
     <div class="stat"><div class="k">0</div><div class="l">human-written tasks</div></div>
-    <div class="stat"><div class="k">10<span class="u">+</span></div><div class="l">live environments</div></div>
+    <div class="stat"><div class="k">10<span class="u">+</span></div><div class="l">verifiable environments</div></div>
     <div class="stat"><div class="k">0</div><div class="l">frontier solves</div></div>
     <div class="stat"><div class="k">42<span class="u">%</span></div><div class="l">best agent progress</div></div>
     <p class="budget">≤ <b>28 qubits</b> · &lt; <b>3 hours</b> · <b>one workstation</b> · no quantum hardware</p>
@@ -3781,8 +3781,8 @@
 
 <section id="contribute">
   <div class="wrap">
-    <div class="sec-head tight">
-      <h2>Research Begins With One Word.</h2>
+    <div class="sec-head stmt">
+      <h2>Research begins with one word.</h2>
     </div>
 
     <div class="reasons contribution-flow">
@@ -3794,7 +3794,7 @@
       <div class="reason">
         <span class="flow-kicker">02 / DISCOVER</span>
         <b>Agent Finds the Gap</b>
-        <span>QLQ searches the surrounding literature for unresolved directions that can become research tasks.</span>
+        <span>QIG searches the surrounding literature for unresolved directions that can become verifiable research problems.</span>
       </div>
       <div class="reason">
         <span class="flow-kicker">03 / VALIDATE</span>
@@ -3805,9 +3805,9 @@
 
     <div class="review-cta">
       <div class="review-copy">
-        <h3 class="review-role-title">Your judgment is the gate.</h3>
-        <h4>Only accepted questions move forward.</h4>
-        <p>Rejected questions are refined or regenerated before they become executable environments.</p>
+        <h3 class="review-role-title">You are the gate.</h3>
+        <h4>Only the questions you accept move forward.</h4>
+        <p>Rejected questions are refined or regenerated before they enter the game as executable research environments.</p>
         <span>** Five or more accepted tasks earns authorship on our paper **</span>
       </div>
       <!-- TODO: replace this ngrok tunnel with the permanent annotation-platform domain -->
@@ -3823,7 +3823,7 @@
     <div class="sec-head tight">
       <h2>Domains</h2>
     </div>
-    <p class="sec-lead wide">Nine seed subfields so far. We publish a sample of the live environments here — <a href="#contribute">your field is welcome next</a>.</p>
+    <p class="sec-lead wide">Nine seed subfields so far. Each can seed a growing family of verifiable research environments — <a href="#contribute">your field can enter the game next</a>.</p>
   </div>
 
   <div class="marquee">
@@ -3899,11 +3899,12 @@
 <section id="news">
   <div class="wrap">
     <div class="sec-head">
+      <span class="num">01</span>
       <h2>Where the project stands</h2>
     </div>
     <div class="news">
       <div class="nrow">
-        <span class="t"><b>Five worked examples released.</b> Complete task records and evaluation environments are now browsable end to end.</span>
+        <span class="t"><b>Five worked examples released.</b> Complete records from open-problem discovery through environment construction and solver evaluation are now browsable end to end.</span>
       </div>
       <div class="nrow">
         <span class="t"><b>Call for reviewers opens.</b> Quantum researchers across four continents are joining the expert-review stage.</span>
@@ -3920,16 +3921,19 @@
 <section id="how">
   <div class="wrap">
     <div class="sec-head">
-      <h2>What makes QLQ different</h2>
+      <span class="num">02</span>
+      <h2>From finite benchmarks to an infinite game.</h2>
     </div>
 
+    <p class="sec-lead wide">Traditional benchmarks end when a fixed task set saturates. <b>Quantum's Infinite Game is designed to keep expanding:</b> accepted open problems become verifiable research environments, and every solve produces evidence that can seed the next round of scientific exploration.</p>
+
     <div class="diff">
-      <div class="dcell"><div class="di">Reusable</div><h3>More than a benchmark</h3><p>Each environment can be reused to evaluate, train, and optimize scientific agents.</p></div>
-      <div class="dcell"><div class="di">Auto-scored</div><h3>No human grading</h3><p>Each task ships as a runnable environment with a reference and a trivial baseline.</p></div>
-      <div class="dcell"><div class="di">Contamination-resistant</div><h3>Answers unknown</h3><p>Questions are open at creation time. Nothing to memorize from training data.</p></div>
-      <div class="dcell"><div class="di">Self-hardening</div><h3>Difficulty scales</h3><p>The setter diagnoses how the last agent won, then rebuilds the environment to close that shortcut.</p></div>
-      <div class="dcell"><div class="di">Reproducible</div><h3>Bounded by design</h3><p>Tasks run on a single workstation under explicit compute, qubit, and time budgets.</p></div>
-      <div class="dcell"><div class="di">Discovery-focused</div><h3>Research, not recall</h3><p>Measures the ability to propose and build a solution, not to retrieve a fact.</p></div>
+      <div class="dcell"><div class="di">Open-problem discovery</div><h3>The frontier moves</h3><p>New research problems are grounded in the surrounding literature rather than drawn from a fixed question bank.</p></div>
+      <div class="dcell"><div class="di">Verifiable by construction</div><h3>Problems become environments</h3><p>Accepted problems are formalized into runnable environments with explicit scorers, references, and trivial baselines.</p></div>
+      <div class="dcell"><div class="di">Self-expanding</div><h3>Every solve reveals what comes next</h3><p>Solver behavior exposes shortcuts, broken assumptions, and unresolved structure — evidence that can seed the next round of research problems.</p></div>
+      <div class="dcell"><div class="di">Reusable</div><h3>More than a benchmark</h3><p>The same environments can evaluate, train, and optimize scientific agents as the task frontier expands.</p></div>
+      <div class="dcell"><div class="di">Contamination-resistant</div><h3>Answers are not prewritten</h3><p>Problems are open at creation time, reducing the value of memorizing a fixed benchmark from training data.</p></div>
+      <div class="dcell"><div class="di">Reproducible</div><h3>Bounded by design</h3><p>Every environment runs under explicit compute, qubit, and time budgets so progress remains checkable and repeatable.</p></div>
     </div>
   </div>
 </section>
@@ -3938,8 +3942,9 @@
 <section id="tasks">
   <div class="wrap">
     <div class="sec-head">
-      <h2>Samples from QLQ</h2>
-      <span class="tail">Five complete examples, including the task, scorer, baselines, and solver trace.</span>
+      <span class="num">03</span>
+      <h2>Problems entering the game</h2>
+      <span class="tail">Five accepted open problems, operationalized as verifiable research environments.</span>
     </div>
 
     <div class="qwrap">
@@ -4151,7 +4156,8 @@
 <section id="results">
   <div class="wrap">
     <div class="sec-head">
-      <h2>Results</h2>
+      <span class="num">04</span>
+      <h2>How far can today's agents go?</h2>
     </div>
 
     <div class="tablewrap">
@@ -4173,7 +4179,7 @@
       </table>
     </div>
     <!-- TODO: extend this table as the remaining live environments have their traces published -->
-    <p class="tnote">Five of the live environments with published traces · Solver agent: best of 3 blind attempts · Progress normalized so trivial = 0% and reference = 100% · Novelty scored 1–5 by an independent reviewing agent (5 = original)</p>
+    <p class="tnote">Five verifiable environments with published traces · Solver agent: best of 3 blind attempts · Progress normalized so trivial = 0% and reference = 100% · Novelty scored 1–5 by an independent reviewing agent (5 = original)</p>
 
 
   </div>
@@ -4185,12 +4191,13 @@
 <section id="leaderboard">
   <div class="wrap">
     <div class="sec-head">
+      <span class="num">05</span>
       <h2>Leaderboard</h2>
-      <span class="tail">Frontier models, average progress across live environments: trivial baseline (0%) to reference solution (100%).</span>
+      <span class="tail">Frontier models, average progress across verifiable environments: trivial baseline (0%) to reference solution (100%).</span>
     </div>
     <div class="lb">
-      <p class="headline">No model is near the human best on <b>QLQ</b>.</p>
-      <p class="muted" style="max-width:62ch;font-size:.9rem">Average progress across live environments.
+      <p class="headline">No model is near the human best on <b>QIG</b>.</p>
+      <p class="muted" style="max-width:62ch;font-size:.9rem">Average progress across verifiable environments.
         Preliminary placeholder scores — full evaluation in progress.</p>
       <div class="rows">
         <div class="lbrow">
@@ -4208,6 +4215,7 @@
 <section id="contributors">
   <div class="wrap">
     <div class="sec-head">
+      <span class="num">06</span>
       <h2>Contributors</h2>
     </div>
 
@@ -4269,20 +4277,17 @@
 <section id="faq">
   <div class="wrap">
     <div class="sec-head">
+      <span class="num">07</span>
       <h2>FAQ</h2>
     </div>
     <div class="faq">
       <details>
-        <summary>If an AI writes the problems, aren't they easy or meaningless?<span class="pm">+</span></summary>
-        <div class="ans">Difficulty is visible in the published solver traces and baselines. <b>Scientific meaningfulness is different:</b> that is the part a program cannot certify, so expert review remains a gate before a proposed question enters the benchmark.</div>
+        <summary>What makes this an infinite game rather than a fixed benchmark?<span class="pm">+</span></summary>
+        <div class="ans">A finite benchmark has a fixed set of tasks and an endpoint: solve them and the benchmark saturates. Here, <b>a solve is part of the research loop rather than the end of it</b>. Solver behavior reveals shortcuts, failed assumptions, and unresolved structure that can seed new problems and better-specified environments. Expert review remains the gate before a discovered problem enters the next round.</div>
       </details>
       <details>
         <summary>Is this only about quantum science?<span class="pm">+</span></summary>
-        <div class="ans">No. The claim — that an agent can select its own research question and build the
-          environment to answer it — is not specific to quantum. Quantum is where we start because it is one of the
-          few fields where an agent-invented environment can actually be run and scored: the physics is simulable and
-          the answer is checkable, with no wet lab in between. The environments this produces are meant to be
-          <b>reused</b> — to evaluate, train and optimize AI scientists at a scale hand-built benchmarks do not reach.</div>
+        <div class="ans">No. The broader idea is to scale <b>open-problem discovery plus verifiable environment construction</b>. Quantum is where we start because many problems can be simulated, scored, and reproduced without a wet lab in the loop. The resulting environments can then be <b>reused</b> to evaluate, train, and optimize scientific agents.</div>
       </details>
       <details>
         <summary>What does reviewing involve?<span class="pm">+</span></summary>
@@ -4300,9 +4305,8 @@
       </details>
       <details>
         <summary>Do I need quantum hardware to run these tasks?<span class="pm">+</span></summary>
-        <div class="ans">No. Every task in the benchmark is written to run on a <b>single workstation</b>: at most
-          28 qubits, under three hours of compute, simulator only. This is a deliberate constraint — it keeps the
-          benchmark reproducible by anyone and keeps the difficulty in the physics rather than in the hardware access.</div>
+        <div class="ans">No. Every environment is designed to run on a <b>single workstation</b>: at most
+          28 qubits, under three hours of compute, simulator only. This keeps each research challenge reproducible and keeps the difficulty in the physics rather than in hardware access.</div>
       </details>
       <details>
         <summary>Are the scores on this page verified?<span class="pm">+</span></summary>
@@ -4319,8 +4323,8 @@
   <div class="wrap">
     <div class="join">
       <div class="eyebrow">Call for reviewers</div>
-      <h2>Shape the future of scientific agents.</h2>
-      <p>Bring your field into the loop.</p>
+      <h2>Help shape what enters the game next.</h2>
+      <p>Your scientific judgment steers which directions become the next verifiable research environments.</p>
       <div class="cta-row">
         <!-- TODO: replace this ngrok tunnel with the permanent annotation-platform domain -->
         <a class="btn primary" href="https://headwear-wiring-unheated.ngrok-free.dev/static/showcase.html" target="_blank" rel="noopener">Open the annotation platform <span class="arw">→</span></a>
@@ -4338,8 +4342,8 @@
   <div class="wrap">
     <div class="labs">UCSB <span>AI Lab</span> × UCSB <span>Quantum CoDesign Lab</span></div>
     <div class="meta">
-      <span>Quantum's Last Question — v0.5</span>
-      <span>Auto-generated · Auto-scored</span>
+      <span>Quantum's Infinite Game — v0.5</span>
+      <span>Open-problem discovery · Verifiable environments</span>
       <!-- TODO: confirm the licences the project will actually ship under -->
       <span>Tasks &amp; data: CC BY 4.0</span>
       <span>Code: Apache-2.0</span>

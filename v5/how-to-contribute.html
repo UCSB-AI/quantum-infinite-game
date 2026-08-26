@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>How to contribute — Quantum's Last Question</title>
-<meta name="description" content="Researchers provide only a few keywords. An agent reviews the surrounding literature, proposes open quantum research questions, and builds executable environments around them. No human writes the task itself; reusable environments can then evaluate, train and optimize AI scientists at scale.">
+<title>How to contribute — Quantum's Infinite Game</title>
+<meta name="description" content="Seed a research direction, review generated open problems and environments, and decide what enters Quantum's Infinite Game.">
 <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🔬</text></svg>">
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -3752,10 +3752,10 @@
 
 <header class="nav">
   <div class="wrap">
-    <a class="brand" href="index.html#top"><span class="dot"></span>Quantum's Last Question</a>
+    <a class="brand" href="index.html#top"><span class="dot"></span>Quantum's Infinite Game</a>
     <nav>
       <a href="index.html#domains">Domains</a>
-      <a href="index.html#how">Key features</a>
+      <a href="index.html#how">Infinite game</a>
       <a href="index.html#tasks">Tasks</a>
       <a href="index.html#results">Results</a>
       <a href="index.html#leaderboard">Leaderboard</a>
@@ -3768,12 +3768,10 @@
 
 <div id="top" class="htc-hero">
   <div class="wrap">
-    <a class="htc-back" href="index.html#top">&larr; Quantum's Last Question</a>
-    <span class="eyebrow" style="display:block;margin-top:18px">Contribute</span>
+    <a class="htc-back" href="index.html#top">&larr; Quantum's Infinite Game</a>
+    <span class="eyebrow" style="display:block;margin-top:18px">Join the infinite game</span>
     <h1>How to contribute</h1>
-    <p class="lede">You never write a task. You give us two keywords, we generate open research
-    problems in your area as runnable environments, and you judge which ones are worth keeping.
-    Three steps, about <b>20 minutes</b> per problem.</p>
+    <p class="lede">Seed a research direction. We generate open problems and runnable environments. <b>You decide what enters the game.</b> About <b>20 minutes</b> per problem.</p>
   </div>
 </div>
 
@@ -3784,21 +3782,18 @@
       <div class="reason step">
         <span class="flow-kicker">01 / Sign up</span>
         <b>Tell us your area</b>
-        <p>A line of email and two keywords from your subfield. That is the entire input we need from you.</p>
+        <p>Your email and two keywords from your subfield.</p>
         <span class="eg">keywords: <span>surface codes</span>, <span>circuit-level noise</span></span>
       </div>
       <div class="reason step">
-        <span class="flow-kicker">02 / We generate</span>
-        <b>We build and send the tasks</b>
-        <p>Our agent reads the literature around your keywords, proposes open problems, and builds an
-        auto-scored environment for each. We send you the tasks, a link to the annotation platform,
-        and a username and password to sign in.</p>
+        <span class="flow-kicker">02 / Discover + build</span>
+        <b>The agent does the rest</b>
+        <p>It finds open problems and builds auto-scored research environments around them.</p>
       </div>
       <div class="reason step">
         <span class="flow-kicker">03 / You review</span>
         <b>You are the gate</b>
-        <p>For each generated problem you judge validity, novelty, and executability, and whether the
-        environment still tests it. Accepted problems enter the benchmark.</p>
+        <p>Judge validity, novelty, executability, and scientific value. Accepted problems enter the game.</p>
       </div>
     </div>
   </div>
@@ -3808,14 +3803,12 @@
   <div class="wrap">
     <div class="sec-head">
       <h2>What you'll review</h2>
-      <span class="tail">One real generated task, exactly as on the platform. The proposal is short up
-      top; everything secondary is tucked into <b>expandable panels</b>. The dashed boxes are yours to fill.</span>
+      <span class="tail">One real review from the platform. Open the panels only when you need the details.</span>
     </div>
 
     <!-- ================= STAGE 1 ================= -->
-    <span class="stage-tag"><span class="n">Stage 1</span> &middot; The proposal you review</span>
-    <p class="stage-lead">An agent seeded with one line reads the literature and writes a full task. A
-    second agent scores it on three axes. You check those scores &mdash; the dashed boxes are the blanks you fill.</p>
+    <span class="stage-tag"><span class="n">Stage 1</span> &middot; The open problem you review</span>
+    <p class="stage-lead">Review the proposed problem, then check three AI scores: validity, novelty, and executability.</p>
 
     <div class="rev">
       <div class="rev-body">
@@ -3823,7 +3816,7 @@
         <div class="tags"><span class="tag">qiskit-aer</span><span class="tag">cpu</span><span class="tag">3 qubits</span><span class="tag">150 min</span></div>
         <p class="seed-meta"><strong>Seed topic:</strong> Reverse-engineering learned control strategies in parametric flux-driven iSWAP gates on asymmetric-SQUID tunable couplers</p>
 
-        <div class="rev-field"><h2>Motivation</h2>    <p>An expert supplied a numerically optimized flux-drive envelope e(t) (105 points at 0.5 ns, 52 ns total) for a parametric iSWAP gate on two fixed-frequency transmons coupled through an asymmetric-SQUID tunable coupler, plus a hardware parameter set. The optimizer produced a pulse whose *shape* carries non-trivial, non-white structure: an asymmetric rise/fall (6.0 ns rise vs 5.5 ns fall, ratio 1.09), a slowly-drooping plateau (-0.75e-3/ns, 3.0% total), and a STRUCTURED residual ripple (std 0.91% of plateau, lag-1 autocorrelation +0.587, spectral flatness 0.147) with a non-DC spectral peak near 0.66 GHz that lies within frequency resolution of (fq1-fq2)-alpha_2 = 0.668 GHz. The expert&#x27;s research question is whether the optimizer discovered control practices that are not analytically obvious -- counterdiabaticity being the canonical example. This task treats those measured features as falsifiable hypotheses and asks whether each corresponds to a KNOWN mechanism in the control literature (counterdiabatic/derivative-type leakage cancellation a la Φ-DRAG; AC-Stark/frequency-chirp phase compensation; sideband/leakage-resonance cancellation via a Floquet-engineered oscillatory term). Because the raw shape of an optimized pulse is not directly interpretable, we reverse-engineer it by decomposing the envelope into physically-motivated components and testing, in closed- and open-system simulation of the actual device Hamiltonian, which components are actually responsible for fidelity and leakage.</p></div>
+        <div class="rev-field"><details class="fold"><summary>Motivation</summary><div class="fold-in"><p>An expert supplied a numerically optimized flux-drive envelope e(t) (105 points at 0.5 ns, 52 ns total) for a parametric iSWAP gate on two fixed-frequency transmons coupled through an asymmetric-SQUID tunable coupler, plus a hardware parameter set. The optimizer produced a pulse whose *shape* carries non-trivial, non-white structure: an asymmetric rise/fall (6.0 ns rise vs 5.5 ns fall, ratio 1.09), a slowly-drooping plateau (-0.75e-3/ns, 3.0% total), and a STRUCTURED residual ripple (std 0.91% of plateau, lag-1 autocorrelation +0.587, spectral flatness 0.147) with a non-DC spectral peak near 0.66 GHz that lies within frequency resolution of (fq1-fq2)-alpha_2 = 0.668 GHz. The expert&#x27;s research question is whether the optimizer discovered control practices that are not analytically obvious -- counterdiabaticity being the canonical example. This task treats those measured features as falsifiable hypotheses and asks whether each corresponds to a KNOWN mechanism in the control literature (counterdiabatic/derivative-type leakage cancellation a la Φ-DRAG; AC-Stark/frequency-chirp phase compensation; sideband/leakage-resonance cancellation via a Floquet-engineered oscillatory term). Because the raw shape of an optimized pulse is not directly interpretable, we reverse-engineer it by decomposing the envelope into physically-motivated components and testing, in closed- and open-system simulation of the actual device Hamiltonian, which components are actually responsible for fidelity and leakage.</p></div></details></div>
 
         <div class="rev-field">
           <details class="fold"><summary>Deliverables <span class="c">6 items</span></summary><div class="fold-in">    <ul><li>A documented three-level (qubit-qubit-coupler, 3 levels each =&gt; 27-dim; truncatable) Hamiltonian model built from the supplied parameters, with all quantities NOT specified by the expert (coupler frequency fq_c / Ej_c and DC bias, drive frequency w_d, physical scale of e(t) in units of Phi0, T1/T2) entered as explicitly declared assumptions with stated physical justification and swept over a documented range; the report must show which conclusions are robust to these assumptions and which are not.</li><li>A signal-processing decomposition module that reproduces the expert&#x27;s reported measurements (rise/fall asymmetry, plateau droop slope, detrended ripple std, lag-1 autocorrelation, spectral flatness, and the residual spectral peak location) directly from the given 105-point array, as a validated starting point.</li><li>An ablation/reconstruction study: build a parametric surrogate envelope e_hat(t) = [smooth edge model (e.g. Slepian/erf rise+fall with independent rise/fall widths)] + [linear plateau droop] + [single-tone sinusoidal ripple at frequency f_r with amplitude/phase], fit it to the given array, then simulate the gate for (a) the full given pulse, (b) e_hat with each component individually removed (flat edges, no droop, no ripple, symmetric edges), and report iSWAP process fidelity and total leakage out of the computational subspace for each ablation.</li><li>A counterdiabatic-hypothesis test: compute the theoretical Φ-DRAG / derivative-type flux correction and the leading adiabatic-gauge-potential (nested-commutator) term for the modeled avoided crossing traversed during the gate, and quantitatively compare its predicted edge-shaping and any oscillatory &#x27;Floquet-engineered CD&#x27; component against the measured rise/fall asymmetry and ripple; report correlation and whether the measured feature is consistent with, distinguishable from, or unrelated to the CD prediction.</li><li>A sideband/frequency-matching test: sweep the injected ripple frequency f_r across a window bracketing fq1-fq2 (0.485 GHz), alpha_2 (0.183 GHz) and (fq1-fq2)-alpha_2 (0.668 GHz), and determine whether a ripple near ~0.66 GHz measurably suppresses leakage/coherent error relative to detuned ripple, testing the hypothesis that the optimizer parked ripple energy on a specific leakage/sideband resonance.</li><li>A written explanation, for the expert, of each candidate learned technique with its mechanism and a reference list mapping each observed pulse feature to prior-art control concepts (counterdiabatic driving, Φ-DRAG for flux gates, Floquet-engineered CD, AC-Stark/chirp compensation, fast-adiabatic edge design), clearly flagging which identifications are supported by the simulation evidence and which remain hypotheses.</li></ul></div></details>
@@ -3901,7 +3894,7 @@
           </div>
 
           <div class="your" style="margin-top:18px">
-            <span class="yl">Overall &mdash; should this proposal move to an environment?</span>
+            <span class="yl">Overall &mdash; should this open problem become a research environment?</span>
             <div class="pills">
               <label><input type="radio" name="ov1"><span>accept</span></label>
               <label><input type="radio" name="ov1"><span>revise</span></label>
@@ -3914,16 +3907,13 @@
     </div>
 
     <!-- ================= STAGE 2 ================= -->
-    <span class="stage-tag" style="margin-top:44px"><span class="n">Stage 2</span> &middot; The environment built from it</span>
-    <p class="stage-lead">The same proposal, turned into a runnable, auto-scored environment. The scores
-    are up top; the actual code is in expandable panels. Two checks are automated &mdash; the third is yours.</p>
+    <span class="stage-tag" style="margin-top:44px"><span class="n">Stage 2</span> &middot; The verifiable environment built from it</span>
+    <p class="stage-lead">Then review the runnable environment built from it. Two checks are automated; the final judgment is yours.</p>
 
     <div class="rev">
       <div class="rev-body">
         <div class="rev-field" style="margin-top:0"><h2>What the pipeline had to do</h2>
-          <p>The proposal asked for six deliverables. A program can only score one number, so stage&nbsp;2
-          reduces them to a single figure of merit and writes a scorer for it. The question you check is
-          whether what survived is still the proposed problem.</p>
+          <p>The pipeline turns the proposal into one measurable objective and a scorer. You check whether it still captures the science.</p>
         </div>
 
         <div class="rev-field"><h2>Where everything scored</h2>    <div class="scoreboard">
@@ -5490,7 +5480,7 @@ def analyze(envelope, params):
           </div>
 
           <div class="your" style="margin-top:16px">
-            <span class="yl">Overall &mdash; should this task enter the benchmark?</span>
+            <span class="yl">Overall &mdash; should this environment enter the game?</span>
             <div class="pills">
               <label><input type="radio" name="ov2"><span>accept</span></label>
               <label><input type="radio" name="ov2"><span>revise</span></label>
@@ -5504,12 +5494,11 @@ def analyze(envelope, params):
 
     <div class="review-cta" style="margin-top:38px;padding-top:24px;border-top:1px solid var(--line)">
       <div class="review-copy">
-        <h3 class="review-role-title">Get credited by authorship.</h3>
-        <p>If five or more of your accepted tasks make it into the benchmark, you receive
-        <b>authorship on the paper</b>. Fewer than five, and you are duly acknowledged.</p>
+        <h3 class="review-role-title">Help shape what enters the game next.</h3>
+        <p>Your review decides what enters the game. Five or more accepted contributions earn <b>authorship on the paper</b>; all other contributors are acknowledged.</p>
       </div>
       <div class="review-actions">
-        <a class="btn primary" href="https://docs.google.com/forms/d/e/1FAIpQLSexRBbH09PI8zHvypUEDg5eFGUJlxLno7UM67O3VfCi96pblA/viewform" target="_blank" rel="noopener">Sign up to start annotating <span class="arw">&rarr;</span></a>
+        <a class="btn primary" href="https://docs.google.com/forms/d/e/1FAIpQLSexRBbH09PI8zHvypUEDg5eFGUJlxLno7UM67O3VfCi96pblA/viewform" target="_blank" rel="noopener">Sign up <span class="arw">&rarr;</span></a>
         <a class="btn" href="index.html#top">Back to overview</a>
       </div>
     </div>
@@ -5520,8 +5509,8 @@ def analyze(envelope, params):
   <div class="wrap">
     <div class="labs">UCSB <span>AI Lab</span> × UCSB <span>Quantum CoDesign Lab</span></div>
     <div class="meta">
-      <span>Quantum's Last Question — v0.5</span>
-      <span>Auto-generated · Auto-scored</span>
+      <span>Quantum's Infinite Game — v0.5</span>
+      <span>Open-problem discovery · Verifiable environments</span>
       <!-- TODO: confirm the licences the project will actually ship under -->
       <span>Tasks &amp; data: CC BY 4.0</span>
       <span>Code: Apache-2.0</span>
