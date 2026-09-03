@@ -3614,6 +3614,18 @@
     .node-question .qlq-ring-label{top:-14px !important;}
   }
 
+  /* Title wrap. The 8.8ch cap above was sized for "Quantum's Infinite Game",
+     which broke into three even lines. The current name is longer and fell to
+     one word per line, so the cap is widened to break it as
+     "Agent's / Infinite Game / in Quantum" -- brand, then domain. The type is
+     stepped down a little so thirteen characters still fit the left column. */
+  .hero h1{
+    max-width:13ch;
+    font-size:clamp(3rem,6.2vw,5.5rem);
+  }
+  @media(max-width:980px){ .hero h1{max-width:15ch} }
+  @media(max-width:560px){ .hero h1{max-width:11ch; font-size:clamp(2.7rem,14vw,3.9rem)} }
+
 </style>
 </head>
 <body>
