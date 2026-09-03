@@ -3619,12 +3619,17 @@
      one word per line, so the cap is widened to break it as
      "Agent's / Infinite Game / in Quantum" -- brand, then domain. The type is
      stepped down a little so thirteen characters still fit the left column. */
+  /* The break is set in the markup, not left to the ch cap: "ch" is the width
+     of a zero, and in this serif thirteen ch held only ten or eleven letters,
+     so "Infinite Game" fell apart and orphaned the preposition. */
   .hero h1{
-    max-width:13ch;
-    font-size:clamp(3rem,6.2vw,5.5rem);
+    max-width:none;
+    font-size:clamp(3rem,6.4vw,5.6rem);
   }
-  @media(max-width:980px){ .hero h1{max-width:15ch} }
-  @media(max-width:560px){ .hero h1{max-width:11ch; font-size:clamp(2.7rem,14vw,3.9rem)} }
+  @media(max-width:560px){
+    .hero h1{font-size:clamp(2.6rem,12vw,3.8rem)}
+    .hero h1 .t-br{display:none}      /* let it reflow naturally on a phone */
+  }
 
 </style>
 </head>
@@ -3651,7 +3656,7 @@
     <div class="hero-grid">
       <div class="hero-copy">
         <div class="eyebrow">UCSB AI Lab × UCSB Quantum CoDesign Lab</div>
-        <h1>Agent's Infinite Game in Quantum</h1>
+        <h1>Agent's<br class="t-br">Infinite Game<br class="t-br">in Quantum</h1>
         <div class="hero-question"> Scaling <span class="accent"> Open-Problem Discovery </span> and <span class="accent"> Verifiable Research Environments </span> for AI Agents </div>
         <p class="hero-deck"><b>Scientific discovery is not a finite exam with a fixed set of questions and known answers. It is an infinite game in which solving one problem continually reveals the next.</b> AI agents can accelerate that game — discovering open problems and building the verifiable research environments that make them solvable and scorable.</p>
 
